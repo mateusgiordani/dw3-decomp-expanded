@@ -5,9 +5,10 @@ covers all of it.
 
 ## 1. Project tooling and documentation
 
-The Python tools under `tools/`, and the documentation and reports written for
-this project (`README.md`, `reports/`, this file), are released under the MIT
-License:
+The Python tools under `tools/`, their tests under `tests/`, the CI
+configuration under `.github/`, and the documentation and reports written for
+this project (`README.md`, `docs/`, `reports/`, this file), are released under
+the MIT License:
 
 ```
 MIT License
