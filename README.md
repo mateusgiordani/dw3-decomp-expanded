@@ -1,9 +1,9 @@
 # dw3-decomp-expanded
 
 A matching decompilation of *Digimon World 2003* / *Digimon World 3*
-(PAL, `SLES-03936`). **Milestone 1, the card game overlays, is in progress: all
-318 functions catalogued so far are at C matching, but a boundary review found
-more functions that are not catalogued yet** (see [Milestone 1](#milestone-1-card-game-overlays-in-progress-v011)).
+(PAL, `SLES-03936`). **Milestone 1, the card game overlays, is in progress:
+318 of the 407 card game functions are at C matching; the other 89 are being
+recovered** (see [Milestone 1](#milestone-1-card-game-overlays-in-progress-v011)).
 
 "Card Cage" is this project's name for the game's card game. It covers all the
 overlays related to it: `CARDGAME`, `STCRDABM`, `STCRDDEK` and `STCRDSHP`. File
@@ -84,28 +84,30 @@ first place.
 The goal of milestone 1 is every function of the four card game overlays at C
 matching. It is **not complete yet**.
 
-All 318 functions catalogued so far are recovered in C and match byte for byte,
-on both the public and the PsyQ toolchain. A later boundary review of the PAL
-bytes found about 85 more **candidate** functions that are not in the catalog.
-Some of them may turn out to be data or false positives; each one will be
-confirmed or rejected, and the confirmed ones will be recovered before the
-milestone is called complete.
+The first release covered 318 functions, all recovered in C and matching byte
+for byte on both the public and the PsyQ toolchain. A later boundary review of
+the PAL bytes showed that the function catalog was incomplete. A sweep found
+85 candidate functions (prologue/epilogue pairs and leaf functions reached by a
+direct call). A review of each one against the PAL bytes then confirmed **89
+functions**: every candidate was real, one was split in two at its true callback
+entry, and four more leaf functions reached only through pointers were found
+next to them. The catalog now matches the binary for all four overlays, with no
+candidate left unresolved.
 
-| Overlay | Catalogued, at C matching | Candidates not yet catalogued |
-| --- | ---: | ---: |
-| `CARDGAME` | 199 | 80 (26 with a stack frame, 54 leaf) |
-| `STCRDABM` | 27 | 0 |
-| `STCRDDEK` | 48 | 5 (4 with a stack frame, 1 leaf) |
-| `STCRDSHP` | 44 | 0 |
-| **Total** | **318** | **85** |
+| Overlay | Functions | At C matching | Still to recover |
+| --- | ---: | ---: | ---: |
+| `CARDGAME` | 283 | 199 | 84 |
+| `STCRDABM` | 27 | 27 | 0 |
+| `STCRDDEK` | 53 | 48 | 5 |
+| `STCRDSHP` | 44 | 44 | 0 |
+| **Total** | **407** | **318** | **89** |
 
-The candidates come from a sweep of the PAL bytes for function prologues and
-epilogues and for leaf functions reached by a direct call. Functions reached only
-through pointers or jump tables need a second pass, so the count may still change.
+Most of the 89 are small: the median is 104 bytes, 48 are under 128 bytes, and 5
+are over 1 KB. They are published here as they reach C matching.
 
 The reproducible certificate is
 [`reports/milestone-1-v0.1.1.md`](reports/milestone-1-v0.1.1.md). It covers the
-318 catalogued functions only. It proves exact code
+318 functions at C matching only. It proves exact code
 generation for each function. It is not a byte-identical rebuild of the `.PRO`
 files: their headers, data and layout are not reconstructed here.
 
