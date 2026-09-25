@@ -1,0 +1,25 @@
+# Checks that need neither the game nor a compiler. The byte-match verification
+# itself (tools/card_verify.py) needs your own PAL disc and cannot run here.
+name: checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile the tools
+        run: python -m compileall -q tools tests
+      - name: Unit tests
+        run: python -m unittest discover -v tests
+      - name: Every C file carries its current recipe
+        run: python tools/recipe_headers.py --check

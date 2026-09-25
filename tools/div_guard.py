@@ -1,7 +1,7 @@
 """Strip the ASPSX zero-divisor guard the game's own overlay code never emits.
 
-Evidence (see tools/division_scan.py and reports/handoffs derived from it):
-every one of the 196 division sites in this game's overlays uses a bare
+Evidence, from a census of the PAL overlays made in the private working
+repository: every one of the 196 division sites in this game's overlays uses a bare
 2-operand `div`/`divu` + `mflo`/`mfhi`, with zero canonical zero-divisor
 guards. ASPSX, however, always expands the compiler's 3-operand
 `div $rd,$rs,$rt` pseudo-op into a 5-word `bnez`/`break 7`/`break 6` guard
@@ -24,7 +24,7 @@ instruction reads that destination register -- and never when that next
 instruction is itself a `mult`/`div`-family op, which needs a *different*
 two-word hazard gap that ASPSX still inserts on its own in reorder mode.
 
-Ported from a sister decompilation project's independently measured rule
+The rule was first measured in another PlayStation decompilation project
 (63/66 exact matches on functions containing a division, and a from-scratch
 binary verifier confirming zero unsafe exceptions across ~200 real division
 sites): the gap fires if and only if the following real instruction reads
@@ -36,8 +36,7 @@ reader, so a branch to the label lands on the nop. Measured on CARDGAME
 0x80096cf0: its PAL `j 0x80096de8` targets the nop that follows `mflo v0` and
 precedes the labelled reader `sh v0,2`; placing the gap before the label
 changed exactly that jump target, placing it after the label reproduced the PAL
-body. A read-only census of the hashed PAL images (tools/div_guard_audit.py)
-found no site where the instruction after such a gap is a branch target while
+body. A read-only census of the hashed PAL images found no site where the instruction after such a gap is a branch target while
 the gap is not. Without an intervening label the emitted text is unchanged.
 """
 

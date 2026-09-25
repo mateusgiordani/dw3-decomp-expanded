@@ -16,6 +16,9 @@ Two toolchains are supported; both must reproduce the same PAL bytes.
   (a no-op when a function has no division). maspsx emits no guard because
   ``--expand-div`` is not passed, so the open path needs no removal.
 
+``--toolchain both`` runs the two and also fails when they disagree on any
+  function's status or matched bytes.
+
 Both paths preprocess with clang (``-E -nostdinc``, ``include/``), check every
 input hash (sources, tools, PAL overlays) before building, and compare the full
 function range and any jump table with the PAL bytes of your own disc.
@@ -23,6 +26,7 @@ function range and any jump table with the PAL bytes of your own disc.
 Usage:
     python tools/card_verify.py --pal-dir PATH/TO/PRO --out build/card-verify.json
     python tools/card_verify.py --toolchain psyq --cc1psx CC1PSX.EXE --aspsx ASPSX.EXE ...
+    python tools/card_verify.py --toolchain both ... --out build/verify.json  (verify-open/-psyq.json)
     python tools/card_verify.py --only CARDGAME:0x8008def8 -v
 """
 
@@ -233,9 +237,98 @@ def verify_psyq_one(recipe: dict, ctx: dict, work: Path) -> dict:
 
 # ------------------------------------------------------------------ main
 
+def prepare_tools(name: str, args: argparse.Namespace, ctx: dict, recipes: list[dict]) -> dict:
+    """Check the pinned tools of one toolchain; put them in ``ctx`` and describe them."""
+    toolchain, open_cfg = ctx["toolchain"], ctx["open"]
+    if name == "open":
+        gcc_dir, maspsx_dir = Path(args.gcc_dir), Path(args.maspsx_dir)
+        checks = {gcc_dir / "cc1": open_cfg["gcc"]["cc1_sha256"]}
+        checks.update({maspsx_dir / rel: digest for rel, digest in open_cfg["maspsx"]["files_sha256"].items()})
+        for path, digest in checks.items():
+            if not path.is_file() or sha256_file(path) != digest:
+                raise SystemExit(f"{path} is missing or does not match the pinned hash; run tools/fetch_toolchain.py")
+        ctx.update(gcc_dir=gcc_dir, maspsx_dir=maspsx_dir,
+                   gnu_as=args.gnu_as or open_cfg["gnu_as"]["command"])
+        return {"gcc": {"id": open_cfg["gcc"]["id"], "cc1_sha256": open_cfg["gcc"]["cc1_sha256"]},
+                "maspsx": {"revision": open_cfg["maspsx"]["revision"], "args": open_cfg["maspsx"]["args"]},
+                "gnu_as": {"command": ctx["gnu_as"], "flags": open_cfg["gnu_as"]["flags"]}}
+    tools_used = {}
+    pinned = {t["id"]: t for kind in toolchain["tools"].values() for t in kind}
+    for kind, env in (("cc1psx", "DW3_PSYQ_CC1PSX"), ("aspsx", "DW3_PSYQ_ASPSX")):
+        tool = find_file(getattr(args, kind), env)
+        needed = {r[kind] for r in recipes}
+        digest = sha256_file(tool)
+        if len(needed) != 1 or pinned[next(iter(needed))]["sha256"] != digest:
+            raise SystemExit(f"{tool} does not match the pinned {kind} ({digest})")
+        ctx[kind] = tool
+        tools_used[kind] = {k: pinned[next(iter(needed))][k] for k in ("id", "sha256", "version")}
+    return tools_used
+
+
+def run_toolchain(name: str, args: argparse.Namespace, ctx: dict, recipes: list[dict],
+                  tools_used: dict, hashes: dict) -> dict:
+    work = (args.keep / name) if args.keep else Path(tempfile.mkdtemp(prefix=f"dw3-verify-{name}-"))
+    work.mkdir(parents=True, exist_ok=True)
+    started = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    if name == "open":
+        results = verify_open(recipes, ctx, work)
+        tools_used["gnu_as"]["version"] = ctx.get("gnu_as_version")
+    else:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=args.jobs) as pool:
+            results = list(pool.map(lambda r: verify_psyq_one(r, ctx, work), recipes))
+    if not args.keep:
+        shutil.rmtree(work, ignore_errors=True)
+
+    counts: dict[str, int] = {}
+    for item in results:
+        counts[item["status"]] = counts.get(item["status"], 0) + 1
+        if args.verbose or item["status"] != "exact_byte_match":
+            print(f"{name:5} {item['function']:22} {item['status']} {item.get('difference_count', '')}")
+    commit = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"],
+                            capture_output=True, text=True).stdout.strip() or None
+    dirty = bool(subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain", "--", "src", "include",
+                                 "recipes", "config", "tools"], capture_output=True, text=True).stdout.strip())
+    summary = {
+        "schema_version": 2,
+        "toolchain": name,
+        "reference_version": hashes["reference_version"],
+        "repository_commit": commit,
+        "tree_dirty": dirty,
+        "started_at": started,
+        "finished_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "tools": tools_used,
+        "overlays": {m: hashes["overlays"][m]["sha256"] for m in ctx["pal"]},
+        "functions": len(results),
+        "status_counts": counts,
+        "results": results,
+    }
+    print(json.dumps({"toolchain": name, "functions": len(results), "status_counts": counts}))
+    return summary
+
+
+def disagreements(first: dict, second: dict) -> list[str]:
+    """Functions whose status or matched bytes differ between two reports."""
+    other = {r["function"]: r for r in second["results"]}
+    problems = []
+    for result in first["results"]:
+        twin = other.get(result["function"])
+        if twin is None:
+            problems.append(f"{result['function']}: missing from the {second['toolchain']} report")
+        elif (result["status"], result.get("candidate_sha256")) != (twin["status"], twin.get("candidate_sha256")):
+            problems.append(f"{result['function']}: {first['toolchain']} {result['status']}, "
+                            f"{second['toolchain']} {twin['status']}")
+    return problems
+
+
+def output_path(out: Path | None, name: str, both: bool) -> Path | None:
+    if out is None or not both:
+        return out
+    return out.with_name(f"{out.stem}-{name}{out.suffix}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--toolchain", choices=("open", "psyq"), default="open")
+    parser.add_argument("--toolchain", choices=("open", "psyq", "both"), default="open")
     parser.add_argument("--pal-dir", default=os.environ.get("DW3_PAL_DIR"))
     parser.add_argument("--gcc-dir", default=os.environ.get("DW3_GCC_DIR", str(ROOT / "toolchains/gcc-2.8.1-psx")))
     parser.add_argument("--maspsx-dir", default=os.environ.get("DW3_MASPSX_DIR", str(ROOT / "toolchains/maspsx")))
@@ -246,7 +339,7 @@ def main() -> int:
     parser.add_argument("--jobs", type=int, default=max(1, (os.cpu_count() or 2) // 2))
     parser.add_argument("--only", action="append", default=[], help="MODULE:0xADDRESS")
     parser.add_argument("--keep", type=Path, help="keep intermediate files in this directory")
-    parser.add_argument("--out", type=Path)
+    parser.add_argument("--out", type=Path, help="report path; with --toolchain both, NAME-open and NAME-psyq")
     parser.add_argument("-v", "--verbose", action="store_true")
     args = parser.parse_args()
 
@@ -272,70 +365,23 @@ def main() -> int:
            "pal_bytes": {m: p.read_bytes() for m, p in pal.items()},
            "clang": find_file(args.clang, "DW3_CLANG", "clang")}
 
-    tools_used: dict[str, dict] = {}
-    if args.toolchain == "open":
-        gcc_dir, maspsx_dir = Path(args.gcc_dir), Path(args.maspsx_dir)
-        checks = {gcc_dir / "cc1": open_cfg["gcc"]["cc1_sha256"]}
-        checks.update({maspsx_dir / rel: digest for rel, digest in open_cfg["maspsx"]["files_sha256"].items()})
-        for path, digest in checks.items():
-            if not path.is_file() or sha256_file(path) != digest:
-                raise SystemExit(f"{path} is missing or does not match the pinned hash; run tools/fetch_toolchain.py")
-        ctx.update(gcc_dir=gcc_dir, maspsx_dir=maspsx_dir,
-                   gnu_as=args.gnu_as or open_cfg["gnu_as"]["command"])
-        tools_used = {"gcc": {"id": open_cfg["gcc"]["id"], "cc1_sha256": open_cfg["gcc"]["cc1_sha256"]},
-                      "maspsx": {"revision": open_cfg["maspsx"]["revision"], "args": open_cfg["maspsx"]["args"]},
-                      "gnu_as": {"command": ctx["gnu_as"], "flags": open_cfg["gnu_as"]["flags"]}}
-    else:
-        pinned = {t["id"]: t for kind in toolchain["tools"].values() for t in kind}
-        for kind, env in (("cc1psx", "DW3_PSYQ_CC1PSX"), ("aspsx", "DW3_PSYQ_ASPSX")):
-            tool = find_file(getattr(args, kind), env)
-            needed = {r[kind] for r in recipes}
-            digest = sha256_file(tool)
-            if len(needed) != 1 or pinned[next(iter(needed))]["sha256"] != digest:
-                raise SystemExit(f"{tool} does not match the pinned {kind} ({digest})")
-            ctx[kind] = tool
-            tools_used[kind] = {k: pinned[next(iter(needed))][k] for k in ("id", "sha256", "version")}
-
-    work = args.keep or Path(tempfile.mkdtemp(prefix="dw3-verify-"))
-    work.mkdir(parents=True, exist_ok=True)
-    started = datetime.now(timezone.utc).isoformat(timespec="seconds")
-    if args.toolchain == "open":
-        results = verify_open(recipes, ctx, work)
-        tools_used["gnu_as"]["version"] = ctx.get("gnu_as_version")
-    else:
-        with concurrent.futures.ThreadPoolExecutor(max_workers=args.jobs) as pool:
-            results = list(pool.map(lambda r: verify_psyq_one(r, ctx, work), recipes))
-    if not args.keep:
-        shutil.rmtree(work, ignore_errors=True)
-
-    counts: dict[str, int] = {}
-    for item in results:
-        counts[item["status"]] = counts.get(item["status"], 0) + 1
-        if args.verbose or item["status"] != "exact_byte_match":
-            print(f"{item['function']:22} {item['status']} {item.get('difference_count', '')}")
-    commit = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"],
-                            capture_output=True, text=True).stdout.strip() or None
-    dirty = bool(subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain", "--", "src", "include",
-                                 "recipes", "config", "tools"], capture_output=True, text=True).stdout.strip())
-    summary = {
-        "schema_version": 2,
-        "toolchain": args.toolchain,
-        "reference_version": hashes["reference_version"],
-        "repository_commit": commit,
-        "tree_dirty": dirty,
-        "started_at": started,
-        "finished_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "tools": tools_used,
-        "overlays": {m: hashes["overlays"][m]["sha256"] for m in pal},
-        "functions": len(results),
-        "status_counts": counts,
-        "results": results,
-    }
-    print(json.dumps({"toolchain": args.toolchain, "functions": len(results), "status_counts": counts}))
-    if args.out:
-        args.out.parent.mkdir(parents=True, exist_ok=True)
-        args.out.write_text(json.dumps(summary, indent=1) + "\n", encoding="utf-8")
-    return 0 if counts.get("exact_byte_match", 0) == len(results) else 1
+    names = ["open", "psyq"] if args.toolchain == "both" else [args.toolchain]
+    tools = {name: prepare_tools(name, args, ctx, recipes) for name in names}
+    reports = {}
+    for name in names:
+        reports[name] = run_toolchain(name, args, ctx, recipes, tools[name], hashes)
+        path = output_path(args.out, name, len(names) > 1)
+        if path:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps(reports[name], indent=1) + "\n", encoding="utf-8")
+    ok = all(r["status_counts"].get("exact_byte_match", 0) == len(recipes) for r in reports.values())
+    if len(names) > 1:
+        split = disagreements(reports["open"], reports["psyq"])
+        for line in split:
+            print(line)
+        print(json.dumps({"toolchains_agree": not split, "disagreements": len(split)}))
+        ok = ok and not split
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":

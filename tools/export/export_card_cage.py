@@ -18,6 +18,11 @@ exact byte-report of its acceptance review or integration manifest, or from the
 command the source repository infers. ``tools/card_verify.py`` then proves
 every recipe against the PAL reference; the recipe origin is informational.
 
+Finally it runs ``tools/recipe_headers.py --write`` in the output. That puts
+each function's recipe at the top of its C file, keeps the useful recovery
+notes, drops references to the private repository, and refreshes the source
+hashes. Comments do not reach the compiler, so the matched bytes are unchanged.
+
 Usage:
     python tools/export/export_card_cage.py --source "PATH/TO/private/repo" --out .
 """
@@ -312,8 +317,10 @@ def main() -> int:
         writer.writeheader()
         writer.writerows(inventory)
     (out / "recipes" / "export-provenance.json").write_text(json.dumps(
-        {"source_commit": rev, "functions": len(recipes), "recipe_origin": origins}, indent=2) + "\n",
-        encoding="utf-8")
+        {"source_commit": rev, "functions": len(recipes), "recipe_origin": origins,
+         "post_export": "tools/recipe_headers.py --write (recipe headers; source hashes refer to the result)"},
+        indent=2) + "\n", encoding="utf-8")
+    subprocess.run([sys.executable, str(out / "tools" / "recipe_headers.py"), "--write"], check=True)
     print(json.dumps({"source_commit": rev, "functions": len(recipes), "recipe_origin": origins,
                       "combinations_used": toolchain["combinations_used"]}, indent=2))
     return 0
