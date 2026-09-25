@@ -17,7 +17,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_8004df9c": "0x8004df9c"
@@ -40,7 +39,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -61,7 +59,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80082cc8",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8008423c": "0x8008423c",
@@ -85,7 +82,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80082cf8",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80084188": "0x80084188",
@@ -204,7 +200,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -225,7 +220,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80085f38": "0x80085f38",
@@ -249,7 +243,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80085f38": "0x80085f38",
@@ -273,7 +266,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80086090": "0x80086090",
@@ -303,7 +295,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80085fd0": "0x80085fd0",
@@ -327,7 +318,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x8008326c",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "DAT_8004B7D0": "0x8004b7d0"
@@ -350,7 +340,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80083294",
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80086a18": "0x80086a18",
@@ -376,7 +365,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80086a30": "0x80086a30"
@@ -399,7 +387,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80085fd0": "0x80085fd0",
@@ -423,7 +410,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80086a18": "0x80086a18"
@@ -446,7 +432,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80087b80": "0x80087b80"
@@ -469,7 +454,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_80055C48": "0x80055c48"
@@ -492,7 +476,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80085fd0": "0x80085fd0"
@@ -515,7 +498,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "func_8001ebf8": "0x8001ebf8"
@@ -538,7 +520,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8008735c": "0x8008735c"
@@ -561,13 +542,12 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x800870a4": "0x800870a4",
     "D_8004B7D0": "0x8004b7d0"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -585,7 +565,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x800870a4": "0x800870a4",
@@ -611,7 +590,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80086f24": "0x80086f24",
@@ -637,7 +615,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D0x8004df9c": "0x8004df9c"
@@ -660,7 +637,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x800832ac",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80085fd0": "0x80085fd0",
@@ -696,7 +672,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80084320": "0x80084320"
@@ -719,14 +694,13 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x8008334c",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80088f78": "0x80088f78",
     "DAT_8004B7D0": "0x8004b7d0",
     "DAT_8004DE10": "0x8004de10"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -744,7 +718,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_800A58C4": "0x800a58c4"
@@ -767,7 +740,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "DAT_8004B7D0": "0x8004b7d0"
@@ -790,7 +762,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80085fd0": "0x80085fd0",
@@ -817,7 +788,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_8004dc0c": "0x8004dc0c"
@@ -840,7 +810,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80083364",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80087dc8": "0x80087dc8",
@@ -868,7 +837,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80089f18": "0x80089f18"
@@ -891,7 +859,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x8008337c",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x800860d4": "0x800860d4",
@@ -923,7 +890,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "func_80089ed4": "0x80089ed4"
@@ -946,7 +912,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80089f18": "0x80089f18"
@@ -969,7 +934,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x800833fc",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x800860d4": "0x800860d4",
@@ -1001,7 +965,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80086a18": "0x80086a18",
@@ -1025,7 +988,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8008baa4": "0x8008baa4"
@@ -1048,7 +1010,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8008be04": "0x8008be04"
@@ -1071,7 +1032,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8008bc8c": "0x8008bc8c",
@@ -1095,7 +1055,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x8008346c",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80085de8": "0x80085de8",
@@ -1109,7 +1068,7 @@
     "DAT_800A5958": "0x800a5958",
     "DAT_800A5DA4": "0x800a5da4"
    },
-   "recipe_origin": "matching_ledger"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -1127,7 +1086,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80085fd0": "0x80085fd0",
@@ -1151,7 +1109,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x8008349c",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8008c6e0": "0x8008c6e0",
@@ -1175,7 +1132,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8008c988": "0x8008c988",
@@ -1199,7 +1155,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80084320": "0x80084320"
@@ -1222,7 +1177,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "DAT_8004B7D0": "0x8004b7d0",
@@ -1246,7 +1200,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "F0x8001ebf8": "0x8001ebf8"
@@ -1269,7 +1222,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80084320": "0x80084320",
@@ -1294,10 +1246,9 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x800834fc",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {},
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -1315,7 +1266,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8008d594": "0x8008d594",
@@ -1340,7 +1290,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "func_8001ebf8": "0x8001ebf8"
@@ -1363,7 +1312,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8008daf4": "0x8008daf4",
@@ -1388,7 +1336,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -1409,7 +1356,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8008d938": "0x8008d938",
@@ -1434,7 +1380,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -1455,7 +1400,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -1476,7 +1420,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8008db7c": "0x8008db7c",
@@ -1501,7 +1444,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80055c48": "0x80055c48"
@@ -1524,7 +1466,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_8004df9c": "0x8004df9c"
@@ -1547,12 +1488,11 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8008def8": "0x8008def8"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -1570,7 +1510,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x8008351c",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -1591,7 +1530,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "DAT_8004DF9C": "0x8004df9c",
@@ -1619,7 +1557,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D0x800a58f4": "0x800a58f4",
@@ -1643,13 +1580,12 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D0x800a58f4": "0x800a58f4",
     "func_8001ebf8": "0x8001ebf8"
    },
-   "recipe_origin": "acceptance_review"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -1667,7 +1603,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "DAT_8004DE10": "0x8004de10"
@@ -1690,7 +1625,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8008423c": "0x8008423c"
@@ -1713,7 +1647,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "func_8008f2d8": "0x8008f2d8"
@@ -1736,7 +1669,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "cardgame_f0x80085f38": "0x80085f38"
@@ -1759,7 +1691,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -1780,7 +1711,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80084320": "0x80084320",
@@ -1805,7 +1735,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -1826,13 +1755,12 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_8004df9c": "0x8004df9c",
     "D_800A5900": "0x800a5900"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -1850,7 +1778,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -1871,14 +1798,13 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x8008353c",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80090058": "0x80090058",
     "DAT_8004DF9C": "0x8004df9c",
     "EXE_FUNC_8001EBF8": "0x8001ebf8"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -1896,12 +1822,11 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "DAT_8004DE10": "0x8004de10"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -1919,7 +1844,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80084320": "0x80084320"
@@ -1942,7 +1866,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80083554",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80090cd8": "0x80090cd8",
@@ -1970,7 +1893,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8008daf4": "0x8008daf4",
@@ -1994,7 +1916,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009170c": "0x8009170c",
@@ -2019,7 +1940,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80084320": "0x80084320",
@@ -2044,13 +1964,12 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_8005CCB0": "0x8005ccb0",
     "D_800A5958": "0x800a5958"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -2068,7 +1987,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009170c": "0x8009170c",
@@ -2092,14 +2010,13 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x8008359c",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "DAT_8004DF9C": "0x8004df9c",
     "DAT_8005CCB0": "0x8005ccb0",
     "DAT_800A5958": "0x800a5958"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -2117,7 +2034,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80092438": "0x80092438",
@@ -2141,7 +2057,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x800835b4",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x800860d4": "0x800860d4",
@@ -2167,7 +2082,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80092ba4": "0x80092ba4"
@@ -2190,13 +2104,12 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80092c54": "0x80092c54",
     "D_800a5958": "0x800a5958"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -2214,7 +2127,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x800835dc",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8008d854": "0x8008d854",
@@ -2243,14 +2155,13 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80093710": "0x80093710",
     "D0x800a5958": "0x800a5958",
     "D_8005ccb0": "0x8005ccb0"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -2268,7 +2179,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8008daf4": "0x8008daf4",
@@ -2292,7 +2202,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80084320": "0x80084320"
@@ -2315,7 +2224,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x8008363c",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80093cac": "0x80093cac",
@@ -2323,7 +2231,7 @@
     "DAT_8004B7D0": "0x8004b7d0",
     "DAT_8004df9c": "0x8004df9c"
    },
-   "recipe_origin": "matching_ledger"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -2341,10 +2249,9 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {},
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -2362,7 +2269,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x8008365c",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "DAT_8004B7D0": "0x8004b7d0",
@@ -2388,13 +2294,12 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80093bc4": "0x80093bc4",
     "CARDGAME_F0x80094848": "0x80094848"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -2412,7 +2317,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80083684",
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80084320": "0x80084320",
@@ -2438,7 +2342,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -2459,7 +2362,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "DAT_8004B7D0": "0x8004b7d0"
@@ -2482,7 +2384,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -2503,7 +2404,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -2524,13 +2424,12 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009535c": "0x8009535c",
     "D_80055c48": "0x80055c48"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -2548,7 +2447,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x800836a0",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "F0x8001ebf8": "0x8001ebf8"
@@ -2571,7 +2469,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80095bfc": "0x80095bfc",
@@ -2602,7 +2499,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80095bfc": "0x80095bfc",
@@ -2626,7 +2522,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "DAT_80044f5c": "0x80044f5c",
@@ -2652,7 +2547,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80095e58": "0x80095e58",
@@ -2677,7 +2571,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80095fb4": "0x80095fb4",
@@ -2705,7 +2598,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80096418": "0x80096418",
@@ -2732,7 +2624,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x800961f0": "0x800961f0",
@@ -2742,7 +2633,7 @@
     "DAT_800A5940": "0x800a5940",
     "EXE_F0x8001ae38": "0x8001ae38"
    },
-   "recipe_origin": "matching_ledger"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -2760,7 +2651,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80096418": "0x80096418",
@@ -2788,7 +2678,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80096c20": "0x80096c20",
@@ -2816,7 +2705,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80096a94": "0x80096a94",
@@ -2841,7 +2729,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80096cf0": "0x80096cf0",
@@ -2868,7 +2755,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80096c20": "0x80096c20",
@@ -2892,7 +2778,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80096cf0": "0x80096cf0",
@@ -2916,7 +2801,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80096a94": "0x80096a94",
@@ -2944,7 +2828,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80097508": "0x80097508"
@@ -2967,7 +2850,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D0x800a59a8": "0x800a59a8",
@@ -2991,7 +2873,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80097508": "0x80097508",
@@ -3016,7 +2897,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80083700",
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80096e8c": "0x80096e8c",
@@ -3027,7 +2907,7 @@
     "DAT_8004df9c": "0x8004df9c",
     "DAT_8005cca8": "0x8005cca8"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -3045,7 +2925,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80097508": "0x80097508"
@@ -3068,7 +2947,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80097acc": "0x80097acc",
@@ -3093,7 +2971,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_80044f5c": "0x80044f5c",
@@ -3117,7 +2994,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80097958": "0x80097958",
@@ -3148,7 +3024,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80098558": "0x80098558",
@@ -3173,7 +3048,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009848c": "0x8009848c",
@@ -3200,7 +3074,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80096a94": "0x80096a94",
@@ -3237,7 +3110,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80083730",
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80099440": "0x80099440",
@@ -3261,7 +3133,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "DAT_80044f4c": "0x80044f4c",
@@ -3289,7 +3160,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x800999a0": "0x800999a0"
@@ -3312,7 +3182,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "DAT_8004df9c": "0x8004df9c"
@@ -3335,7 +3204,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "EXE_D_80044f5c": "0x80044f5c",
@@ -3359,7 +3227,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80099d18": "0x80099d18",
@@ -3383,7 +3250,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80098898": "0x80098898",
@@ -3409,7 +3275,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "DAT_80055c48": "0x80055c48",
@@ -3433,14 +3298,13 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "DAT_8004df9c": "0x8004df9c",
     "DAT_80055c48": "0x80055c48",
     "EXE_F0x8002abcc": "0x8002abcc"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -3458,7 +3322,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009a454": "0x8009a454",
@@ -3484,7 +3347,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_8004df9c": "0x8004df9c"
@@ -3507,7 +3369,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_8004df9c": "0x8004df9c"
@@ -3530,7 +3391,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009b890": "0x8009b890",
@@ -3557,7 +3417,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "DAT_8004df9c": "0x8004df9c",
@@ -3581,7 +3440,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009a82c": "0x8009a82c",
@@ -3606,7 +3464,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009ba3c": "0x8009ba3c",
@@ -3636,7 +3493,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009ba3c": "0x8009ba3c",
@@ -3664,7 +3520,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009ba3c": "0x8009ba3c",
@@ -3691,7 +3546,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "EXE_80044b38": "0x80044b38",
@@ -3715,7 +3569,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80096a94": "0x80096a94",
@@ -3742,7 +3595,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009ba3c": "0x8009ba3c",
@@ -3767,7 +3619,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009bac8": "0x8009bac8",
@@ -3793,7 +3644,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80083748",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009b890": "0x8009b890",
@@ -3824,7 +3674,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009a998": "0x8009a998",
@@ -3853,7 +3702,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009b76c": "0x8009b76c",
@@ -3879,7 +3727,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80096950": "0x80096950",
@@ -3914,7 +3761,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80055c48": "0x80055c48"
@@ -3937,7 +3783,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009d310": "0x8009d310",
@@ -3961,7 +3806,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009d310": "0x8009d310",
@@ -3986,7 +3830,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009d310": "0x8009d310",
@@ -4010,7 +3853,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -4031,7 +3873,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_80055c48": "0x80055c48"
@@ -4054,7 +3895,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009c1cc": "0x8009c1cc",
@@ -4078,7 +3918,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009d310": "0x8009d310",
@@ -4102,7 +3941,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009c510": "0x8009c510",
@@ -4126,7 +3964,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80055c48": "0x80055c48"
@@ -4149,7 +3986,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80055c48": "0x80055c48"
@@ -4172,7 +4008,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80055c48": "0x80055c48"
@@ -4195,7 +4030,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80055c48": "0x80055c48"
@@ -4218,7 +4052,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "func_8009c898": "0x8009c898"
@@ -4241,7 +4074,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009c898": "0x8009c898"
@@ -4264,7 +4096,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009c960": "0x8009c960",
@@ -4288,7 +4119,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009c960": "0x8009c960"
@@ -4311,7 +4141,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_8004B5DC": "0x8004b5dc"
@@ -4334,7 +4163,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009d310": "0x8009d310",
@@ -4359,7 +4187,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009c510": "0x8009c510",
@@ -4387,7 +4214,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "func_8001ebf8": "0x8001ebf8"
@@ -4410,7 +4236,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009d310": "0x8009d310",
@@ -4434,7 +4259,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -4455,7 +4279,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009d0b0": "0x8009d0b0",
@@ -4465,7 +4288,7 @@
     "func_8001ebf8": "0x8001ebf8",
     "func_8001ffa8": "0x8001ffa8"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -4483,7 +4306,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009bba8": "0x8009bba8",
@@ -4550,7 +4372,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009d540": "0x8009d540",
@@ -4577,7 +4398,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009d540": "0x8009d540",
@@ -4601,7 +4421,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x800837a0",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D0x800a5c2c": "0x800a5c2c",
@@ -4625,12 +4444,11 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009dbe8": "0x8009dbe8"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -4648,7 +4466,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -4669,14 +4486,13 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x800837c0",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009e024": "0x8009e024",
     "DAT_8005CCB0": "0x8005ccb0",
     "DAT_800A5958": "0x800a5958"
    },
-   "recipe_origin": "matching_ledger"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "CARDGAME",
@@ -4694,7 +4510,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "DAT_800a5d14": "0x800a5d14",
@@ -4718,7 +4533,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80083800",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009dbe8": "0x8009dbe8",
@@ -4745,7 +4559,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009e668": "0x8009e668"
@@ -4768,7 +4581,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -4789,7 +4601,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_8004dc04": "0x8004dc04"
@@ -4812,7 +4623,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80083890",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80096180": "0x80096180",
@@ -4845,7 +4655,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80083e34": "0x80083e34"
@@ -4868,7 +4677,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x800838e8",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009fb18": "0x8009fb18"
@@ -4891,7 +4699,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80083910",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009dec4": "0x8009dec4",
@@ -4923,7 +4730,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x8009edcc": "0x8009edcc",
@@ -4947,7 +4753,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x800a0628": "0x800a0628",
@@ -4971,7 +4776,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x800a0628": "0x800a0628"
@@ -4994,7 +4798,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x800a0590": "0x800a0590",
@@ -5018,7 +4821,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80083960",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_800a5c20": "0x800a5c20",
@@ -5042,7 +4844,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x800a0844": "0x800a0844"
@@ -5065,7 +4866,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -5086,7 +4886,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_8004DE10": "0x8004de10"
@@ -5109,7 +4908,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "STCRDABM_func_80082e10": "0x80082e10"
@@ -5132,7 +4930,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "F0x80014504": "0x80014504",
@@ -5157,7 +4954,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "F0x8001ebf8": "0x8001ebf8",
@@ -5181,7 +4977,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -5202,7 +4997,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -5223,7 +5017,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -5233,7 +5026,7 @@
     "F0x8001f648": "0x8001f648",
     "STCRDABM_func_80083174": "0x80083174"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "STCRDABM",
@@ -5251,7 +5044,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -5276,7 +5068,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D0x80048d34": "0x80048d34"
@@ -5299,7 +5090,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D0x8004df98": "0x8004df98"
@@ -5322,7 +5112,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D0x8004DE10": "0x8004de10",
@@ -5353,7 +5142,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "F0x80014504": "0x80014504",
@@ -5379,7 +5167,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D0x8004de10": "0x8004de10",
@@ -5403,7 +5190,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "F0x80014504": "0x80014504",
@@ -5427,7 +5213,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "F0x8001ae38": "0x8001ae38"
@@ -5450,7 +5235,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -5474,7 +5258,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D0x80044b38": "0x80044b38",
@@ -5484,7 +5267,7 @@
     "F0x8001ebf8": "0x8001ebf8",
     "STCRDABM_func_800840ac": "0x800840ac"
    },
-   "recipe_origin": "matching_ledger"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "STCRDABM",
@@ -5502,7 +5285,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "DAT_80044f5c": "0x80044f5c",
@@ -5531,7 +5313,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D0x80048d34": "0x80048d34"
@@ -5554,7 +5335,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80082cb0",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D0x80055C48": "0x80055c48",
@@ -5587,7 +5367,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D0x80048d34": "0x80048d34",
@@ -5616,7 +5395,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "F0x80014504": "0x80014504",
@@ -5640,7 +5418,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D0x80044b38": "0x80044b38",
@@ -5665,7 +5442,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D0x80044b38": "0x80044b38",
@@ -5689,7 +5465,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D0x80055c48": "0x80055c48"
@@ -5712,7 +5487,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -5733,7 +5507,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_8004DE10": "0x8004de10",
@@ -5758,7 +5531,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "EXE_F0x80014504": "0x80014504",
@@ -5782,7 +5554,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -5803,7 +5574,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "STCRDDEK_func_8008339c": "0x8008339c",
@@ -5827,7 +5597,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "STCRDDEK_func_8008339c": "0x8008339c"
@@ -5850,7 +5619,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "F0x80014504": "0x80014504",
@@ -5876,7 +5644,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -5903,7 +5670,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D0x80048D34": "0x80048d34",
@@ -5928,7 +5694,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "STCRDDEK_F0x800835d8": "0x800835d8",
@@ -5953,7 +5718,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "F0x80014504": "0x80014504",
@@ -5978,14 +5742,13 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "F0x8001ae38": "0x8001ae38",
     "F0x8001b364": "0x8001b364",
     "STCRDDEK_func_8008397c": "0x8008397c"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "STCRDDEK",
@@ -6003,7 +5766,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -6031,7 +5793,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "STCRDDEK_func_80084278": "0x80084278",
@@ -6056,7 +5817,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -6064,7 +5824,7 @@
     "F0x8001ebf8": "0x8001ebf8",
     "STCRDDEK_func_80084440": "0x80084440"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "STCRDDEK",
@@ -6082,7 +5842,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D0x80048d34": "0x80048d34",
@@ -6107,7 +5866,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D0x8004DE10": "0x8004de10",
@@ -6135,7 +5893,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80082cb0",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -6176,7 +5933,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "STCRDDEK_func_8008397c": "0x8008397c",
@@ -6201,7 +5957,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "F0x80014504": "0x80014504",
@@ -6225,7 +5980,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_80055c48": "0x80055c48"
@@ -6248,7 +6002,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -6269,13 +6022,12 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_8008B6E4": "0x8008b6e4",
     "F0x8001ae38": "0x8001ae38"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "STCRDDEK",
@@ -6293,7 +6045,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "STCRDDEK_func_80086ad8": "0x80086ad8",
@@ -6319,7 +6070,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80082db0",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044b38": "0x80044b38",
@@ -6355,7 +6105,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80082e38",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "DAT_8004B7D0": "0x8004b7d0",
@@ -6385,7 +6134,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_80044f5c": "0x80044f5c",
@@ -6419,7 +6167,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "L0x80088628": "0x80088628",
@@ -6443,7 +6190,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "stcrddek_exe_8001FCC0": "0x8001fcc0",
@@ -6467,7 +6213,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "F0x8001f744": "0x8001f744",
@@ -6494,7 +6239,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -6515,7 +6259,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "F0x80014504": "0x80014504",
@@ -6547,7 +6290,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "STCRDDEK_func_80088874": "0x80088874"
@@ -6570,7 +6312,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -6591,7 +6332,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -6612,7 +6352,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -6633,7 +6372,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D0x8004de10": "0x8004de10",
@@ -6657,7 +6395,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "F0x80014504": "0x80014504",
@@ -6682,18 +6419,17 @@
    "size": 496,
    "body_size": 496,
    "opt_level": "O2",
-   "variant": "o2-g0-no-strength-reduce",
+   "variant": "base",
    "cc1psx": "psyq-gcc-2.8.1-sn32-4.0.0010",
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "FUN_8001ae38": "0x8001ae38",
     "FUN_8001b364": "0x8001b364"
    },
-   "recipe_origin": "matching_ledger"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "STCRDDEK",
@@ -6711,13 +6447,12 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_8004935C": "0x8004935c",
     "STCRDDEK_func_80088d24": "0x80088d24"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "STCRDDEK",
@@ -6735,7 +6470,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -6761,7 +6495,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_80048D34": "0x80048d34",
@@ -6787,7 +6520,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80083058",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -6821,7 +6553,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D0x80048D34": "0x80048d34",
@@ -6852,7 +6583,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "F0x80014504": "0x80014504",
@@ -6880,7 +6610,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -6905,7 +6634,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "stcrddek_tbl_80044B38": "0x80044b38",
@@ -6929,7 +6657,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -6950,7 +6677,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -6971,7 +6697,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "F0x8001ae38": "0x8001ae38",
@@ -6996,14 +6721,13 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044b38": "0x80044b38",
     "D_8005cca8": "0x8005cca8",
     "STCRDSHP_func_800832c8": "0x800832c8"
    },
-   "recipe_origin": "matching_ledger"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "STCRDSHP",
@@ -7021,7 +6745,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -7047,7 +6770,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -7074,7 +6796,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80042B98": "0x80042b98",
@@ -7102,7 +6823,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80042B98": "0x80042b98",
@@ -7126,7 +6846,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80082cb0",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "B_80048D34": "0x80048d34",
@@ -7170,7 +6889,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "STCRDSHP_func_8008300c": "0x8008300c",
@@ -7196,7 +6914,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "EXE_F0x80014504": "0x80014504",
@@ -7220,7 +6937,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -7241,7 +6957,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "stcrdshp_tbl_8004DE10": "0x8004de10"
@@ -7264,7 +6979,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "STCRDSHP_func_8008543c": "0x8008543c"
@@ -7287,7 +7001,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "EXE_F0x80014504": "0x80014504",
@@ -7312,7 +7025,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "F0x8001ebf8": "0x8001ebf8"
@@ -7335,7 +7047,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -7356,7 +7067,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -7377,7 +7087,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -7386,7 +7095,7 @@
     "EXE_Glob_80044b38": "0x80044b38",
     "STCRDSHP_func_800857b0": "0x800857b0"
    },
-   "recipe_origin": "integration_byte_report"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "STCRDSHP",
@@ -7404,7 +7113,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -7428,7 +7136,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_8004DF98": "0x8004df98"
@@ -7451,7 +7158,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_8004DE10": "0x8004de10",
@@ -7480,7 +7186,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "EXE_F0x80014504": "0x80014504",
@@ -7507,7 +7212,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "EXE_F0x8001ae38": "0x8001ae38",
@@ -7532,7 +7236,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -7543,7 +7246,7 @@
     "EXE_F0x8001ebf8": "0x8001ebf8",
     "STCRDSHP_func_8008627c": "0x8008627c"
    },
-   "recipe_origin": "matching_ledger"
+   "recipe_origin": "accepted_manifest"
   },
   {
    "module": "STCRDSHP",
@@ -7561,7 +7264,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -7589,7 +7291,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80082da4",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -7624,7 +7325,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_8008CB98": "0x8008cb98",
@@ -7651,7 +7351,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "EXE_F0x80014504": "0x80014504",
@@ -7675,7 +7374,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_8004DE10": "0x8004de10",
@@ -7699,7 +7397,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "EXE_F0x80014504": "0x80014504",
@@ -7723,7 +7420,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "F0x8001ae38": "0x8001ae38",
@@ -7748,7 +7444,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -7773,7 +7468,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -7798,7 +7492,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "CARDGAME_F0x80097958": "0x80097958",
@@ -7827,7 +7520,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": "0x80082e74",
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80042B98": "0x80042b98",
@@ -7862,7 +7554,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_80048DA0": "0x80048da0"
@@ -7885,7 +7576,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80048D34": "0x80048d34",
@@ -7915,7 +7605,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -7945,7 +7634,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -7971,7 +7659,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_80044B38": "0x80044b38",
@@ -7995,7 +7682,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "D_80055C48": "0x80055c48"
@@ -8018,7 +7704,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {},
    "recipe_origin": "accepted_manifest"
@@ -8039,7 +7724,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": true,
    "aspsx_flags": [],
    "symbols": {
     "STCRDSHP_func_800890b4": "0x800890b4"
@@ -8062,7 +7746,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "STCRDSHP_D_8008CDD4": "0x8008cdd4"
@@ -8085,7 +7768,6 @@
    "aspsx": "aspsx-2.79",
    "rodata": null,
    "gp": null,
-   "strip_div_guard": false,
    "aspsx_flags": [],
    "symbols": {
     "D_8008CD20": "0x8008cd20",

@@ -1,10 +1,7 @@
 {
-  "source_commit": "51e21ea1031bf789a6159464d455783a3e9aa463",
+  "source_commit": "51b751f6d796338019510280273f45b6c70eda4d",
   "functions": 318,
   "recipe_origin": {
-    "accepted_manifest": 285,
-    "integration_byte_report": 24,
-    "matching_ledger": 8,
-    "acceptance_review": 1
+    "accepted_manifest": 318
   }
 }

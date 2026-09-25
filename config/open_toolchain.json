@@ -1,0 +1,32 @@
+{
+ "schema_version": 1,
+ "note": "Default verification path. Public tools only; fetched and checked by tools/fetch_toolchain.py.",
+ "gcc": {
+  "id": "gcc-2.8.1-psx",
+  "project": "decompals/old-gcc (GNU GCC 2.8.1 built for PlayStation)",
+  "license": "GPL-2.0-or-later",
+  "archive_url": "https://github.com/decompals/old-gcc/releases/download/0.12/gcc-2.8.1-psx.tar.gz",
+  "archive_sha256": "e5a4fad3b93a16683fb16d1920074be5a81446563348ba759c37aced85c4bdbf",
+  "cc1_sha256": "60d886cd75bbd7855fc7909224a15401de76bff21af8a629c2060290a073f5fd"
+ },
+ "maspsx": {
+  "project": "mkst/maspsx",
+  "license": "MIT",
+  "revision": "874855c53f65f8fa57447e1da6bde6236dbef9d5",
+  "archive_url": "https://github.com/mkst/maspsx/archive/874855c53f65f8fa57447e1da6bde6236dbef9d5.zip",
+  "archive_sha256": "5d694b1112aaaf43dd3f72023cb80448943ee52bd802a55b11143c89cdb943df",
+  "files_sha256": {
+   "maspsx.py": "265d1ac58c5fa344bb216a26eab8b06a496e36f83fa50ce55e134c3e2971c1d2",
+   "maspsx/__init__.py": "8fdf7a5afc0e73bb14c5f80d09bab5852005f35bc77be1eac66a353874f81a39"
+  },
+  "args": ["--aspsx-version=2.79"],
+  "div_guard_note": "--expand-div is not passed: maspsx then emits no zero-divisor guard, which matches the Card Cage overlays. The PsyQ path must strip the guard instead (recipe field strip_div_guard)."
+ },
+ "gnu_as": {
+  "command": "mipsel-linux-gnu-as",
+  "package": "GNU binutils for mipsel-linux-gnu (e.g. Debian/Ubuntu binutils-mipsel-linux-gnu)",
+  "license": "GPL-3.0-or-later",
+  "flags": ["-EL", "-march=r3000", "-mtune=r3000", "-no-pad-sections", "-O1", "-G0"],
+  "tested_version": "GNU assembler (GNU Binutils for Ubuntu) 2.45.90.20260125"
+ }
+}

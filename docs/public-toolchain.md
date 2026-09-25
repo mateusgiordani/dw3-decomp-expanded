@@ -1,4 +1,4 @@
-# Open-source toolchain equivalence (experiment)
+# Open-source toolchain equivalence
 
 Question: can the Card Cage matches be reproduced without the proprietary
 PsyQ SDK?
@@ -24,8 +24,19 @@ Per-function results: `reports/experiments/public-toolchain-2026-09-25.json`.
 | clang | preprocessor only (`-E -nostdinc`) | Apache-2.0 with LLVM exception |
 
 Assembler flags: `-EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0`.
-maspsx runs without `--expand-div`: the overlays carry no zero-divisor guard,
-which the PsyQ path removes from the assembly before ASPSX.
+
+## Zero-divisor guard
+
+The Card Cage overlays have no zero-divisor guard after their divisions.
+
+- ASPSX 2.79 inserts one after every `div`/`divu`. The PsyQ path must remove it
+  from the compiler output before assembling. Measured on 2026-09-25: 21 of the
+  318 functions contain a division; without the removal three of them assemble
+  larger than PAL (CARDGAME `0x80093710` +36 bytes, `0x80097508` +72,
+  `0x8009a1a0` +180). With the removal applied to every function (a no-op when
+  there is no division) all 318 match.
+- maspsx inserts the guard only with `--expand-div`. The public path does not
+  pass it, so it needs no removal.
 
 ## Controls
 
@@ -39,5 +50,6 @@ object with another function's symbols.
   `-fno-strength-reduce`, `-fno-strength-reduce -mno-split-addresses`). It is
   not a claim about other overlays, other compiler versions or other ASPSX
   behaviour.
-- `tools/public_toolchain_check.py` still uses PsyQ `CC1PSX.EXE` for the
-  compiler-stage comparison. The byte match itself needs only the open tools.
+- `tools/public_toolchain_check.py` uses PsyQ `CC1PSX.EXE` for the
+  compiler-stage comparison only. `tools/card_verify.py` needs only the public
+  tools, which are the default.

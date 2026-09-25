@@ -272,7 +272,6 @@ def main() -> int:
             "aspsx": resolve_tool(opts, "aspsx", source, by_hash, defaults),
             "rodata": f"0x{int(opts['--rodata'], 0):08x}" if opts.get("--rodata") else None,
             "gp": f"0x{int(opts['--gp'], 0):08x}" if opts.get("--gp") else None,
-            "strip_div_guard": bool(opts.get("--strip-div-guard")),
             "aspsx_flags": opts["--aspsx-flag"],
             "symbols": dict(sorted(symbols.items())),
             "recipe_origin": origin,
@@ -292,10 +291,14 @@ def main() -> int:
     }
     toolchain = {
         "schema_version": 1,
-        "note": "Proprietary PsyQ binaries are not distributed; they are identified by SHA-256 only.",
+        "note": "Optional PsyQ cross-check path. The binaries are not distributed; they are identified by SHA-256 only.",
         "cc1_flags": config["cc1_flags"],
         "variants": {v: variants[v] for v in sorted({r["variant"] for r in recipes})},
-        "tools": {k: [{f: t[f] for f in ("id", "sha256", "version") if f in t} for t in v] for k, v in tools.items()},
+        "tools": {k: [{f: t[f] for f in ("id", "sha256", "version", "source_release") if f in t} for t in v]
+                  for k, v in tools.items()},
+        "div_guard": "ASPSX inserts a zero-divisor guard after every div/divu; the Card Cage overlays have "
+                     "none. The PsyQ path therefore always removes it from the compiler output before ASPSX "
+                     "(a no-op for functions without division). maspsx adds no guard unless --expand-div is given.",
         "combinations_used": [list(u) for u in used],
     }
     (out / "config").mkdir(exist_ok=True)
