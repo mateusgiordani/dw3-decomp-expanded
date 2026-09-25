@@ -1,0 +1,1922 @@
+{
+ "aspsx_version_mode": "2.79",
+ "functions": 318,
+ "counts": {
+  "compiler": {
+   "identical": 318
+  },
+  "link": {
+   "exact_byte_match": 318
+  }
+ },
+ "results": [
+  {
+   "function": "CARDGAME:0x80084090",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80084188",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008423c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80084320",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80085de8",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80085f38",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80085fd0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800860d4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80086330",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008642c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80086a30",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80086d28",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80086d78",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80086eb0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80086f24",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800870a4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008722c",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008735c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80087458",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800875ac",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800878b4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80087b80",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80087dc8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80087edc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80088f0c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80088f78",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800894e4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80089580",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800896f0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008985c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80089974",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80089f18",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008a068",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008ad58",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008ad78",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008ad98",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008baa4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008bc6c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008bc8c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008be04",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008c044",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008c5f0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008c6e0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008c988",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008ca4c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008cb5c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008ce0c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008cfdc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008d274",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008d594",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008d854",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008d938",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008da2c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008daf4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008db7c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008dc70",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008dd38",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008ddc0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008deac",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008def8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008e398",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008e5bc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008ec44",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008eec8",
+   "variant": "o2-g0-nosr-nosplit",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008f0f4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008f2ec",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008f530",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008f560",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008f750",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008f790",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008f978",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008fa9c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8008ff08",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80090058",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800907ac",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80090ba0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80090cd8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800915d4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80091858",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800919fc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80091c6c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80091eb0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80092198",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80092438",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80092638",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80092ba4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80092c54",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80092e60",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80093710",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80093b10",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80093c18",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80093cac",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009403c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800942dc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80094848",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80094b9c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80094fdc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80095030",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009518c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80095274",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009535c",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800954f8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80095bfc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80095e2c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80095e58",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80095fb4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80096180",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800961f0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80096418",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80096828",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80096950",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80096a94",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80096c20",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80096cf0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80096e24",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80096e8c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80097238",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80097310",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800973e4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80097508",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800978f0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80097958",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80097a24",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80097acc",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009848c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80098558",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80098898",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80099440",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800999a0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80099be4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80099d18",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80099de8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80099ed4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80099f60",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x80099ffc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009a1a0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009a454",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009a540",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009a5b0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009a62c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009a75c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009a82c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009a998",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009acac",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009af28",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009b028",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009b168",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009b678",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009b76c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009b890",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009ba3c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009bac8",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009bba8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009beac",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009bf5c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009c054",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009c0dc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009c124",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009c174",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009c1cc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009c214",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009c510",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009c5d8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009c654",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009c6e8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009c770",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009c904",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009c938",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009c9a0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009ca3c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009cda4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009ce28",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009ce94",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009cf60",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009cfbc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009d0b0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009d15c",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009d310",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009d540",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009d6b4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009d6e0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009dbe8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009dec4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009e024",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009e560",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009e668",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009edcc",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009eefc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009f04c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009f110",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009f998",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009fb18",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x8009fdd8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800a0548",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800a0628",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800a0708",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800a0754",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800a0844",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "CARDGAME:0x800a09fc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80082d88",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80082e10",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80082f54",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80083008",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x8008304c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80083114",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x8008314c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80083174",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x800835bc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80083734",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80083780",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80083848",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80083a78",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80083ad8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80083bd0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80083bfc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80083e14",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x800840ac",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80084500",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80084bc8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80084c38",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80085540",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x8008566c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x800856a8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x800857a0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x800858a0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDABM:0x80085934",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x800831f0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x800832e8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80083314",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x8008339c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x800834e0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80083594",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x800835d8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x800837b4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x800838c4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80083934",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x8008397c",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80083d28",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80084278",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80084440",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x800847c0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80084890",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80085210",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80086574",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x8008660c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x800867e8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x8008687c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x800868e8",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80086ad8",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80086e04",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80087788",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x800884e8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80088628",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80088634",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x800886c8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x800887c8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x800887d4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80088874",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80088880",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80088894",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x800888a8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x800888b0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80088ac8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80088b34",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80088d24",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80088e74",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x8008924c",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80089354",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x80089e98",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x8008a0b8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x8008a100",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x8008a21c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x8008a2d8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDDEK:0x8008a36c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x8008300c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x800832c8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x800835b8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80083780",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80083ba8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x800843c0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x800844b8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x800852cc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x8008536c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x800853b4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x8008543c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80085580",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80085634",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80085678",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80085730",
+   "variant": "o2-g0-no-strength-reduce",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80085788",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x800857b0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80085bac",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80085cd8",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80085da0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80085fdc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80086074",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x8008627c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x8008674c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80086dc4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80087a2c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80087b84",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80087bdc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80087cd4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80087d00",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80087e8c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80087fac",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x800880c4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x8008838c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80088afc",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80088b50",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80088ca0",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80088e24",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80088ef4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80088fb4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80089048",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x800890b4",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x80089160",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  },
+  {
+   "function": "STCRDSHP:0x8008923c",
+   "variant": "base",
+   "compiler": "identical",
+   "link": "exact_byte_match"
+  }
+ ]
+}
