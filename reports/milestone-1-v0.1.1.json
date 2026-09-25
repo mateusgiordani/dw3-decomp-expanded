@@ -1,0 +1,2939 @@
+{
+ "schema_version": 2,
+ "version": "v0.1.1",
+ "digest": "6152e5110d04d504d36f235068167e321bc39412e2c1bd4639313cdc8c10de8a",
+ "primary": {
+  "toolchain": "open",
+  "reference_version": "PAL-SLES-03936",
+  "repository_commit": "e2fadd85c64f6e6336f0b0eec49bcbac7e4fbe0d",
+  "started_at": "2026-09-25T06:36:32+00:00",
+  "finished_at": "2026-09-25T06:37:56+00:00",
+  "tools": {
+   "gcc": {
+    "id": "gcc-2.8.1-psx",
+    "cc1_sha256": "60d886cd75bbd7855fc7909224a15401de76bff21af8a629c2060290a073f5fd"
+   },
+   "maspsx": {
+    "revision": "874855c53f65f8fa57447e1da6bde6236dbef9d5",
+    "args": [
+     "--aspsx-version=2.79"
+    ]
+   },
+   "gnu_as": {
+    "command": "mipsel-linux-gnu-as",
+    "flags": [
+     "-EL",
+     "-march=r3000",
+     "-mtune=r3000",
+     "-no-pad-sections",
+     "-O1",
+     "-G0"
+    ],
+    "version": "GNU assembler (GNU Binutils for Ubuntu) 2.45.90.20260125"
+   }
+  },
+  "overlays": {
+   "CARDGAME": "2886ada962c4893d321bead7db4294e09cb586212db013bb69ce14e64f770498",
+   "STCRDABM": "6293e8c1379258dc9607c26a732fa1f3e6c96b3257b0b68db0a3263a88853722",
+   "STCRDDEK": "07a853a5774abf4b9f4e3cf57d93bb3f144dd1bde509b8472e4ff569d81c3d73",
+   "STCRDSHP": "f8daf77958e9ff5ffe9c108e4c1cdb46fd4826f44881eec6a71972ccd64b3230"
+  },
+  "functions": 318,
+  "status_counts": {
+   "exact_byte_match": 318
+  },
+  "results": [
+   {
+    "function": "CARDGAME:0x80084090",
+    "name": "CARDGAME_F0x80084090",
+    "source": "src/cardgame/cardgame_f0x80084090.c",
+    "size": 64,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "9a5e07e267dd9d2de3d3e6a92ba84aba1e1306793b59de4eb4ff22136eb977b5"
+   },
+   {
+    "function": "CARDGAME:0x80084188",
+    "name": "CARDGAME_F0x80084188",
+    "source": "src/cardgame/cardgame_f0x80084188.c",
+    "size": 180,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "a59166b42ea6080264a4afe1cccc6b95282b89ebc173484d90c5ea5cace35811"
+   },
+   {
+    "function": "CARDGAME:0x8008423c",
+    "name": "CARDGAME_F0x8008423c",
+    "source": "src/cardgame/cardgame_f0x8008423c.c",
+    "size": 228,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "ed1c7bbf039aee4befacc58df16544d7c026feab6f915e7342c59850a16e112c"
+   },
+   {
+    "function": "CARDGAME:0x80084320",
+    "name": "CARDGAME_F0x80084320",
+    "source": "src/cardgame/cardgame_f0x80084320.c",
+    "size": 6856,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "f548b0f191441eaa290f78a734a73e63e879c29804e73b92490c020c9b6e6f9c"
+   },
+   {
+    "function": "CARDGAME:0x80085de8",
+    "name": "CARDGAME_F0x80085de8",
+    "source": "src/cardgame/cardgame_f0x80085de8.c",
+    "size": 336,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "57d3e8e762e819fd3baf132f4a2c908688515c75f6eb1a7383ba11a6d93e7b39"
+   },
+   {
+    "function": "CARDGAME:0x80085f38",
+    "name": "CARDGAME_F0x80085f38",
+    "source": "src/cardgame/cardgame_f0x80085f38.c",
+    "size": 152,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "820316daa7d3b02934c01514ebc79e426e0e15181fe3ae0756a97ffb369bbba3"
+   },
+   {
+    "function": "CARDGAME:0x80085fd0",
+    "name": "CARDGAME_F0x80085fd0",
+    "source": "src/cardgame/cardgame_f0x80085fd0.c",
+    "size": 192,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "11846fa0f391a4f660f59018c74a92b7a232241b98fd7056c0dafa74058fcf8c"
+   },
+   {
+    "function": "CARDGAME:0x800860d4",
+    "name": "CARDGAME_F0x800860d4",
+    "source": "src/cardgame/cardgame_f0x800860d4.c",
+    "size": 604,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "593298d1c9ca1eae6bab4df92822caf031f882cb6d943343e7b0c61c9d60d8ef"
+   },
+   {
+    "function": "CARDGAME:0x80086330",
+    "name": "CARDGAME_F0x80086330",
+    "source": "src/cardgame/cardgame_f0x80086330.c",
+    "size": 252,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "c214740ef495f7eb66e7cae71d342ba169f8c731a48675a739aec01f770cc8c4"
+   },
+   {
+    "function": "CARDGAME:0x8008642c",
+    "name": "CARDGAME_F0x8008642c",
+    "source": "src/cardgame/cardgame_f0x8008642c.c",
+    "size": 1516,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "2cc2afbc8b47a8a8ce0ea238035a46d9dd7044d1b09d47d3af5e5ffdb11b023b"
+   },
+   {
+    "function": "CARDGAME:0x80086a30",
+    "name": "CARDGAME_F0x80086a30",
+    "source": "src/cardgame/cardgame_f0x80086a30.c",
+    "size": 760,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "b38b9fe70a27152bec491b30f758c89764f707911ea7e69360a95c12d3223471"
+   },
+   {
+    "function": "CARDGAME:0x80086d28",
+    "name": "CARDGAME_F0x80086d28",
+    "source": "src/cardgame/cardgame_f0x80086d28.c",
+    "size": 80,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "26725c311409a1e2dd8f6da490fe05e029b170c41d875519a671b00d00eb4e13"
+   },
+   {
+    "function": "CARDGAME:0x80086d78",
+    "name": "CARDGAME_F0x80086d78",
+    "source": "src/cardgame/cardgame_f0x80086d78.c",
+    "size": 312,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "8c704fb3c8657b17c737911d7204acf7c7445b514638e32d23bfdc2366c9e35e"
+   },
+   {
+    "function": "CARDGAME:0x80086eb0",
+    "name": "CARDGAME_F0x80086eb0",
+    "source": "src/cardgame/cardgame_f0x80086eb0.c",
+    "size": 116,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "bc23baa13bc39b0f2de14b0d8a2024d2c271ee75527548eb90c902bf7dde6ff2"
+   },
+   {
+    "function": "CARDGAME:0x80086f24",
+    "name": "CARDGAME_F0x80086f24",
+    "source": "src/cardgame/cardgame_f0x80086f24.c",
+    "size": 384,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "25eed432fff7ae3d7e7e56022c3651ae8bc4aad59050159bdf8b8034b1e3d9b1"
+   },
+   {
+    "function": "CARDGAME:0x800870a4",
+    "name": "CARDGAME_F0x800870a4",
+    "source": "src/cardgame/cardgame_f0x800870a4.c",
+    "size": 392,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "a45e3447e14c6415ae7063b828d1a9e3ae1ae3f47dd7b61f61b5e1b888b2250e"
+   },
+   {
+    "function": "CARDGAME:0x8008722c",
+    "name": "CARDGAME_F0x8008722c",
+    "source": "src/cardgame/cardgame_f0x8008722c.c",
+    "size": 220,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "886ccda11bee5abd17b496a4b2799fec1648e5c8414f7b66bbec9716ff5280d0"
+   },
+   {
+    "function": "CARDGAME:0x8008735c",
+    "name": "CARDGAME_F0x8008735c",
+    "source": "src/cardgame/cardgame_f0x8008735c.c",
+    "size": 252,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "92aff060860b685e2e15edfccd95c55442e01374e39ee04c3f06f2563a2ba98b"
+   },
+   {
+    "function": "CARDGAME:0x80087458",
+    "name": "CARDGAME_F0x80087458",
+    "source": "src/cardgame/cardgame_f0x80087458.c",
+    "size": 340,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "d068151ffe7f3ccfd5b2cef1989d521cb170dba5617647bd76fe4317172b4493"
+   },
+   {
+    "function": "CARDGAME:0x800875ac",
+    "name": "CARDGAME_F0x800875ac",
+    "source": "src/cardgame/cardgame_f0x800875ac.c",
+    "size": 776,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "356e9b579bddcd46bba5cb22cd7dd98997cb1b7935ba623cf425706cee699c0a"
+   },
+   {
+    "function": "CARDGAME:0x800878b4",
+    "name": "CARDGAME_F0x800878b4",
+    "source": "src/cardgame/cardgame_f0x800878b4.c",
+    "size": 716,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "2c9d0e60bbfc605137dd6669a99e6b7b924675d410104db0995f941157a67294"
+   },
+   {
+    "function": "CARDGAME:0x80087b80",
+    "name": "CARDGAME_F0x80087b80",
+    "source": "src/cardgame/cardgame_f0x80087b80.c",
+    "size": 584,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "c440e3b66c7b3324abcd997038c25cdf18d42339eb6937b4e021430dc61df6f7"
+   },
+   {
+    "function": "CARDGAME:0x80087dc8",
+    "name": "CARDGAME_F0x80087dc8",
+    "source": "src/cardgame/cardgame_f0x80087dc8.c",
+    "size": 276,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "fd2eaf381fd1bc2f11c029cab30de44900bcc684c563464b8290b1fefbd63c98"
+   },
+   {
+    "function": "CARDGAME:0x80087edc",
+    "name": "CARDGAME_F0x80087edc",
+    "source": "src/cardgame/cardgame_f0x80087edc.c",
+    "size": 4144,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "fbb7ec0ce5386b05bc8613ff9d81d785747ec84ec2a02223ca6f493c3eeb13da"
+   },
+   {
+    "function": "CARDGAME:0x80088f0c",
+    "name": "CARDGAME_F0x80088f0c",
+    "source": "src/cardgame/cardgame_f0x80088f0c.c",
+    "size": 108,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "aa2c768cefdf7b316dba8f957951cc4c40c5b549ba9c1f96112993e62f1573a8"
+   },
+   {
+    "function": "CARDGAME:0x80088f78",
+    "name": "CARDGAME_F0x80088f78",
+    "source": "src/cardgame/cardgame_f0x80088f78.c",
+    "size": 1388,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "d9b8be4d971b1f7a9e2cee4b9b6452a75fc2412260a5ba2d9c5bea7d95ff9f29"
+   },
+   {
+    "function": "CARDGAME:0x800894e4",
+    "name": "CARDGAME_F0x800894e4",
+    "source": "src/cardgame/cardgame_f0x800894e4.c",
+    "size": 156,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "e788a649211c39f828f4d6973ec4bbfd852ba5fdd774431be3e103c071736496"
+   },
+   {
+    "function": "CARDGAME:0x80089580",
+    "name": "CARDGAME_F0x80089580",
+    "source": "src/cardgame/cardgame_f0x80089580.c",
+    "size": 368,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "42eba9019fecc9c5c83e6f064560dbfce6645e8f82bd5299d71399d1dab44ed7"
+   },
+   {
+    "function": "CARDGAME:0x800896f0",
+    "name": "CARDGAME_F0x800896f0",
+    "source": "src/cardgame/cardgame_f0x800896f0.c",
+    "size": 364,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "9155b08936b12f87c9db1f98a1068b8f71907516e30df1f3d06d1d5b4f2653c9"
+   },
+   {
+    "function": "CARDGAME:0x8008985c",
+    "name": "CARDGAME_F0x8008985c",
+    "source": "src/cardgame/cardgame_f0x8008985c.c",
+    "size": 280,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "19fe5904722d0e81468cbf852db142cd8ef7a81810088d579dc779f0e0d9fecf"
+   },
+   {
+    "function": "CARDGAME:0x80089974",
+    "name": "CARDGAME_F0x80089974",
+    "source": "src/cardgame/cardgame_f0x80089974.c",
+    "size": 1364,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "2d1e1e37080a001678058c7b24fe52e4799839b125a3083a98f5211c584bbf2e"
+   },
+   {
+    "function": "CARDGAME:0x80089f18",
+    "name": "CARDGAME_F0x80089f18",
+    "source": "src/cardgame/cardgame_f0x80089f18.c",
+    "size": 336,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "240ea4849b4e80d7d1044529d31aaf42e0319fc7500fda39f5dbb6892c1f5288"
+   },
+   {
+    "function": "CARDGAME:0x8008a068",
+    "name": "CARDGAME_F0x8008a068",
+    "source": "src/cardgame/cardgame_f0x8008a068.c",
+    "size": 3296,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "677894dad7cbb8959e3cefdab3b93c36241914a2de9844e77363a9ac68823f18"
+   },
+   {
+    "function": "CARDGAME:0x8008ad58",
+    "name": "CARDGAME_F0x8008ad58",
+    "source": "src/cardgame/cardgame_f0x8008ad58.c",
+    "size": 32,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "d2b3a4ca607353b36d6052c2d6cb4c5fe7600bb1d5d08dd18f0a256f0a4d876a"
+   },
+   {
+    "function": "CARDGAME:0x8008ad78",
+    "name": "CARDGAME_F0x8008ad78",
+    "source": "src/cardgame/cardgame_f0x8008ad78.c",
+    "size": 32,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "e2f8042dbf04e3e72b7e62ee004c74c5c66a723763c45e627c835c6917901fb5"
+   },
+   {
+    "function": "CARDGAME:0x8008ad98",
+    "name": "CARDGAME_F0x8008ad98",
+    "source": "src/cardgame/cardgame_f0x8008ad98.c",
+    "size": 3340,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "96547313da11b7523d8f0dc5fbb8c4deea55761d3cbb612a2dc3f63fc1ad0213"
+   },
+   {
+    "function": "CARDGAME:0x8008baa4",
+    "name": "CARDGAME_F0x8008baa4",
+    "source": "src/cardgame/cardgame_f0x8008baa4.c",
+    "size": 456,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "a2a7e60bd598cdd8adbb3a32c6327f46388040eaa5f980fc31dbc67c30fa5cec"
+   },
+   {
+    "function": "CARDGAME:0x8008bc6c",
+    "name": "CARDGAME_F0x8008bc6c",
+    "source": "src/cardgame/cardgame_f0x8008bc6c.c",
+    "size": 32,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "45695dac5fc416dc33a330f5f48d2fe8999354cb88d19c36ec4aab4c9bb39862"
+   },
+   {
+    "function": "CARDGAME:0x8008bc8c",
+    "name": "CARDGAME_F0x8008bc8c",
+    "source": "src/cardgame/cardgame_f0x8008bc8c.c",
+    "size": 376,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "6e1a3643d0d1a0732dea52afacb5461643b336778cb6ac0f7b595beeaab1d428"
+   },
+   {
+    "function": "CARDGAME:0x8008be04",
+    "name": "CARDGAME_F0x8008be04",
+    "source": "src/cardgame/cardgame_f0x8008be04.c",
+    "size": 576,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "35ff5737f586d24bef5fe003bff990888c46065369c0c2c5990ecefefbf47bfa"
+   },
+   {
+    "function": "CARDGAME:0x8008c044",
+    "name": "CARDGAME_F0x8008c044",
+    "source": "src/cardgame/cardgame_f0x8008c044.c",
+    "size": 1452,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "3b1869b1f85a881883108b20005441353de5e5290a0737d98da82eabbc2b8e9a"
+   },
+   {
+    "function": "CARDGAME:0x8008c5f0",
+    "name": "CARDGAME_F0x8008c5f0",
+    "source": "src/cardgame/cardgame_f0x8008c5f0.c",
+    "size": 240,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "71aff1b171c08fa7229c7e62f52c958a1e3d21d75b2733fd1cbade630221aed7"
+   },
+   {
+    "function": "CARDGAME:0x8008c6e0",
+    "name": "CARDGAME_F0x8008c6e0",
+    "source": "src/cardgame/cardgame_f0x8008c6e0.c",
+    "size": 504,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "550785ef3386a8714c15e0c87d19219949913730d60971e7c213f234fcfe97cb"
+   },
+   {
+    "function": "CARDGAME:0x8008c988",
+    "name": "CARDGAME_F0x8008c988",
+    "source": "src/cardgame/cardgame_f0x8008c988.c",
+    "size": 196,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "98d7257d3079c6d2577d2b29af216572dbfc2f5d44e53a2534e72390d76344d8"
+   },
+   {
+    "function": "CARDGAME:0x8008ca4c",
+    "name": "CARDGAME_F0x8008ca4c",
+    "source": "src/cardgame/cardgame_f0x8008ca4c.c",
+    "size": 272,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "532f82e22ce7e7b11e1f47935b8501cc12cf659071149c9d2c19868ff7af0d1d"
+   },
+   {
+    "function": "CARDGAME:0x8008cb5c",
+    "name": "CARDGAME_F0x8008cb5c",
+    "source": "src/cardgame/cardgame_f0x8008cb5c.c",
+    "size": 688,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "fbb6c16954f2c877f2d7c15fda377b97f7b147f98348a97c34890259065cce34"
+   },
+   {
+    "function": "CARDGAME:0x8008ce0c",
+    "name": "CARDGAME_F0x8008ce0c",
+    "source": "src/cardgame/cardgame_f0x8008ce0c.c",
+    "size": 464,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "f79f639eed89298d5b2ad7e4f1a0914f5c8b96c3a1c4cf47434ec1ad2e3282c7"
+   },
+   {
+    "function": "CARDGAME:0x8008cfdc",
+    "name": "CARDGAME_F0x8008cfdc",
+    "source": "src/cardgame/cardgame_f0x8008cfdc.c",
+    "size": 664,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "dbac5542cf90654ccb99a5bf9d8df8421b5b8ce66887299b6c8ce66307ab4162"
+   },
+   {
+    "function": "CARDGAME:0x8008d274",
+    "name": "CARDGAME_F0x8008d274",
+    "source": "src/cardgame/cardgame_f0x8008d274.c",
+    "size": 800,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "609159d1c3ec07f7a01d06c3248f902b3241738b589d333400325edf5aa24223"
+   },
+   {
+    "function": "CARDGAME:0x8008d594",
+    "name": "CARDGAME_F0x8008d594",
+    "source": "src/cardgame/cardgame_f0x8008d594.c",
+    "size": 704,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "b8d3650491365236afdbad1ca4d1c82b64d8b09754c6d6b55a4490107a371271"
+   },
+   {
+    "function": "CARDGAME:0x8008d854",
+    "name": "CARDGAME_F0x8008d854",
+    "source": "src/cardgame/cardgame_f0x8008d854.c",
+    "size": 228,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "9ec1d67778411c2a011f6f8443b8fbc7c437d0fc5e1f5f8c7ae468c3ac47fae1"
+   },
+   {
+    "function": "CARDGAME:0x8008d938",
+    "name": "CARDGAME_F0x8008d938",
+    "source": "src/cardgame/cardgame_f0x8008d938.c",
+    "size": 244,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "e9e421c213f120052780fecbf0a77d86752cc1ae49e9497707152786b8efb91e"
+   },
+   {
+    "function": "CARDGAME:0x8008da2c",
+    "name": "CARDGAME_F0x8008da2c",
+    "source": "src/cardgame/cardgame_f0x8008da2c.c",
+    "size": 200,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "3231d46f82faa3c85276ab8b19fe3bc554573870937eed66af3e4c5f08b5c8c8"
+   },
+   {
+    "function": "CARDGAME:0x8008daf4",
+    "name": "CARDGAME_F0x8008daf4",
+    "source": "src/cardgame/cardgame_f0x8008daf4.c",
+    "size": 136,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "5c79219357a4f77d4dc1c59ca89ea3f29a64c13033164c03c8be1fedb5e1583f"
+   },
+   {
+    "function": "CARDGAME:0x8008db7c",
+    "name": "CARDGAME_F0x8008db7c",
+    "source": "src/cardgame/cardgame_f0x8008db7c.c",
+    "size": 244,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "4f84a12a9a685cebef39e991c3cde285559895f5ce450f253101ae282a12c651"
+   },
+   {
+    "function": "CARDGAME:0x8008dc70",
+    "name": "CARDGAME_F0x8008dc70",
+    "source": "src/cardgame/cardgame_f0x8008dc70.c",
+    "size": 200,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "5ab02f8839051283a716be4a4aeea3cc9cd3761fbba0759fd60f34a4a85621a9"
+   },
+   {
+    "function": "CARDGAME:0x8008dd38",
+    "name": "CARDGAME_F0x8008dd38",
+    "source": "src/cardgame/cardgame_f0x8008dd38.c",
+    "size": 136,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "d5276e820e0053d75a33e75e6f44d2d420802f0db6c7f6c0b62ceea335b56f60"
+   },
+   {
+    "function": "CARDGAME:0x8008ddc0",
+    "name": "CARDGAME_F0x8008ddc0",
+    "source": "src/cardgame/cardgame_f0x8008ddc0.c",
+    "size": 236,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "f79ebeae416a880423f50fd0538d426a3bbe5459a3f8bd59011b6f479c131b6f"
+   },
+   {
+    "function": "CARDGAME:0x8008deac",
+    "name": "CARDGAME_F0x8008deac",
+    "source": "src/cardgame/cardgame_f0x8008deac.c",
+    "size": 76,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "b6c97c5cec5aca6b3e95b58fd03828963b8caf4e931cca3578c1ed0c58e64015"
+   },
+   {
+    "function": "CARDGAME:0x8008def8",
+    "name": "CARDGAME_F0x8008def8",
+    "source": "src/cardgame/cardgame_f0x8008def8.c",
+    "size": 404,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "1cd5d05154797c8b9c882a81c8ae64f6332670dd7469ad46f0230982c15c8a9f"
+   },
+   {
+    "function": "CARDGAME:0x8008e398",
+    "name": "CARDGAME_F0x8008e398",
+    "source": "src/cardgame/cardgame_f0x8008e398.c",
+    "size": 536,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "6d2e6e1d5d35f4a741240f33a6325ff0c74dca9b21cbe7c19137e68339f31bcb"
+   },
+   {
+    "function": "CARDGAME:0x8008e5bc",
+    "name": "CARDGAME_F0x8008e5bc",
+    "source": "src/cardgame/cardgame_f0x8008e5bc.c",
+    "size": 1672,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "f997e9ff6f50ebdbdfebe4840b993433b3c25e5314e936ddc8feb653e672fd32"
+   },
+   {
+    "function": "CARDGAME:0x8008ec44",
+    "name": "CARDGAME_F0x8008ec44",
+    "source": "src/cardgame/cardgame_f0x8008ec44.c",
+    "size": 644,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "4e1b05d3d08733b205cad6971dc343d8143c94e808f680d264a1897c4ede0021"
+   },
+   {
+    "function": "CARDGAME:0x8008eec8",
+    "name": "CARDGAME_F0x8008eec8",
+    "source": "src/cardgame/cardgame_f0x8008eec8.c",
+    "size": 492,
+    "variant": "o2-g0-nosr-nosplit",
+    "status": "exact_byte_match",
+    "candidate_sha256": "4d7c2150612239b7d6ec0b773227d3de702aa189b2be842ae894cf322b1e716c"
+   },
+   {
+    "function": "CARDGAME:0x8008f0f4",
+    "name": "CARDGAME_F0x8008f0f4",
+    "source": "src/cardgame/cardgame_f0x8008f0f4.c",
+    "size": 484,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "17e1c58f5c0162f4eab6e1a7bc11f38252b188bf7fdabff1fc803aaea580111b"
+   },
+   {
+    "function": "CARDGAME:0x8008f2ec",
+    "name": "CARDGAME_F0x8008f2ec",
+    "source": "src/cardgame/cardgame_f0x8008f2ec.c",
+    "size": 580,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "34d401427e089bf1d6ce7140fb545e3e996501a16efd0be96b923c8e8d1dff4c"
+   },
+   {
+    "function": "CARDGAME:0x8008f530",
+    "name": "CARDGAME_F0x8008f530",
+    "source": "src/cardgame/cardgame_f0x8008f530.c",
+    "size": 48,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "6a35add4954f2419b043602dc8d9e17609e5820b0a6bc11f90e60f3bdadd4489"
+   },
+   {
+    "function": "CARDGAME:0x8008f560",
+    "name": "CARDGAME_F0x8008f560",
+    "source": "src/cardgame/cardgame_f0x8008f560.c",
+    "size": 496,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "54615662695ab3dfa24962893a0df48841fc8e2eecbe029148ef09c6312d001b"
+   },
+   {
+    "function": "CARDGAME:0x8008f750",
+    "name": "CARDGAME_F0x8008f750",
+    "source": "src/cardgame/cardgame_f0x8008f750.c",
+    "size": 64,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "58e94e328f4de07094757e36873851a3b92ef2ad06a150bf69d4736bc961a9ec"
+   },
+   {
+    "function": "CARDGAME:0x8008f790",
+    "name": "CARDGAME_F0x8008f790",
+    "source": "src/cardgame/cardgame_f0x8008f790.c",
+    "size": 440,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "27c912d6146bf46bce921511ff8963c6b178b8739df425e5d3342d1777e6b248"
+   },
+   {
+    "function": "CARDGAME:0x8008f978",
+    "name": "CARDGAME_F0x8008f978",
+    "source": "src/cardgame/cardgame_f0x8008f978.c",
+    "size": 292,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "b9127dafc7cc1d2d14c4d4f842d7e7cfef611619c7e63bf9783a2bde8bc1a9aa"
+   },
+   {
+    "function": "CARDGAME:0x8008fa9c",
+    "name": "CARDGAME_F0x8008fa9c",
+    "source": "src/cardgame/cardgame_f0x8008fa9c.c",
+    "size": 1132,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "1c812993a3f64851ecde781d82c930eba6fb8ec41b5290d1c93d8270491c4d2a"
+   },
+   {
+    "function": "CARDGAME:0x8008ff08",
+    "name": "CARDGAME_F0x8008ff08",
+    "source": "src/cardgame/cardgame_f0x8008ff08.c",
+    "size": 336,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "d3baeaca582e0b339585bccebbf738e2a87ee57409b8d3dd2f67b8982f43cc4d"
+   },
+   {
+    "function": "CARDGAME:0x80090058",
+    "name": "CARDGAME_F0x80090058",
+    "source": "src/cardgame/cardgame_f0x80090058.c",
+    "size": 1812,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "d043597161f046e77a8c756257e49672c2a10fcb04427a38b4d3306f63d6a596"
+   },
+   {
+    "function": "CARDGAME:0x800907ac",
+    "name": "CARDGAME_F0x800907ac",
+    "source": "src/cardgame/cardgame_f0x800907ac.c",
+    "size": 704,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "1485b212a9a8cae7d62aaea1119275a27229eed57e0aff7f429ff1451e4bbb82"
+   },
+   {
+    "function": "CARDGAME:0x80090ba0",
+    "name": "CARDGAME_F0x80090ba0",
+    "source": "src/cardgame/cardgame_f0x80090ba0.c",
+    "size": 312,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "72c776f04a7c9faa109cd59d329f3bbf1257aea949e229e28343be7f14154a1f"
+   },
+   {
+    "function": "CARDGAME:0x80090cd8",
+    "name": "CARDGAME_F0x80090cd8",
+    "source": "src/cardgame/cardgame_f0x80090cd8.c",
+    "size": 2284,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "23f3b542bf3b343a905c1d8f2bf51441aa1181fcaab5c551e2f34e450697567b"
+   },
+   {
+    "function": "CARDGAME:0x800915d4",
+    "name": "CARDGAME_F0x800915d4",
+    "source": "src/cardgame/cardgame_f0x800915d4.c",
+    "size": 312,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "d97f1807f6a5321eae5d0cc948e7caf3864a83ba5733b0766dc616529883c91d"
+   },
+   {
+    "function": "CARDGAME:0x80091858",
+    "name": "CARDGAME_F0x80091858",
+    "source": "src/cardgame/cardgame_f0x80091858.c",
+    "size": 420,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "8031d8997378f43cfc284cb26b806f3d9746ac68389d207fff4f59541e02ebfd"
+   },
+   {
+    "function": "CARDGAME:0x800919fc",
+    "name": "CARDGAME_F0x800919fc",
+    "source": "src/cardgame/cardgame_f0x800919fc.c",
+    "size": 624,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "2680a86dbe8565a6e2255841bd0a2127700978e66040251d2c3154f363caf3c9"
+   },
+   {
+    "function": "CARDGAME:0x80091c6c",
+    "name": "CARDGAME_F0x80091c6c",
+    "source": "src/cardgame/cardgame_f0x80091c6c.c",
+    "size": 580,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "e539a944c39f5804ec9c8cd1d196f2660e4628acc91dc3f051aa57257b106f47"
+   },
+   {
+    "function": "CARDGAME:0x80091eb0",
+    "name": "CARDGAME_F0x80091eb0",
+    "source": "src/cardgame/cardgame_f0x80091eb0.c",
+    "size": 744,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "401c0b1c9524e3dbf873984e87df8f6c63723a1b6e55a55164b3f48f1abe3ecc"
+   },
+   {
+    "function": "CARDGAME:0x80092198",
+    "name": "CARDGAME_F0x80092198",
+    "source": "src/cardgame/cardgame_f0x80092198.c",
+    "size": 672,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "0823a0e661eca0f8d0b96f72044dc4534dbf73660845b8e2bf6d2a7163616274"
+   },
+   {
+    "function": "CARDGAME:0x80092438",
+    "name": "CARDGAME_F0x80092438",
+    "source": "src/cardgame/cardgame_f0x80092438.c",
+    "size": 512,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "c729d4a007350180816e76430808413c781d72e073dbab575102d171a9491748"
+   },
+   {
+    "function": "CARDGAME:0x80092638",
+    "name": "CARDGAME_F0x80092638",
+    "source": "src/cardgame/cardgame_f0x80092638.c",
+    "size": 1388,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "860b1ea7461c8a3cc4539cb0aa43138f192f24fb499fa6f669ba474c67e2d009"
+   },
+   {
+    "function": "CARDGAME:0x80092ba4",
+    "name": "CARDGAME_F0x80092ba4",
+    "source": "src/cardgame/cardgame_f0x80092ba4.c",
+    "size": 176,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "ca2e9099bb126eaee259567458aae1765fefe7ab167c672f387b46c83dea2fac"
+   },
+   {
+    "function": "CARDGAME:0x80092c54",
+    "name": "CARDGAME_F0x80092c54",
+    "source": "src/cardgame/cardgame_f0x80092c54.c",
+    "size": 524,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "96ec79c6a7c13ee1e2952d6ed61c636db58cfb0aea9b270eccdc6d34fa9a03da"
+   },
+   {
+    "function": "CARDGAME:0x80092e60",
+    "name": "CARDGAME_F0x80092e60",
+    "source": "src/cardgame/cardgame_f0x80092e60.c",
+    "size": 1988,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "aa22fecac7e895a40211df543660868c3c7baac9c69bd0597eccba82e189d98a"
+   },
+   {
+    "function": "CARDGAME:0x80093710",
+    "name": "CARDGAME_F0x80093710",
+    "source": "src/cardgame/cardgame_f0x80093710.c",
+    "size": 972,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "319f8a96cb27c939bbcd20d3f526fe58533e55e54e519c396f732904d910bb52"
+   },
+   {
+    "function": "CARDGAME:0x80093b10",
+    "name": "CARDGAME_F0x80093b10",
+    "source": "src/cardgame/cardgame_f0x80093b10.c",
+    "size": 180,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "1db9c3205886116a1cf9277785a2dcfbf1848c8419c46bffaa4c0882bbfaf6a3"
+   },
+   {
+    "function": "CARDGAME:0x80093c18",
+    "name": "CARDGAME_F0x80093c18",
+    "source": "src/cardgame/cardgame_f0x80093c18.c",
+    "size": 148,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "17312af839b2bad693c58fded330fb15efe7016e2c9a20b8b73156b0f429874b"
+   },
+   {
+    "function": "CARDGAME:0x80093cac",
+    "name": "CARDGAME_F0x80093cac",
+    "source": "src/cardgame/cardgame_f0x80093cac.c",
+    "size": 912,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "e255470abe4611b0771049bb26990a465cf61251121c55698151f3aed81ab4bc"
+   },
+   {
+    "function": "CARDGAME:0x8009403c",
+    "name": "CARDGAME_F0x8009403c",
+    "source": "src/cardgame/cardgame_f0x8009403c.c",
+    "size": 672,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "5b546144c409715ff4f9ee5515fc91304461d6d0b5bf60a764521f1b640c445f"
+   },
+   {
+    "function": "CARDGAME:0x800942dc",
+    "name": "CARDGAME_F0x800942dc",
+    "source": "src/cardgame/cardgame_f0x800942dc.c",
+    "size": 1356,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "036902a2918f145387008209ba8775917fa7d86185e7a2ae267d4432ff76e803"
+   },
+   {
+    "function": "CARDGAME:0x80094848",
+    "name": "CARDGAME_F0x80094848",
+    "source": "src/cardgame/cardgame_f0x80094848.c",
+    "size": 816,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "9a2e12d260d22287ebc309296f0bc523868038e431239ab4f402c69aabe31ef6"
+   },
+   {
+    "function": "CARDGAME:0x80094b9c",
+    "name": "CARDGAME_F0x80094b9c",
+    "source": "src/cardgame/cardgame_f0x80094b9c.c",
+    "size": 1088,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "4136d551ff5d810f2ca68b80839ae59faa8bc62e396566e36c309e5fb9889030"
+   },
+   {
+    "function": "CARDGAME:0x80094fdc",
+    "name": "CARDGAME_F0x80094fdc",
+    "source": "src/cardgame/cardgame_f0x80094fdc.c",
+    "size": 84,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "2eb15ef555c33acfb0fa20c593679b0c901527a1a3a76971ac3137abc9a7795a"
+   },
+   {
+    "function": "CARDGAME:0x80095030",
+    "name": "CARDGAME_F0x80095030",
+    "source": "src/cardgame/cardgame_f0x80095030.c",
+    "size": 348,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "58f5fd8aaf5ce8edd5ef63f3ec07f2b78444257526a2dfde3e90a52a270f1353"
+   },
+   {
+    "function": "CARDGAME:0x8009518c",
+    "name": "CARDGAME_F0x8009518c",
+    "source": "src/cardgame/cardgame_f0x8009518c.c",
+    "size": 124,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "1589de5dac2e631b3b8f7fe95ca5d0006c35d73a11810f7c7e2fdad795e527a1"
+   },
+   {
+    "function": "CARDGAME:0x80095274",
+    "name": "CARDGAME_F0x80095274",
+    "source": "src/cardgame/cardgame_f0x80095274.c",
+    "size": 128,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "daee2b81db151ae1b6d0058144888d67eb39212376687f438c0c50de9ab57ee0"
+   },
+   {
+    "function": "CARDGAME:0x8009535c",
+    "name": "CARDGAME_F0x8009535c",
+    "source": "src/cardgame/cardgame_f0x8009535c.c",
+    "size": 412,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "7634603e653a19a4b77ac088958d208a2f17d4583621032cfe6b9f9c6cd99fe5"
+   },
+   {
+    "function": "CARDGAME:0x800954f8",
+    "name": "CARDGAME_F0x800954f8",
+    "source": "src/cardgame/cardgame_f0x800954f8.c",
+    "size": 1796,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "f3a736132b5767f3136823d299d79aa97042b9f937828aa09263233647fac9f7"
+   },
+   {
+    "function": "CARDGAME:0x80095bfc",
+    "name": "CARDGAME_F0x80095bfc",
+    "source": "src/cardgame/cardgame_f0x80095bfc.c",
+    "size": 560,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "ad4e0dbea43d91fc36cdd0601b616578a13b48426f5cbb1aaac75a5db5f922af"
+   },
+   {
+    "function": "CARDGAME:0x80095e2c",
+    "name": "CARDGAME_F0x80095e2c",
+    "source": "src/cardgame/cardgame_f0x80095e2c.c",
+    "size": 44,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "b3051b12e41223313dce2354c69b1d421f2631e1267d83ad4f96bfdb96e76611"
+   },
+   {
+    "function": "CARDGAME:0x80095e58",
+    "name": "CARDGAME_F0x80095e58",
+    "source": "src/cardgame/cardgame_f0x80095e58.c",
+    "size": 348,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "af61487e6b6c93b3ce7bf5dc8b743d230c4d984855bf98d7355e7a71a2512714"
+   },
+   {
+    "function": "CARDGAME:0x80095fb4",
+    "name": "CARDGAME_F0x80095fb4",
+    "source": "src/cardgame/cardgame_f0x80095fb4.c",
+    "size": 400,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "d85f24b9eb3eb56788f09304f374041756c715abf06b6ab89c78f0869eb7569f"
+   },
+   {
+    "function": "CARDGAME:0x80096180",
+    "name": "CARDGAME_F0x80096180",
+    "source": "src/cardgame/cardgame_f0x80096180.c",
+    "size": 112,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "c7ab481079aaa7556f634a17d6427e90b1529fa7cf1565fc9ac1632ed014622a"
+   },
+   {
+    "function": "CARDGAME:0x800961f0",
+    "name": "CARDGAME_F0x800961f0",
+    "source": "src/cardgame/cardgame_f0x800961f0.c",
+    "size": 552,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "572bbb7c9bd7e8992e118bc16168073d6c1692b9e5c4a620a536225c0adeb218"
+   },
+   {
+    "function": "CARDGAME:0x80096418",
+    "name": "CARDGAME_F0x80096418",
+    "source": "src/cardgame/cardgame_f0x80096418.c",
+    "size": 992,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "80dab723b5658cf5f712e306fea2e3130fa7ae6954620ec2e80475245c9d5b00"
+   },
+   {
+    "function": "CARDGAME:0x80096828",
+    "name": "CARDGAME_F0x80096828",
+    "source": "src/cardgame/cardgame_f0x80096828.c",
+    "size": 296,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "3cd50fb39fe9995f7a9618f558b176936b214b0964accf7086ccd72c2fc3ac2f"
+   },
+   {
+    "function": "CARDGAME:0x80096950",
+    "name": "CARDGAME_F0x80096950",
+    "source": "src/cardgame/cardgame_f0x80096950.c",
+    "size": 324,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "7989a9de9bbaa0fa025099a3419b6515a88c8845025d45c8a39ae7084591e03b"
+   },
+   {
+    "function": "CARDGAME:0x80096a94",
+    "name": "CARDGAME_F0x80096a94",
+    "source": "src/cardgame/cardgame_f0x80096a94.c",
+    "size": 396,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "5a5c550f9342df444161bc43d7a77e2869bd7a14717cb75648543a8ac9f48899"
+   },
+   {
+    "function": "CARDGAME:0x80096c20",
+    "name": "CARDGAME_F0x80096c20",
+    "source": "src/cardgame/cardgame_f0x80096c20.c",
+    "size": 208,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "3060b79f1bcb313840dd5a264783d72ad83bf96d31d33fd2eec40e3aad183d8f"
+   },
+   {
+    "function": "CARDGAME:0x80096cf0",
+    "name": "CARDGAME_F0x80096cf0",
+    "source": "src/cardgame/cardgame_f0x80096cf0.c",
+    "size": 308,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "7424df3fae3e207c77e191711068819eedf31c716e237fef69153865979a5a05"
+   },
+   {
+    "function": "CARDGAME:0x80096e24",
+    "name": "CARDGAME_F0x80096e24",
+    "source": "src/cardgame/cardgame_f0x80096e24.c",
+    "size": 104,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "d8dc367117bc91cc0d3be2c855b468e5b693cab4c5f81919a5777e00ad541f8e"
+   },
+   {
+    "function": "CARDGAME:0x80096e8c",
+    "name": "CARDGAME_F0x80096e8c",
+    "source": "src/cardgame/cardgame_f0x80096e8c.c",
+    "size": 940,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "09e23bf621eae726d67d8272859671e75b86fd5d9f9e78b00f23af9dcbba1424"
+   },
+   {
+    "function": "CARDGAME:0x80097238",
+    "name": "CARDGAME_F0x80097238",
+    "source": "src/cardgame/cardgame_f0x80097238.c",
+    "size": 216,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "aac866c4aca34fc7dbb5ad983fd68746053dd442272709f46638c0413195dfb0"
+   },
+   {
+    "function": "CARDGAME:0x80097310",
+    "name": "CARDGAME_F0x80097310",
+    "source": "src/cardgame/cardgame_f0x80097310.c",
+    "size": 212,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "69d2165eae67eea3689a9f39ff5a1d8772c14a3e2e18ef4ab0a11ae15b8eb24e"
+   },
+   {
+    "function": "CARDGAME:0x800973e4",
+    "name": "CARDGAME_F0x800973e4",
+    "source": "src/cardgame/cardgame_f0x800973e4.c",
+    "size": 292,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "429d907a4a2f588caeb19f9350aedd70ca2af7ff9c5450ce39f2e32bfdd44778"
+   },
+   {
+    "function": "CARDGAME:0x80097508",
+    "name": "CARDGAME_F0x80097508",
+    "source": "src/cardgame/cardgame_f0x80097508.c",
+    "size": 1000,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "c5676776eca3d28585b233673d2500a2b04f63c8059a257d40f70c0fb80e2faf"
+   },
+   {
+    "function": "CARDGAME:0x800978f0",
+    "name": "CARDGAME_F0x800978f0",
+    "source": "src/cardgame/cardgame_f0x800978f0.c",
+    "size": 104,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "1c8545ca0bd935c5f9e38f6a1c874c33a27ac8d8845f16694cb826a80c47eb8c"
+   },
+   {
+    "function": "CARDGAME:0x80097958",
+    "name": "CARDGAME_F0x80097958",
+    "source": "src/cardgame/cardgame_f0x80097958.c",
+    "size": 204,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "d41238224d675b43e1c43c85d0a51e434a976325244a7ac0d3ea6ec263af8ea1"
+   },
+   {
+    "function": "CARDGAME:0x80097a24",
+    "name": "CARDGAME_F0x80097a24",
+    "source": "src/cardgame/cardgame_f0x80097a24.c",
+    "size": 168,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "d32272fc9fd7a52730b3d6c16895abc9e8e08fa8b6907757c9faa9b9ee5d6219"
+   },
+   {
+    "function": "CARDGAME:0x80097acc",
+    "name": "CARDGAME_F0x80097acc",
+    "source": "src/cardgame/cardgame_f0x80097acc.c",
+    "size": 2496,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "4f760c605d5a4c26080bc82462b1da9bcc419740b4f00509dee989b3db33a324"
+   },
+   {
+    "function": "CARDGAME:0x8009848c",
+    "name": "CARDGAME_F0x8009848c",
+    "source": "src/cardgame/cardgame_f0x8009848c.c",
+    "size": 204,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "926073e29131ff819a325dda4a3de534fd5aebef09b76ca983d78e0be5c8636d"
+   },
+   {
+    "function": "CARDGAME:0x80098558",
+    "name": "CARDGAME_F0x80098558",
+    "source": "src/cardgame/cardgame_f0x80098558.c",
+    "size": 780,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "a2cfbc8c125f86b2577dc2a35f857113494a47ff3aedc169cc60e8ac90e1a252"
+   },
+   {
+    "function": "CARDGAME:0x80098898",
+    "name": "CARDGAME_F0x80098898",
+    "source": "src/cardgame/cardgame_f0x80098898.c",
+    "size": 2984,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "b68ec1b00459ab272e97b0347c7c0c6df0376993cef4f4644fdeabeb81cc36c6"
+   },
+   {
+    "function": "CARDGAME:0x80099440",
+    "name": "CARDGAME_F0x80099440",
+    "source": "src/cardgame/cardgame_f0x80099440.c",
+    "size": 1376,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "f736ba6e7dc06a399ab74a068c3119447fd325314cf630edb38c199d23c6bf23"
+   },
+   {
+    "function": "CARDGAME:0x800999a0",
+    "name": "CARDGAME_F0x800999a0",
+    "source": "src/cardgame/cardgame_f0x800999a0.c",
+    "size": 580,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "7f525113a119b05289560493dc0e2685c9f4dcb97f973f3402fe50867006b449"
+   },
+   {
+    "function": "CARDGAME:0x80099be4",
+    "name": "CARDGAME_F0x80099be4",
+    "source": "src/cardgame/cardgame_f0x80099be4.c",
+    "size": 308,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "e93e4b8d98b45bc3fc78aa438e14f7ee36255013c5f0647bae3887e6dc28017e"
+   },
+   {
+    "function": "CARDGAME:0x80099d18",
+    "name": "CARDGAME_F0x80099d18",
+    "source": "src/cardgame/cardgame_f0x80099d20.c",
+    "size": 208,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "6f3cd0a1f517f2698d0bcc6289a956bbe5852548a6833db37d72617e1412a407"
+   },
+   {
+    "function": "CARDGAME:0x80099de8",
+    "name": "CARDGAME_F0x80099de8",
+    "source": "src/cardgame/cardgame_f0x80099de8.c",
+    "size": 236,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "bb9d6c887432db17f15c052fe43eda0aaf8dee1ee644b9753844e46d50f5b742"
+   },
+   {
+    "function": "CARDGAME:0x80099ed4",
+    "name": "CARDGAME_F0x80099ed4",
+    "source": "src/cardgame/cardgame_f0x80099ed4.c",
+    "size": 140,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "8f7c9daa644af02d695ade48f32af74f837406c0522cc111ffcb189b51ef3f83"
+   },
+   {
+    "function": "CARDGAME:0x80099f60",
+    "name": "CARDGAME_F0x80099f60",
+    "source": "src/cardgame/cardgame_f0x80099f60.c",
+    "size": 156,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "d8386f98d3ae670bab6c40938bca37cf15ca8a7ddd57821a20fe60c3dd32c2ef"
+   },
+   {
+    "function": "CARDGAME:0x80099ffc",
+    "name": "CARDGAME_F0x80099ffc",
+    "source": "src/cardgame/cardgame_f0x8009a004.c",
+    "size": 420,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "5a0280072595c146c71e397df4328002f49abcf434f6a3ec35d770e278e2ff27"
+   },
+   {
+    "function": "CARDGAME:0x8009a1a0",
+    "name": "CARDGAME_F0x8009a1a0",
+    "source": "src/cardgame/cardgame_f0x8009a1a0.c",
+    "size": 692,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "7dacda939335816c31411889f3ad25e3bd353e5c1bdb70443a382e4f2eaf8799"
+   },
+   {
+    "function": "CARDGAME:0x8009a454",
+    "name": "CARDGAME_F0x8009a454",
+    "source": "src/cardgame/cardgame_f0x8009a454.c",
+    "size": 236,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "7f320f5a1e3a354fb1f06fc3f9235c8e94fc89416c7ef5deb5184bd6cb88d353"
+   },
+   {
+    "function": "CARDGAME:0x8009a540",
+    "name": "CARDGAME_F0x8009a540",
+    "source": "src/cardgame/cardgame_f0x8009a540.c",
+    "size": 112,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "cf28f77c811b79690e1b457c81d1a7dbebb7cb0528f626c6482aedb44f5b25de"
+   },
+   {
+    "function": "CARDGAME:0x8009a5b0",
+    "name": "CARDGAME_F0x8009a5b0",
+    "source": "src/cardgame/cardgame_f0x8009a5b0.c",
+    "size": 124,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "6907918b630c8a524bed56788b0c4b3e6694cedfcc175af7c07649ec76ea6779"
+   },
+   {
+    "function": "CARDGAME:0x8009a62c",
+    "name": "CARDGAME_F0x8009a62c",
+    "source": "src/cardgame/cardgame_f0x8009a62c.c",
+    "size": 304,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "59bf57c9d378f7d59c3b20cb2f13a3c93eb462866d30983c3d6c3b29df8b42dd"
+   },
+   {
+    "function": "CARDGAME:0x8009a75c",
+    "name": "CARDGAME_F0x8009a75c",
+    "source": "src/cardgame/cardgame_f0x8009a75c.c",
+    "size": 208,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "754ec5e63b490232b325cde53f08e5e2ff27f7a4c046d6e0cbfe30b4d0840ab5"
+   },
+   {
+    "function": "CARDGAME:0x8009a82c",
+    "name": "CARDGAME_F0x8009a82c",
+    "source": "src/cardgame/cardgame_f0x8009a82c.c",
+    "size": 364,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "7a056d990613b8aa5649681bb7694808435fb50b798e32863fafc140eca8378e"
+   },
+   {
+    "function": "CARDGAME:0x8009a998",
+    "name": "CARDGAME_F0x8009a998",
+    "source": "src/cardgame/cardgame_f0x8009a998.c",
+    "size": 788,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "2e80073de79094d934b40f9efabfde8743bef5c6b630ccea713193ab366623a3"
+   },
+   {
+    "function": "CARDGAME:0x8009acac",
+    "name": "CARDGAME_F0x8009acac",
+    "source": "src/cardgame/cardgame_f0x8009acac.c",
+    "size": 636,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "51b44fe8d8ce7b14d921be096a1a15b97822ef6b4fabffc4be3eec8f4f576b8e"
+   },
+   {
+    "function": "CARDGAME:0x8009af28",
+    "name": "CARDGAME_F0x8009af28",
+    "source": "src/cardgame/cardgame_f0x8009af28.c",
+    "size": 256,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "28539b84ba58c6da66e92c6a2d55bd8d548506f6775998b68ed80b27e94fcd57"
+   },
+   {
+    "function": "CARDGAME:0x8009b028",
+    "name": "CARDGAME_F0x8009b028",
+    "source": "src/cardgame/cardgame_f0x8009b028.c",
+    "size": 320,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "7307f332f844ac27a8b0b959c5ad98da6dc55860105f6076fb30b3071e463224"
+   },
+   {
+    "function": "CARDGAME:0x8009b168",
+    "name": "CARDGAME_F0x8009b168",
+    "source": "src/cardgame/cardgame_f0x8009b168.c",
+    "size": 1296,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "577ca15b52b8f33059ddc49f556756bade58e53d54c4e123aa9c4d03239ca088"
+   },
+   {
+    "function": "CARDGAME:0x8009b678",
+    "name": "CARDGAME_F0x8009b678",
+    "source": "src/cardgame/cardgame_f0x8009b678.c",
+    "size": 244,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "97936833bd5747938a347b84038195ece7804f2cf47188f9befcef695d7e5db6"
+   },
+   {
+    "function": "CARDGAME:0x8009b76c",
+    "name": "CARDGAME_F0x8009b76c",
+    "source": "src/cardgame/cardgame_f0x8009b76c.c",
+    "size": 292,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "7da5e1b223434293156408ffafaf2e1bdcd32bf3a79740e18bca6a090c9e8c18"
+   },
+   {
+    "function": "CARDGAME:0x8009b890",
+    "name": "CARDGAME_F0x8009b890",
+    "source": "src/cardgame/cardgame_f0x8009b890.c",
+    "size": 428,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "9808c5954396571c6dc33080233bf8430eeb014fe6d86ce49b739b5ecf9b2c49"
+   },
+   {
+    "function": "CARDGAME:0x8009ba3c",
+    "name": "CARDGAME_F0x8009ba3c",
+    "source": "src/cardgame/cardgame_f0x8009ba3c.c",
+    "size": 140,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "75799bc9573735072c3fd8d1aca29155a90b4c5860aafbfbd4198b35c2d1b7fa"
+   },
+   {
+    "function": "CARDGAME:0x8009bac8",
+    "name": "CARDGAME_F0x8009bac8",
+    "source": "src/cardgame/cardgame_f0x8009bac8.c",
+    "size": 224,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "9aada3ade5e64da73e62fe9d7cde0c5264f658fd1c2068cacb8eeba7861b6553"
+   },
+   {
+    "function": "CARDGAME:0x8009bba8",
+    "name": "CARDGAME_F0x8009bba8",
+    "source": "src/cardgame/cardgame_f0x8009bba8.c",
+    "size": 664,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "9bb54e99813dc3af6210f162342665520d3e7caa9c95b2333d20bb1b95b36d86"
+   },
+   {
+    "function": "CARDGAME:0x8009beac",
+    "name": "CARDGAME_F0x8009beac",
+    "source": "src/cardgame/cardgame_f0x8009beac.c",
+    "size": 176,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "45955e445c90076b707271e0071157014f3f33dea8196b482bbd97c0747d51ed"
+   },
+   {
+    "function": "CARDGAME:0x8009bf5c",
+    "name": "CARDGAME_F0x8009bf5c",
+    "source": "src/cardgame/cardgame_f0x8009bf5c.c",
+    "size": 112,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "72d7b26dd0b7f1a40c8fd5d4b92cf1de97953f928bc185580337c6a63e8c0984"
+   },
+   {
+    "function": "CARDGAME:0x8009c054",
+    "name": "CARDGAME_F0x8009c054",
+    "source": "src/cardgame/cardgame_f0x8009c054.c",
+    "size": 136,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "e7c8b944aa33cd4074f198a8a739b53cb0cfcacec2c2f872ef9c843e9c759c0f"
+   },
+   {
+    "function": "CARDGAME:0x8009c0dc",
+    "name": "CARDGAME_F0x8009c0dc",
+    "source": "src/cardgame/cardgame_f0x8009c0dc.c",
+    "size": 72,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "179757ff2e86e2aa71f658ea614f5e107b7962b54a885b4863933ec0fd90506e"
+   },
+   {
+    "function": "CARDGAME:0x8009c124",
+    "name": "CARDGAME_F0x8009c124",
+    "source": "src/cardgame/cardgame_f0x8009c124.c",
+    "size": 72,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "9e2dc868617e1cc7b70d57e55ba5c3d958e8261cec0d544e8ca18c0fa3d0cadb"
+   },
+   {
+    "function": "CARDGAME:0x8009c174",
+    "name": "CARDGAME_F0x8009c174",
+    "source": "src/cardgame/cardgame_f0x8009c174.c",
+    "size": 88,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "c14ed9aa04054749faf444fd7d8f5e59077bef1c99fc7e2e01910a9b35a73e7e"
+   },
+   {
+    "function": "CARDGAME:0x8009c1cc",
+    "name": "CARDGAME_F0x8009c1cc",
+    "source": "src/cardgame/cardgame_f0x8009c1cc.c",
+    "size": 72,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "1cd597194cd20df7ea94e962faee2ad7b01b0f91636b89b4d7f37ac0d6155258"
+   },
+   {
+    "function": "CARDGAME:0x8009c214",
+    "name": "CARDGAME_F0x8009c214",
+    "source": "src/cardgame/cardgame_f0x8009c214.c",
+    "size": 72,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "f2ae682b0c399359534a1c17d6b40a628a37ea5003dfede3070a2471a8b2633b"
+   },
+   {
+    "function": "CARDGAME:0x8009c510",
+    "name": "CARDGAME_F0x8009c510",
+    "source": "src/cardgame/cardgame_f0x8009c510.c",
+    "size": 200,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "15a17479641843a6a3bb9eaed38bddf77aff653df6acc116f13920427e51bab0"
+   },
+   {
+    "function": "CARDGAME:0x8009c5d8",
+    "name": "CARDGAME_F0x8009c5d8",
+    "source": "src/cardgame/cardgame_f0x8009c5d8.c",
+    "size": 124,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "8fa53d2af92496fee956cee2282d0462fd204569720b7daf070b86b1504ab96a"
+   },
+   {
+    "function": "CARDGAME:0x8009c654",
+    "name": "CARDGAME_F0x8009c654",
+    "source": "src/cardgame/cardgame_f0x8009c654.c",
+    "size": 148,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "a099344800756d42e7f43234e975ffbf0fb74e22d0d1dba786124b874a6ca261"
+   },
+   {
+    "function": "CARDGAME:0x8009c6e8",
+    "name": "CARDGAME_F0x8009c6e8",
+    "source": "src/cardgame/cardgame_f0x8009c6e8.c",
+    "size": 136,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "4e19a155c662b796aca1c5e1600d6c14efdff5f9183936d62ab721dce1798ccb"
+   },
+   {
+    "function": "CARDGAME:0x8009c770",
+    "name": "CARDGAME_F0x8009c770",
+    "source": "src/cardgame/cardgame_f0x8009c770.c",
+    "size": 136,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "44a20fe5ca46139daa255f32e5e51bf3d6cc3bdf37767b08651b16f9f031d5f6"
+   },
+   {
+    "function": "CARDGAME:0x8009c904",
+    "name": "CARDGAME_F0x8009c904",
+    "source": "src/cardgame/cardgame_f0x8009c904.c",
+    "size": 52,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "63d6fc71520988ba8a0bc0e0954fb4634acbe1d9a29d208dd9c0ac0c13b6dc4a"
+   },
+   {
+    "function": "CARDGAME:0x8009c938",
+    "name": "CARDGAME_F0x8009c938",
+    "source": "src/cardgame/cardgame_f0x8009c938.c",
+    "size": 40,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "0f39b6b78e5daa397c70feba22c3345a16c38b68a6e509b442a9a2ac042c62fc"
+   },
+   {
+    "function": "CARDGAME:0x8009c9a0",
+    "name": "CARDGAME_F0x8009c9a0",
+    "source": "src/cardgame/cardgame_f0x8009c9a0.c",
+    "size": 156,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "7e498cdf2e5e024883c2b8c63b62bba6965c70c011a8ee94998a81adef235117"
+   },
+   {
+    "function": "CARDGAME:0x8009ca3c",
+    "name": "CARDGAME_F0x8009ca3c",
+    "source": "src/cardgame/cardgame_f0x8009ca3c.c",
+    "size": 68,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "5bb48598a885439ab8456b57fb693e9afb89c9f560c9844858e1c616c9f879f8"
+   },
+   {
+    "function": "CARDGAME:0x8009cda4",
+    "name": "CARDGAME_F0x8009cda4",
+    "source": "src/cardgame/cardgame_f0x8009cda4.c",
+    "size": 88,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "d7d1eb16eb2e7355ce2fcfeacd7a19c0e727313d3ab73e9ab64381738adcfecd"
+   },
+   {
+    "function": "CARDGAME:0x8009ce28",
+    "name": "CARDGAME_F0x8009ce28",
+    "source": "src/cardgame/cardgame_f0x8009ce28.c",
+    "size": 108,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "062d3d6137e60a6430bb6e733da12151d5661013bf8b7d022fdfd635bd7d84b4"
+   },
+   {
+    "function": "CARDGAME:0x8009ce94",
+    "name": "CARDGAME_F0x8009ce94",
+    "source": "src/cardgame/cardgame_f0x8009ce94.c",
+    "size": 204,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "ca765c6769b3b2ee597fb2f845691f772ad2a038a5360a35524adeb34fbb65c4"
+   },
+   {
+    "function": "CARDGAME:0x8009cf60",
+    "name": "CARDGAME_F0x8009cf60",
+    "source": "src/cardgame/cardgame_f0x8009cf60.c",
+    "size": 92,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "d85203f7b868cac3279fac74d5a95e2876280bbfcae00a8488e82c3f1af4d148"
+   },
+   {
+    "function": "CARDGAME:0x8009cfbc",
+    "name": "CARDGAME_F0x8009cfbc",
+    "source": "src/cardgame/cardgame_f0x8009cfbc.c",
+    "size": 244,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "20aacb79989aab9b1809fd57f6a95dae33242d5c725a20a13f376de0530e724b"
+   },
+   {
+    "function": "CARDGAME:0x8009d0b0",
+    "name": "CARDGAME_F0x8009d0b0",
+    "source": "src/cardgame/cardgame_f0x8009d0b0.c",
+    "size": 144,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "a03e8aa789614c6cdb312f6e57b35a60e6cb337bc63e674a5260c531005d59c2"
+   },
+   {
+    "function": "CARDGAME:0x8009d15c",
+    "name": "CARDGAME_F0x8009d15c",
+    "source": "src/cardgame/cardgame_f0x8009d15c.c",
+    "size": 436,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "db9156383eb8e8954d5b97d9da0277b6d5ab88370f15f38a6702d1053c2986ba"
+   },
+   {
+    "function": "CARDGAME:0x8009d310",
+    "name": "CARDGAME_F0x8009d310",
+    "source": "src/cardgame/cardgame_f0x8009d310.c",
+    "size": 560,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "55d1e237290ba20df0fe8ea17790dc1451dbad19c522834766bfa4ba26bc92b8"
+   },
+   {
+    "function": "CARDGAME:0x8009d540",
+    "name": "CARDGAME_F0x8009d540",
+    "source": "src/cardgame/cardgame_f0x8009d540.c",
+    "size": 372,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "6e0f8194c12494905be32a35dd2a032675dfc999e37abfee2311ad4b9461e46c"
+   },
+   {
+    "function": "CARDGAME:0x8009d6b4",
+    "name": "CARDGAME_F0x8009d6b4",
+    "source": "src/cardgame/cardgame_f0x8009d6b4.c",
+    "size": 44,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "ea836303fe5ee193979cfbc866ae278ab0fddc548f2fc6bd9544bb7e104b4b4c"
+   },
+   {
+    "function": "CARDGAME:0x8009d6e0",
+    "name": "CARDGAME_F0x8009d6e0",
+    "source": "src/cardgame/cardgame_f0x8009d6e0.c",
+    "size": 540,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "8aaf10a1720a69aacc2b2f026a209dd0e08c51d0f95e780a9609beba21d44639"
+   },
+   {
+    "function": "CARDGAME:0x8009dbe8",
+    "name": "CARDGAME_F0x8009dbe8",
+    "source": "src/cardgame/cardgame_f0x8009dbe8.c",
+    "size": 732,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "f87511d6d31a472a85dc4fd69401008f1d0d751b8ee1fa4f926ead53fac00b70"
+   },
+   {
+    "function": "CARDGAME:0x8009dec4",
+    "name": "CARDGAME_F0x8009dec4",
+    "source": "src/cardgame/cardgame_f0x8009dec4.c",
+    "size": 164,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "968db887d3ebfe2a1259dd389f313952a854abe6198f5f62bb8220145f56eb97"
+   },
+   {
+    "function": "CARDGAME:0x8009e024",
+    "name": "CARDGAME_F0x8009e024",
+    "source": "src/cardgame/cardgame_f0x8009e024.c",
+    "size": 1340,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "98a3a974c03a2b3a3de4b168007c1e186a6b3a586e4fe82ffb8784308c99f585"
+   },
+   {
+    "function": "CARDGAME:0x8009e560",
+    "name": "CARDGAME_F0x8009e560",
+    "source": "src/cardgame/cardgame_f0x8009e560.c",
+    "size": 204,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "f16027a2a15c1afbedc699e4cf375a561aafdd2851d94ea9ce6907e5c2abca98"
+   },
+   {
+    "function": "CARDGAME:0x8009e668",
+    "name": "CARDGAME_F0x8009e668",
+    "source": "src/cardgame/cardgame_f0x8009e668.c",
+    "size": 1892,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "47adfc517a26d6a36544693276621bb9d6d23a8c1de61a8aa6ed86d350ffd775"
+   },
+   {
+    "function": "CARDGAME:0x8009edcc",
+    "name": "CARDGAME_F0x8009edcc",
+    "source": "src/cardgame/cardgame_f0x8009edcc.c",
+    "size": 304,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "74b16cc61cc276b2bdda84fcb6b30ea37ed4fd7e35559377eabc0b8f73ceade9"
+   },
+   {
+    "function": "CARDGAME:0x8009eefc",
+    "name": "CARDGAME_F0x8009eefc",
+    "source": "src/cardgame/cardgame_f0x8009eefc.c",
+    "size": 336,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "ec1bee449b58c8cc898ac24187f73c59300410d9464b89c75726d2239d62c6e3"
+   },
+   {
+    "function": "CARDGAME:0x8009f04c",
+    "name": "CARDGAME_F0x8009f04c",
+    "source": "src/cardgame/cardgame_f0x8009f04c.c",
+    "size": 196,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "1f48e4d851def38e12ec2572cdd190e4e3639ab3aee2afb1ed7b30fba4f98b16"
+   },
+   {
+    "function": "CARDGAME:0x8009f110",
+    "name": "CARDGAME_F0x8009f110",
+    "source": "src/cardgame/cardgame_f0x8009f110.c",
+    "size": 1968,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "237fe4739c286fe8e939838637d7e51771ceaa099fae15c170732ce129a6335b"
+   },
+   {
+    "function": "CARDGAME:0x8009f998",
+    "name": "CARDGAME_F0x8009f998",
+    "source": "src/cardgame/cardgame_f0x8009f998.c",
+    "size": 384,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "8e216b775f3ec80bcb9b6d645630a5fcaa4b0a6bf5079ab65eece2306bf7785b"
+   },
+   {
+    "function": "CARDGAME:0x8009fb18",
+    "name": "CARDGAME_F0x8009fb18",
+    "source": "src/cardgame/cardgame_f0x8009fb18.c",
+    "size": 704,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "b862ffbdeccd825577bb20d730b737d0ea300f3b281d7446d341308589a96986"
+   },
+   {
+    "function": "CARDGAME:0x8009fdd8",
+    "name": "CARDGAME_F0x8009fdd8",
+    "source": "src/cardgame/cardgame_f0x8009fdd8.c",
+    "size": 1904,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "2c3e0f011c1e7b60feb9fe40bf7df4c0bbf144522ceb8503dffbd6310920a5c9"
+   },
+   {
+    "function": "CARDGAME:0x800a0548",
+    "name": "CARDGAME_F0x800a0548",
+    "source": "src/cardgame/cardgame_f0x800a0548.c",
+    "size": 72,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "5445b9e4a39830351cbf665944441ef650e3b9e65b7a157340ccdfba1e8cc24c"
+   },
+   {
+    "function": "CARDGAME:0x800a0628",
+    "name": "CARDGAME_F0x800a0628",
+    "source": "src/cardgame/cardgame_f0x800a0628.c",
+    "size": 224,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "21b40ff48f35b290a1bfdf704f206a8d3de6c1d84849a9d86fcea397b8c6d38c"
+   },
+   {
+    "function": "CARDGAME:0x800a0708",
+    "name": "CARDGAME_F0x800a0708",
+    "source": "src/cardgame/cardgame_f0x800a0708.c",
+    "size": 76,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "fdce4a020e4eb7265468faa066914906d6956e827ecf03a68a251c79da52d79f"
+   },
+   {
+    "function": "CARDGAME:0x800a0754",
+    "name": "CARDGAME_F0x800a0754",
+    "source": "src/cardgame/cardgame_f0x800a0754.c",
+    "size": 240,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "9d48e89bbc495777eb49d1dd4897e95e8d857269a2f43ff57afbb5ef42fa11c9"
+   },
+   {
+    "function": "CARDGAME:0x800a0844",
+    "name": "CARDGAME_F0x800a0844",
+    "source": "src/cardgame/cardgame_f0x800a0844.c",
+    "size": 440,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "95972ca30d6be9f819bf963f5f2a4a1714de2f909c3bd0103e2b5b2c6310673a"
+   },
+   {
+    "function": "CARDGAME:0x800a09fc",
+    "name": "CARDGAME_F0x800a09fc",
+    "source": "src/cardgame/cardgame_f0x800a09fc.c",
+    "size": 208,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "1ccc0d92d4b47ff321acdbda87ec2aafee01c5d5c1f5acc6202038f2407c4faa"
+   },
+   {
+    "function": "STCRDABM:0x80082d88",
+    "name": "STCRDABM_func_80082d88",
+    "source": "src/stcrdabm/stcrdabm_func_80082d88.c",
+    "size": 136,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "0b1cd9f36249c1694d01a84dccba6f8055a33c52727528a55f60919424dad384"
+   },
+   {
+    "function": "STCRDABM:0x80082e10",
+    "name": "STCRDABM_func_80082e10",
+    "source": "src/stcrdabm/stcrdabm_func_80082e10.c",
+    "size": 324,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "7c71a5afbf53ec80b972ce358fd8d09776ea47b82d60edf2b8f2a684993f3fc1"
+   },
+   {
+    "function": "STCRDABM:0x80082f54",
+    "name": "STCRDABM_func_80082f54",
+    "source": "src/stcrdabm/stcrdabm_func_80082f54.c",
+    "size": 180,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "6181904964682868d1311cef6f4d41f42cf205b1c071045835914f17b4cf0a59"
+   },
+   {
+    "function": "STCRDABM:0x80083008",
+    "name": "STCRDABM_func_80083008",
+    "source": "src/stcrdabm/stcrdabm_func_80083008.c",
+    "size": 68,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "bebb973de9ea751bb639b707c971687c3fbfe1f90f91a7852f38b141690259de"
+   },
+   {
+    "function": "STCRDABM:0x8008304c",
+    "name": "STCRDABM_func_8008304c",
+    "source": "src/stcrdabm/stcrdabm_func_8008304c.c",
+    "size": 200,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "af2943d08833542c26ccace453912a40d8733078f7d015e0fcf056d903aa2139"
+   },
+   {
+    "function": "STCRDABM:0x80083114",
+    "name": "STCRDABM_func_80083114",
+    "source": "src/stcrdabm/stcrdabm_func_80083114.c",
+    "size": 56,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "ff523fd50c4d949bb0838f8aebb5fb5bbadd80a1903c64c3ea8bccfb60c4124e"
+   },
+   {
+    "function": "STCRDABM:0x8008314c",
+    "name": "STCRDABM_func_8008314c",
+    "source": "src/stcrdabm/stcrdabm_func_8008314c.c",
+    "size": 40,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "fcb435f41f7411ca3eef9e4b9bbb9a89ceac2309ca39e35099bfcd95106e26a0"
+   },
+   {
+    "function": "STCRDABM:0x80083174",
+    "name": "STCRDABM_func_80083174",
+    "source": "src/stcrdabm/stcrdabm_func_80083174.c",
+    "size": 1096,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "fcb1f4f2ea46e6de7198507f5f9618e4a27bad50707055e92b759a650e9a76ce"
+   },
+   {
+    "function": "STCRDABM:0x800835bc",
+    "name": "STCRDABM_func_800835bc",
+    "source": "src/stcrdabm/stcrdabm_func_800835bc.c",
+    "size": 376,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "bea54df56b51c808eb217e0344ca03f40b7e740bc3121af7513cfae372783242"
+   },
+   {
+    "function": "STCRDABM:0x80083734",
+    "name": "STCRDABM_func_80083734",
+    "source": "src/stcrdabm/stcrdabm_func_80083734.c",
+    "size": 76,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "346210dffc1429c84f51dd2635a8a216952b79982344e162ceb9eacb6a995df3"
+   },
+   {
+    "function": "STCRDABM:0x80083780",
+    "name": "STCRDABM_func_80083780",
+    "source": "src/stcrdabm/stcrdabm_func_80083780.c",
+    "size": 200,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "821542100c38691b82f149caf7c2eaaba8e39ca9afdc3a5b1980b3b80524a8c7"
+   },
+   {
+    "function": "STCRDABM:0x80083848",
+    "name": "STCRDABM_func_80083848",
+    "source": "src/stcrdabm/stcrdabm_func_80083848.c",
+    "size": 560,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "eff122853358178f5463d3fc68ad53839359e3e11da566d80eba0458b532afa1"
+   },
+   {
+    "function": "STCRDABM:0x80083a78",
+    "name": "STCRDABM_func_80083a78",
+    "source": "src/stcrdabm/stcrdabm_func_80083a78.c",
+    "size": 96,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "e3469e688ac8883e51aa8c7eab630dd1a67bcdc921779b2da4706cb3abbff74b"
+   },
+   {
+    "function": "STCRDABM:0x80083ad8",
+    "name": "STCRDABM_func_80083ad8",
+    "source": "src/stcrdabm/stcrdabm_func_80083ad8.c",
+    "size": 248,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "e11f0079c67cbb70d06d379160b90e22ca5f220c02d3a9916fb5f0448c53fb10"
+   },
+   {
+    "function": "STCRDABM:0x80083bd0",
+    "name": "STCRDABM_func_80083bd0",
+    "source": "src/stcrdabm/stcrdabm_func_80083bd0.c",
+    "size": 44,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "74417b87e996c6dace222e2ffa0d3e12f03814791824bf061cda596b8af6ed95"
+   },
+   {
+    "function": "STCRDABM:0x80083bfc",
+    "name": "STCRDABM_func_80083bfc",
+    "source": "src/stcrdabm/stcrdabm_func_80083bfc.c",
+    "size": 536,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "a1d18f5f0931e9f68be59c92b1ee8a38baadd01c3b1397e22c6e6bde516c031c"
+   },
+   {
+    "function": "STCRDABM:0x80083e14",
+    "name": "STCRDABM_func_80083e14",
+    "source": "src/stcrdabm/stcrdabm_func_80083e14.c",
+    "size": 664,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "db42ba1754ebeccf29c76a8ecf14d7056da4b820ec00908ac06cee65cf6a7ee3"
+   },
+   {
+    "function": "STCRDABM:0x800840ac",
+    "name": "STCRDABM_func_800840ac",
+    "source": "src/stcrdabm/stcrdabm_func_800840ac.c",
+    "size": 1108,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "26371b900de670e5b510ff52d8ea354f02946e6a1f20f15727518b1115520ae0"
+   },
+   {
+    "function": "STCRDABM:0x80084500",
+    "name": "STCRDABM_func_80084500",
+    "source": "src/stcrdabm/stcrdabm_func_80084500.c",
+    "size": 1736,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "de8c9051020d406f24a303b16aba8e2a40cdb4d3014d32cc36915bc63188d43b"
+   },
+   {
+    "function": "STCRDABM:0x80084bc8",
+    "name": "STCRDABM_func_80084bc8",
+    "source": "src/stcrdabm/stcrdabm_func_80084bc8.c",
+    "size": 112,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "2e798980753afe5a886a54035cfa89c648a92db03e7eb8589dc7f7e315d9116c"
+   },
+   {
+    "function": "STCRDABM:0x80084c38",
+    "name": "STCRDABM_func_80084c38",
+    "source": "src/stcrdabm/stcrdabm_func_80084c38.c",
+    "size": 2312,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "452757d19a240cf6b40f6256f4c183de3a36b8bf4988b31ffc8331115ddd0b4d"
+   },
+   {
+    "function": "STCRDABM:0x80085540",
+    "name": "STCRDABM_func_80085540",
+    "source": "src/stcrdabm/stcrdabm_func_80085540.c",
+    "size": 300,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "3dc898c04d4cb4deb52004f2e17e78b4d89824d9531a78de17c68255ac56abd9"
+   },
+   {
+    "function": "STCRDABM:0x8008566c",
+    "name": "STCRDABM_func_8008566c",
+    "source": "src/stcrdabm/stcrdabm_func_8008566c.c",
+    "size": 60,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "737b251a4912534440ace111b7616bb666b2de2880a1ac987c52ac4439e74156"
+   },
+   {
+    "function": "STCRDABM:0x800856a8",
+    "name": "STCRDABM_func_800856a8",
+    "source": "src/stcrdabm/stcrdabm_func_800856a8.c",
+    "size": 248,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "e74683e4229919969efae71889ed24632a00d1081474201f2c4f97319993b8ff"
+   },
+   {
+    "function": "STCRDABM:0x800857a0",
+    "name": "STCRDABM_func_800857a0",
+    "source": "src/stcrdabm/stcrdabm_func_800857a0.c",
+    "size": 256,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "788234910539b689a37044ec2cd7ed20aaeeeb600b810873df4aa44ad6f469d9"
+   },
+   {
+    "function": "STCRDABM:0x800858a0",
+    "name": "STCRDABM_func_800858a0",
+    "source": "src/stcrdabm/stcrdabm_func_800858a0.c",
+    "size": 148,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "aaafb59647b512e0dc09108b6754f17ab485c364f5579bd569d0df1d3296fc35"
+   },
+   {
+    "function": "STCRDABM:0x80085934",
+    "name": "STCRDABM_func_80085934",
+    "source": "src/stcrdabm/stcrdabm_func_80085934.c",
+    "size": 108,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "74d24fbfabe8458b9c1ead9e95728d196d0106938892e52367185371d55ebde0"
+   },
+   {
+    "function": "STCRDDEK:0x800831f0",
+    "name": "STCRDDEK_func_800831f0",
+    "source": "src/stcrddek/stcrddek_func_800831f0.c",
+    "size": 248,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "c585856de0bf899ebeebf2c6eea914c75adad55d2847de56dba87a70315e99de"
+   },
+   {
+    "function": "STCRDDEK:0x800832e8",
+    "name": "STCRDDEK_func_800832e8",
+    "source": "src/stcrddek/stcrddek_func_800832e8.c",
+    "size": 44,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "a101d1673879c41e435770a9f9ad7a08599f435d7b9035389bc25ae9db12cb8c"
+   },
+   {
+    "function": "STCRDDEK:0x80083314",
+    "name": "STCRDDEK_func_80083314",
+    "source": "src/stcrddek/stcrddek_func_80083314.c",
+    "size": 136,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "53517e6949e86ac8e1ad5ed6b94e1862b588805adebcc9ec3b5ed4cae19b9195"
+   },
+   {
+    "function": "STCRDDEK:0x8008339c",
+    "name": "STCRDDEK_func_8008339c",
+    "source": "src/stcrddek/stcrddek_func_8008339c.c",
+    "size": 324,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "7c71a5afbf53ec80b972ce358fd8d09776ea47b82d60edf2b8f2a684993f3fc1"
+   },
+   {
+    "function": "STCRDDEK:0x800834e0",
+    "name": "STCRDDEK_func_800834e0",
+    "source": "src/stcrddek/stcrddek_func_800834e0.c",
+    "size": 180,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "4236b8ec3f2d9ed926eb95c931e0b8528dd7fefb9635cedb201452a9d8511194"
+   },
+   {
+    "function": "STCRDDEK:0x80083594",
+    "name": "STCRDDEK_func_80083594",
+    "source": "src/stcrddek/stcrddek_func_80083594.c",
+    "size": 68,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "229abc93f67b9937a99053b5a143a89da3dd30d0efc44585923d24e3f361f30a"
+   },
+   {
+    "function": "STCRDDEK:0x800835d8",
+    "name": "STCRDDEK_func_800835d8",
+    "source": "src/stcrddek/stcrddek_func_800835d8.c",
+    "size": 476,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "bbedd216df0e72b8c1e2a9439dbb5c64eace96f247f01cce21a77f074eff0927"
+   },
+   {
+    "function": "STCRDDEK:0x800837b4",
+    "name": "STCRDDEK_func_800837b4",
+    "source": "src/stcrddek/stcrddek_func_800837b4.c",
+    "size": 272,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "a3060d9f5443b571fb36d42c9ed97609ffbe9bbc26763110d1699196cb1980d4"
+   },
+   {
+    "function": "STCRDDEK:0x800838c4",
+    "name": "STCRDDEK_func_800838c4",
+    "source": "src/stcrddek/stcrddek_func_800838c4.c",
+    "size": 112,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "c3c546ec9007119532237ceadce6cd66b1dec944052dfc2cae0f5d65188e15b1"
+   },
+   {
+    "function": "STCRDDEK:0x80083934",
+    "name": "STCRDDEK_func_80083934",
+    "source": "src/stcrddek/stcrddek_func_80083934.c",
+    "size": 72,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "5cc68ebeddd0ef3d72c8e1a7d89af35c1e043e19055f6d9c3545493432fcc8df"
+   },
+   {
+    "function": "STCRDDEK:0x8008397c",
+    "name": "STCRDDEK_func_8008397c",
+    "source": "src/stcrddek/stcrddek_func_8008397c.c",
+    "size": 940,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "0fad77af2cd925538988be538b2510a9da8ac0435f3b0cc328db1b568502be9a"
+   },
+   {
+    "function": "STCRDDEK:0x80083d28",
+    "name": "STCRDDEK_func_80083d28",
+    "source": "src/stcrddek/stcrddek_func_80083d28.c",
+    "size": 1360,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "f5ea50965fa33c23696381d4df56903f1002e9c0775bbcdcf3e5197eb70ad728"
+   },
+   {
+    "function": "STCRDDEK:0x80084278",
+    "name": "STCRDDEK_func_80084278",
+    "source": "src/stcrddek/stcrddek_func_80084278.c",
+    "size": 456,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "73ecd14b8341b4da4ba6c636ddb5c081b8dcb4c98d1a0ac81792b867d3962334"
+   },
+   {
+    "function": "STCRDDEK:0x80084440",
+    "name": "STCRDDEK_func_80084440",
+    "source": "src/stcrddek/stcrddek_func_80084440.c",
+    "size": 896,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "2a0be9a83e5eddae653be2ea048d25c29537cf03dc0d30370fbb754583830385"
+   },
+   {
+    "function": "STCRDDEK:0x800847c0",
+    "name": "STCRDDEK_func_800847c0",
+    "source": "src/stcrddek/stcrddek_func_800847c0.c",
+    "size": 208,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "e7dcdf8e12bb6eb45de1a1e3bdf6d6e06b25c390462118b5490309a3cb1bd1ae"
+   },
+   {
+    "function": "STCRDDEK:0x80084890",
+    "name": "STCRDDEK_func_80084890",
+    "source": "src/stcrddek/stcrddek_func_80084890.c",
+    "size": 2432,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "2361353532786e24aaac9bcade1759071a4a3a391c7eea4db3a85a7ccaa441ca"
+   },
+   {
+    "function": "STCRDDEK:0x80085210",
+    "name": "STCRDDEK_func_80085210",
+    "source": "src/stcrddek/stcrddek_func_80085210.c",
+    "size": 4964,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "8e51493e15263b31facc4ca46cca60ea735dd5de3da4ccd122dd0d1546eefbb1"
+   },
+   {
+    "function": "STCRDDEK:0x80086574",
+    "name": "STCRDDEK_func_80086574",
+    "source": "src/stcrddek/stcrddek_func_80086574.c",
+    "size": 152,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "13a10549c3e7a13aa2032693a5d428b7e2b028e856432601862105886bc9e770"
+   },
+   {
+    "function": "STCRDDEK:0x8008660c",
+    "name": "STCRDDEK_func_8008660c",
+    "source": "src/stcrddek/stcrddek_func_8008660c.c",
+    "size": 88,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "aac905431cc90368ba6b36181afb8809138c43a7705341c0f9e03a8a4b45f7d0"
+   },
+   {
+    "function": "STCRDDEK:0x800867e8",
+    "name": "STCRDDEK_func_800867e8",
+    "source": "src/stcrddek/stcrddek_func_800867e8.c",
+    "size": 148,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "e2080944b1b57ff4a012d250a2323ebfc21a600043fedcdb2a159eebfc20114b"
+   },
+   {
+    "function": "STCRDDEK:0x8008687c",
+    "name": "STCRDDEK_func_8008687c",
+    "source": "src/stcrddek/stcrddek_func_8008687c.c",
+    "size": 108,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "74d24fbfabe8458b9c1ead9e95728d196d0106938892e52367185371d55ebde0"
+   },
+   {
+    "function": "STCRDDEK:0x800868e8",
+    "name": "STCRDDEK_func_800868e8",
+    "source": "src/stcrddek/stcrddek_func_800868e8.c",
+    "size": 496,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "318dba2511b9bb20afff95a802c04c033ee1b24586423c824deb209a164e4192"
+   },
+   {
+    "function": "STCRDDEK:0x80086ad8",
+    "name": "STCRDDEK_func_80086ad8",
+    "source": "src/stcrddek/stcrddek_func_80086ad8.c",
+    "size": 812,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "fbba6d24d7b31fe17cfb22eb06852a9ec6efd2a596c89d43ace13f68884e2c72"
+   },
+   {
+    "function": "STCRDDEK:0x80086e04",
+    "name": "STCRDDEK_func_80086e04",
+    "source": "src/stcrddek/stcrddek_func_80086e04.c",
+    "size": 2436,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "f2e28895551225822850702b6a2a4b4926cc5856435b94fe22926d192433895d"
+   },
+   {
+    "function": "STCRDDEK:0x80087788",
+    "name": "STCRDDEK_func_80087788",
+    "source": "src/stcrddek/stcrddek_func_80087788.c",
+    "size": 3424,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "715b55be8f447e47f0babcdca84df44ef4f502db8255569b8aae4a964788122b"
+   },
+   {
+    "function": "STCRDDEK:0x800884e8",
+    "name": "STCRDDEK_func_800884e8",
+    "source": "src/stcrddek/stcrddek_func_800884e8.c",
+    "size": 320,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "97efd2d225a4a1a62162e09991a6df08d24323b5ff9954dea4b503205da89437"
+   },
+   {
+    "function": "STCRDDEK:0x80088628",
+    "name": "STCRDDEK_func_80088628",
+    "source": "src/stcrddek/stcrddek_func_80088628.c",
+    "size": 12,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "60fd45f2fb71d8b66fcb0a2929465450c77a3f0d2127dd4837619b61c50ac0e0"
+   },
+   {
+    "function": "STCRDDEK:0x80088634",
+    "name": "STCRDDEK_func_80088634",
+    "source": "src/stcrddek/stcrddek_func_80088634.c",
+    "size": 148,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "9103041d1ebf2020b0b6fbadf282884393a50d47e086f5f7ed9779a77e1dd0c4"
+   },
+   {
+    "function": "STCRDDEK:0x800886c8",
+    "name": "STCRDDEK_F0x800886c8",
+    "source": "src/stcrddek/stcrddek_func_800886c8.c",
+    "size": 256,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "aab1ef076509c5fe2707b4106d47958c64b2fe8fa0006a3aac18605194660747"
+   },
+   {
+    "function": "STCRDDEK:0x800887c8",
+    "name": "STCRDDEK_func_800887c8",
+    "source": "src/stcrddek/stcrddek_func_800887c8.c",
+    "size": 12,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "958e9b80704ffb23f674eab02c99eccf1fa4bead1155dda0d55d6a6dfc3867f5"
+   },
+   {
+    "function": "STCRDDEK:0x800887d4",
+    "name": "STCRDDEK_F0x800887d4",
+    "source": "src/stcrddek/stcrddek_func_800887d4.c",
+    "size": 160,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "94e5de8ed201f52ae00e3bcac8d4653b849c3cbc6ec80a2d8b6d813a665b82bd"
+   },
+   {
+    "function": "STCRDDEK:0x80088874",
+    "name": "STCRDDEK_func_80088874",
+    "source": "src/stcrddek/stcrddek_func_80088874.c",
+    "size": 12,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "4139fc3c4238b5db0df0657a202b4cc5569d4908e6fc5689f111ca65687870a3"
+   },
+   {
+    "function": "STCRDDEK:0x80088880",
+    "name": "STCRDDEK_func_80088880",
+    "source": "src/stcrddek/stcrddek_func_80088880.c",
+    "size": 20,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "dad0f2e3aac60fcaab0769d9a75ec15ceed3cc433e4051affbc8ea251d3afacd"
+   },
+   {
+    "function": "STCRDDEK:0x80088894",
+    "name": "STCRDDEK_func_80088894",
+    "source": "src/stcrddek/stcrddek_func_80088894.c",
+    "size": 20,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "36a396dab23bb4bb8329651f98254fb84dd5c3581db181a2813f8d8aed017331"
+   },
+   {
+    "function": "STCRDDEK:0x800888a8",
+    "name": "STCRDDEK_func_800888a8",
+    "source": "src/stcrddek/stcrddek_func_800888a8.c",
+    "size": 8,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "dea8127e64d9c93d9a4df51d3c54e9747090fea982aea0c75be5609a7b895eef"
+   },
+   {
+    "function": "STCRDDEK:0x800888b0",
+    "name": "STCRDDEK_func_800888b0",
+    "source": "src/stcrddek/stcrddek_func_800888b0.c",
+    "size": 536,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "b18f69bf1b48e3fc350e14c5a511f3f69a78032c9a91edac0b32978281777a64"
+   },
+   {
+    "function": "STCRDDEK:0x80088ac8",
+    "name": "STCRDDEK_F0x80088ac8",
+    "source": "src/stcrddek/stcrddek_func_80088ac8.c",
+    "size": 108,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "f8405099aa86aeaa3fd8aad6c3ac59c2c067881adec6392b39ebc7115d137418"
+   },
+   {
+    "function": "STCRDDEK:0x80088b34",
+    "name": "STCRDDEK_func_80088b34",
+    "source": "src/stcrddek/stcrddek_func_80088b34.c",
+    "size": 496,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "b40931d531309172c09fe889d397b0f636d0ac7c1a524aa6f6a894cf5a0176d1"
+   },
+   {
+    "function": "STCRDDEK:0x80088d24",
+    "name": "STCRDDEK_func_80088d24",
+    "source": "src/stcrddek/stcrddek_func_80088d24.c",
+    "size": 336,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "d1d321298c5bddd8dc53741ad312cd47cc09757b40abfc6c7f8a0730ec368b5c"
+   },
+   {
+    "function": "STCRDDEK:0x80088e74",
+    "name": "STCRDDEK_func_80088e74",
+    "source": "src/stcrddek/stcrddek_func_80088e74.c",
+    "size": 984,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "5bb847671e1f123242f8a4660ee0a1de1ff10120287dd17c6a848b3eb375d708"
+   },
+   {
+    "function": "STCRDDEK:0x8008924c",
+    "name": "STCRDDEK_func_8008924c",
+    "source": "src/stcrddek/stcrddek_func_8008924c.c",
+    "size": 264,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "aaac35c87477dc97c81d8e927d9ca17d12a8d07490ca3885d74fe6deedec8364"
+   },
+   {
+    "function": "STCRDDEK:0x80089354",
+    "name": "STCRDDEK_func_80089354",
+    "source": "src/stcrddek/stcrddek_func_80089354.c",
+    "size": 2884,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "5fda69eead9fc985d39e77c8986e4839f614a3efda969570b740bda8d10dcac4"
+   },
+   {
+    "function": "STCRDDEK:0x80089e98",
+    "name": "STCRDDEK_func_80089e98",
+    "source": "src/stcrddek/stcrddek_func_80089e98.c",
+    "size": 544,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "89cf36637a294ba1ac740c7dea86c3c47410f1efa66bfcbb95cfbeefc60b9b89"
+   },
+   {
+    "function": "STCRDDEK:0x8008a0b8",
+    "name": "STCRDDEK_func_8008a0b8",
+    "source": "src/stcrddek/stcrddek_func_8008a0b8.c",
+    "size": 72,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "0cc11d7d8128fdcf787cd2c8714fad592d6805b810489c3e54b63dcf897a7956"
+   },
+   {
+    "function": "STCRDDEK:0x8008a100",
+    "name": "STCRDDEK_func_8008a100",
+    "source": "src/stcrddek/stcrddek_func_8008a100.c",
+    "size": 284,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "789cc2a59a483d7f015c9fe2524f8144d5e70d45a4ec243f5838c7e20b969255"
+   },
+   {
+    "function": "STCRDDEK:0x8008a21c",
+    "name": "STCRDDEK_func_8008a21c",
+    "source": "src/stcrddek/stcrddek_func_8008a21c.c",
+    "size": 188,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "1acbd204d4b3d86b432284ab1c4d94dbc2e98c6df5b84a167b41d388c369994c"
+   },
+   {
+    "function": "STCRDDEK:0x8008a2d8",
+    "name": "STCRDDEK_func_8008a2d8",
+    "source": "src/stcrddek/stcrddek_func_8008a2d8.c",
+    "size": 148,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "c4adbed38b9646f20ae9bc9ca71123486d3b58fec319947727bfaabc2ea1c6d4"
+   },
+   {
+    "function": "STCRDDEK:0x8008a36c",
+    "name": "STCRDDEK_func_8008a36c",
+    "source": "src/stcrddek/stcrddek_func_8008a36c.c",
+    "size": 108,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "74d24fbfabe8458b9c1ead9e95728d196d0106938892e52367185371d55ebde0"
+   },
+   {
+    "function": "STCRDSHP:0x8008300c",
+    "name": "STCRDSHP_func_8008300c",
+    "source": "src/stcrdshp/stcrdshp_func_8008300c.c",
+    "size": 700,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "1d50608f2cd8b6966106be0ff694597498c7e7340a7f283b6916f8934dbdc4e3"
+   },
+   {
+    "function": "STCRDSHP:0x800832c8",
+    "name": "STCRDSHP_func_800832c8",
+    "source": "src/stcrdshp/stcrdshp_func_800832c8.c",
+    "size": 752,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "f48d2a99fa928b27c910c4029ad92c3dc8294517980c55b6e567816dcccf3317"
+   },
+   {
+    "function": "STCRDSHP:0x800835b8",
+    "name": "STCRDSHP_func_800835b8",
+    "source": "src/stcrdshp/stcrdshp_func_800835b8.c",
+    "size": 456,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "6feecbc9aff9b43de597ffebe6a35cd31dab517504afdcbc97fc9cc1935d7746"
+   },
+   {
+    "function": "STCRDSHP:0x80083780",
+    "name": "STCRDSHP_func_80083780",
+    "source": "src/stcrdshp/stcrdshp_func_80083780.c",
+    "size": 1064,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "92f3e6fdae1b55e052c87b8ee4480d013f59789a0dd697942962ab4bd0d5b069"
+   },
+   {
+    "function": "STCRDSHP:0x80083ba8",
+    "name": "STCRDSHP_func_80083ba8",
+    "source": "src/stcrdshp/stcrdshp_func_80083ba8.c",
+    "size": 2072,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "750cf65f73cc358a36835752b15513f3828d0a942fb0ba5c7dc5e6c049c63357"
+   },
+   {
+    "function": "STCRDSHP:0x800843c0",
+    "name": "STCRDSHP_func_800843c0",
+    "source": "src/stcrdshp/stcrdshp_func_800843c0.c",
+    "size": 248,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "68aeb5f59ea4b956409a032b2b512d2c6a24a6c32d3bd3d5f79471a19364a170"
+   },
+   {
+    "function": "STCRDSHP:0x800844b8",
+    "name": "STCRDSHP_func_800844b8",
+    "source": "src/stcrdshp/stcrdshp_func_800844b8.c",
+    "size": 3604,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "3d93584f83c354497276aab077b0f0cc373f62214173213e787f7b157763c7af"
+   },
+   {
+    "function": "STCRDSHP:0x800852cc",
+    "name": "STCRDSHP_func_800852cc",
+    "source": "src/stcrdshp/stcrdshp_func_800852cc.c",
+    "size": 160,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "fc293b9af4057a0196a0bbe3006c52f2b413b62c8090b981e6a5a9c3981a367f"
+   },
+   {
+    "function": "STCRDSHP:0x8008536c",
+    "name": "STCRDSHP_func_8008536c",
+    "source": "src/stcrdshp/stcrdshp_func_8008536c.c",
+    "size": 72,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "59c025b042487d06b6cf724d61e224842e1f3d88abc0da464d7a6a2046d72e6a"
+   },
+   {
+    "function": "STCRDSHP:0x800853b4",
+    "name": "STCRDSHP_func_800853b4",
+    "source": "src/stcrdshp/stcrdshp_func_800853b4.c",
+    "size": 136,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "903044fa6c2f3e626d596ed4c3c955b9bfcbe1556e51d239adea6fbbe68a827e"
+   },
+   {
+    "function": "STCRDSHP:0x8008543c",
+    "name": "STCRDSHP_func_8008543c",
+    "source": "src/stcrdshp/stcrdshp_func_8008543c.c",
+    "size": 324,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "7c71a5afbf53ec80b972ce358fd8d09776ea47b82d60edf2b8f2a684993f3fc1"
+   },
+   {
+    "function": "STCRDSHP:0x80085580",
+    "name": "STCRDSHP_func_80085580",
+    "source": "src/stcrdshp/stcrdshp_func_80085580.c",
+    "size": 180,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "704e11322efc6be5e53c03be2a88486d5f8062418037bc0473dceaef0c29fb06"
+   },
+   {
+    "function": "STCRDSHP:0x80085634",
+    "name": "STCRDSHP_func_80085634",
+    "source": "src/stcrdshp/stcrdshp_func_80085634.c",
+    "size": 68,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "f64bf09e28bde8a0406603059f1adc2b3714a39492fa3ae1fcb501ed2f1e6d2d"
+   },
+   {
+    "function": "STCRDSHP:0x80085678",
+    "name": "STCRDSHP_func_80085678",
+    "source": "src/stcrdshp/stcrdshp_func_80085678.c",
+    "size": 184,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "c50415453864581c9ba97cd8ddf61eb8d49b8a4b47733c532ab2c619885c7cca"
+   },
+   {
+    "function": "STCRDSHP:0x80085730",
+    "name": "STCRDSHP_func_80085730",
+    "source": "src/stcrdshp/stcrdshp_func_80085730.c",
+    "size": 88,
+    "variant": "o2-g0-no-strength-reduce",
+    "status": "exact_byte_match",
+    "candidate_sha256": "b391b5026c247d3437738c9e2e38352b783cf7a9bd0509f3cd1249c85fb902fd"
+   },
+   {
+    "function": "STCRDSHP:0x80085788",
+    "name": "STCRDSHP_func_80085788",
+    "source": "src/stcrdshp/stcrdshp_func_80085788.c",
+    "size": 40,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "fcb435f41f7411ca3eef9e4b9bbb9a89ceac2309ca39e35099bfcd95106e26a0"
+   },
+   {
+    "function": "STCRDSHP:0x800857b0",
+    "name": "STCRDSHP_func_800857b0",
+    "source": "src/stcrdshp/stcrdshp_func_800857b0.c",
+    "size": 1020,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "9bd522c744d4d130cfa5d68fd3393d5db490644ac131ed2d8cbc8afdc9f439b2"
+   },
+   {
+    "function": "STCRDSHP:0x80085bac",
+    "name": "STCRDSHP_func_80085bac",
+    "source": "src/stcrdshp/stcrdshp_func_80085bac.c",
+    "size": 300,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "fb4521d29a840beb7627bb30cd5fa0fa04e93405d443f7d9eafd67b40a27ac9f"
+   },
+   {
+    "function": "STCRDSHP:0x80085cd8",
+    "name": "STCRDSHP_func_80085cd8",
+    "source": "src/stcrdshp/stcrdshp_func_80085cd8.c",
+    "size": 200,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "ca1b571d09b01759738c2e1b2e1d5f71e1d534942b2b3e0a6cab5c027a691eab"
+   },
+   {
+    "function": "STCRDSHP:0x80085da0",
+    "name": "STCRDSHP_func_80085da0",
+    "source": "src/stcrdshp/stcrdshp_func_80085da0.c",
+    "size": 572,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "0eaad5010b00442c6b2696defc1a11e1ea628a166a2a5d9f1593fcc8b6d7c083"
+   },
+   {
+    "function": "STCRDSHP:0x80085fdc",
+    "name": "STCRDSHP_func_80085fdc",
+    "source": "src/stcrdshp/stcrdshp_func_80085fdc.c",
+    "size": 152,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "569b0a68adbe1cc7ffdd60814fc31ec55b4894c690fbe181a9abd456e272d4e3"
+   },
+   {
+    "function": "STCRDSHP:0x80086074",
+    "name": "STCRDSHP_func_80086074",
+    "source": "src/stcrdshp/stcrdshp_func_80086074.c",
+    "size": 520,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "4cee2cb54ec4c786b0d7562910e4869a7fcc93a2b85da963622a08bd544e0e24"
+   },
+   {
+    "function": "STCRDSHP:0x8008627c",
+    "name": "STCRDSHP_func_8008627c",
+    "source": "src/stcrdshp/stcrdshp_func_8008627c.c",
+    "size": 1232,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "d88c2d47a257079668bc55f559f67b56deffc49f739ef8b050dd574845a85f2b"
+   },
+   {
+    "function": "STCRDSHP:0x8008674c",
+    "name": "STCRDSHP_func_8008674c",
+    "source": "src/stcrdshp/stcrdshp_func_8008674c.c",
+    "size": 1656,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "14daee2b51a50c031b7a2b8619de279faa666dad9e1b63147092e0cc596ccdc1"
+   },
+   {
+    "function": "STCRDSHP:0x80086dc4",
+    "name": "STCRDSHP_func_80086dc4",
+    "source": "src/stcrdshp/stcrdshp_func_80086dc4.c",
+    "size": 3176,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "2408ea9c9ebc8b52eb1f8ead0088b1aa660af1e172de811895d64fd2ce8fd2a8"
+   },
+   {
+    "function": "STCRDSHP:0x80087a2c",
+    "name": "STCRDSHP_func_80087a2c",
+    "source": "src/stcrdshp/stcrdshp_func_80087a2c.c",
+    "size": 344,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "7609fe6e3da1a305e1f81a8426349329228d67fe9d43280addf30b69449a2740"
+   },
+   {
+    "function": "STCRDSHP:0x80087b84",
+    "name": "STCRDSHP_func_80087b84",
+    "source": "src/stcrdshp/stcrdshp_func_80087b84.c",
+    "size": 88,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "7eb5db326c7efb6eaf6080381757846b674f9cbe97678e2591f29ef737895f83"
+   },
+   {
+    "function": "STCRDSHP:0x80087bdc",
+    "name": "STCRDSHP_func_80087bdc",
+    "source": "src/stcrdshp/stcrdshp_func_80087bdc.c",
+    "size": 248,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "287bc274e87395f8808513dff4e5ed9aa3d9014c62781dfba239f0319c7c34cf"
+   },
+   {
+    "function": "STCRDSHP:0x80087cd4",
+    "name": "STCRDSHP_func_80087cd4",
+    "source": "src/stcrdshp/stcrdshp_func_80087cd4.c",
+    "size": 44,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "cdfe479b7cbeac64a5b50ed6e58611d62929169435d2f783ceddbe6acae8b56b"
+   },
+   {
+    "function": "STCRDSHP:0x80087d00",
+    "name": "STCRDSHP_func_80087d00",
+    "source": "src/stcrdshp/stcrdshp_func_80087d00.c",
+    "size": 396,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "188cf415cdc5599332108f58efcdb827fa400ce1b337e440198590a5e52e962a"
+   },
+   {
+    "function": "STCRDSHP:0x80087e8c",
+    "name": "STCRDSHP_func_80087e8c",
+    "source": "src/stcrdshp/stcrdshp_func_80087e8c.c",
+    "size": 288,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "44f4e2971f9afe1a60fe3e692327939e18688e2de271fa41af832639a1c1bc4f"
+   },
+   {
+    "function": "STCRDSHP:0x80087fac",
+    "name": "STCRDSHP_func_80087fac",
+    "source": "src/stcrdshp/stcrdshp_func_80087fac.c",
+    "size": 280,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "9151d7cbdfd34fb18c11256e18e726ed428d6358e8051dc12d13cb18d3c12bec"
+   },
+   {
+    "function": "STCRDSHP:0x800880c4",
+    "name": "STCRDSHP_func_800880c4",
+    "source": "src/stcrdshp/stcrdshp_func_800880c4.c",
+    "size": 712,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "1edc72a8be4f350dc44fd9415499a7262a0b60ed9d3a8b1fb3f4135a85108d27"
+   },
+   {
+    "function": "STCRDSHP:0x8008838c",
+    "name": "STCRDSHP_func_8008838c",
+    "source": "src/stcrdshp/stcrdshp_func_8008838c.c",
+    "size": 1904,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "4a01b2bc25e858677cece916eef8fbdd31fa467702a91e37d9e9a26e4e76a1df"
+   },
+   {
+    "function": "STCRDSHP:0x80088afc",
+    "name": "STCRDSHP_func_80088afc",
+    "source": "src/stcrdshp/stcrdshp_func_80088afc.c",
+    "size": 84,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "045a04e927d42cef90e1803ca8d9377118c2e25e8219cf4f4eeb971dec316d28"
+   },
+   {
+    "function": "STCRDSHP:0x80088b50",
+    "name": "STCRDSHP_func_80088b50",
+    "source": "src/stcrdshp/stcrdshp_func_80088b50.c",
+    "size": 336,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "2da07c552edc0c9877c22475965e70b594ff533fd99f226ef7b1912df01de3ce"
+   },
+   {
+    "function": "STCRDSHP:0x80088ca0",
+    "name": "STCRDSHP_func_80088ca0",
+    "source": "src/stcrdshp/stcrdshp_func_80088ca0.c",
+    "size": 388,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "d47fc8cd3e9056f4b232d7aa34ca34acbde9bc90c08b9529c0fb33753d88ca26"
+   },
+   {
+    "function": "STCRDSHP:0x80088e24",
+    "name": "STCRDSHP_func_80088e24",
+    "source": "src/stcrdshp/stcrdshp_func_80088e24.c",
+    "size": 208,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "845dfcccc0232e2c7aaefb7b54d2c2c6eb5caf650aafbade49051549487244da"
+   },
+   {
+    "function": "STCRDSHP:0x80088ef4",
+    "name": "STCRDSHP_func_80088ef4",
+    "source": "src/stcrdshp/stcrdshp_func_80088ef4.c",
+    "size": 192,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "7a9b7c569eee6ae516cf4d8b9f0601ff25a405d3af6c5861a6bd17e7f80c7a0f"
+   },
+   {
+    "function": "STCRDSHP:0x80088fb4",
+    "name": "STCRDSHP_func_80088fb4",
+    "source": "src/stcrdshp/stcrdshp_func_80088fb4.c",
+    "size": 148,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "2d751973b112fe37cb2256d124256a4746e3485cb0f0e72869f037bc62cdfbe0"
+   },
+   {
+    "function": "STCRDSHP:0x80089048",
+    "name": "STCRDSHP_func_80089048",
+    "source": "src/stcrdshp/stcrdshp_func_80089048.c",
+    "size": 108,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "74d24fbfabe8458b9c1ead9e95728d196d0106938892e52367185371d55ebde0"
+   },
+   {
+    "function": "STCRDSHP:0x800890b4",
+    "name": "STCRDSHP_func_800890b4",
+    "source": "src/stcrdshp/stcrdshp_func_800890b4.c",
+    "size": 64,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "99ea1c4e318cbced81e4f9086e1cfe191d9867e1a794e4fb8bdc50aaaf049ec6"
+   },
+   {
+    "function": "STCRDSHP:0x80089160",
+    "name": "STCRDSHP_func_80089160",
+    "source": "src/stcrdshp/stcrdshp_func_80089160.c",
+    "size": 220,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "a3ef39fff5cf0d77efaec7b3f2a8bec8b81cad1d9e5e0ae6820fd048d9f9a5b9"
+   },
+   {
+    "function": "STCRDSHP:0x8008923c",
+    "name": "STCRDSHP_func_8008923c",
+    "source": "src/stcrdshp/stcrdshp_func_8008923c.c",
+    "size": 76,
+    "variant": "base",
+    "status": "exact_byte_match",
+    "candidate_sha256": "6e40fbe6aef15a52d57d906565df8378954766c7464d0b4b5abaa492b5c6d4e4"
+   }
+  ]
+ },
+ "cross_check": {
+  "toolchain": "psyq",
+  "reference_version": "PAL-SLES-03936",
+  "repository_commit": "e2fadd85c64f6e6336f0b0eec49bcbac7e4fbe0d",
+  "started_at": "2026-09-25T06:37:56+00:00",
+  "finished_at": "2026-09-25T06:38:00+00:00",
+  "tools": {
+   "cc1psx": {
+    "id": "psyq-gcc-2.8.1-sn32-4.0.0010",
+    "sha256": "26eb8259fa3e077d1980eb1e0c942006752135953dd03173200bf99ef6f5b6c9",
+    "version": "2.8.1 SN32 BUILD 4.0.0010"
+   },
+   "aspsx": {
+    "id": "aspsx-2.79",
+    "sha256": "fcb987495ba18f9d8b5dc29696f7e6650091d3d86471c60b2a8aa00396888992",
+    "version": "2.79"
+   }
+  },
+  "overlays": {
+   "CARDGAME": "2886ada962c4893d321bead7db4294e09cb586212db013bb69ce14e64f770498",
+   "STCRDABM": "6293e8c1379258dc9607c26a732fa1f3e6c96b3257b0b68db0a3263a88853722",
+   "STCRDDEK": "07a853a5774abf4b9f4e3cf57d93bb3f144dd1bde509b8472e4ff569d81c3d73",
+   "STCRDSHP": "f8daf77958e9ff5ffe9c108e4c1cdb46fd4826f44881eec6a71972ccd64b3230"
+  },
+  "functions": 318,
+  "status_counts": {
+   "exact_byte_match": 318
+  }
+ }
+}
