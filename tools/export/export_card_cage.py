@@ -1,4 +1,4 @@
-"""Export the Card Cage milestone from the private working repository.
+"""Export milestone 1 (the card game overlays) from the private working repository.
 
 This is the maintainer script that produced this repository's snapshot. It
 reads a checkout of the private working repository (``--source``) and writes
@@ -301,7 +301,7 @@ def main() -> int:
         "variants": {v: variants[v] for v in sorted({r["variant"] for r in recipes})},
         "tools": {k: [{f: t[f] for f in ("id", "sha256", "version", "source_release") if f in t} for t in v]
                   for k, v in tools.items()},
-        "div_guard": "ASPSX inserts a zero-divisor guard after every div/divu; the Card Cage overlays have "
+        "div_guard": "ASPSX inserts a zero-divisor guard after every div/divu; the card game overlays have "
                      "none. The PsyQ path therefore always removes it from the compiler output before ASPSX "
                      "(a no-op for functions without division). maspsx adds no guard unless --expand-div is given.",
         "combinations_used": [list(u) for u in used],

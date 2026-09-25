@@ -36,7 +36,7 @@
       }
     ]
   },
-  "div_guard": "ASPSX inserts a zero-divisor guard after every div/divu; the Card Cage overlays have none. The PsyQ path therefore always removes it from the compiler output before ASPSX (a no-op for functions without division). maspsx adds no guard unless --expand-div is given.",
+  "div_guard": "ASPSX inserts a zero-divisor guard after every div/divu; the card game overlays have none. The PsyQ path therefore always removes it from the compiler output before ASPSX (a no-op for functions without division). maspsx adds no guard unless --expand-div is given.",
   "combinations_used": [
     [
       "psyq-gcc-2.8.1-sn32-4.0.0010",

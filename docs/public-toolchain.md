@@ -1,7 +1,7 @@
 # Open-source toolchain equivalence
 
-Question: can the Card Cage matches be reproduced without the proprietary
-PsyQ SDK?
+Question: can the matches of the card game overlays ("Card Cage") be reproduced
+without the proprietary PsyQ SDK?
 
 ## Result (2026-09-25)
 
@@ -27,7 +27,7 @@ Assembler flags: `-EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0`.
 
 ## Zero-divisor guard
 
-The Card Cage overlays have no zero-divisor guard after their divisions.
+The card game overlays have no zero-divisor guard after their divisions.
 
 - ASPSX 2.79 inserts one after every `div`/`divu`. The PsyQ path must remove it
   from the compiler output before assembling. Measured on 2026-09-25: 21 of the

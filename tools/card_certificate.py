@@ -1,4 +1,4 @@
-"""Write the Card Cage release certificate from ``card_verify.py`` reports.
+"""Write the milestone 1 (card game overlays) certificate from ``card_verify.py`` reports.
 
 The primary report must come from the open toolchain (the default path). An
 optional cross-check report from the PsyQ toolchain is recorded alongside it.
@@ -73,9 +73,10 @@ def main() -> int:
     psyq_tools = {t["id"]: t for kind in toolchain["tools"].values() for t in kind}
 
     lines = [
-        f"# Card Cage {args.version}: 318/318 functions, exact per-function match",
+        f"# Milestone 1 ({args.version}): card game overlays, 100% C matching",
         "",
-        "All functions identified in the four Card Cage overlays of *Digimon World 2003*",
+        "All 318 functions identified in the four overlays of the card game (\"Card",
+        "Cage\": CARDGAME, STCRDABM, STCRDDEK, STCRDSHP) of *Digimon World 2003*",
         "(PAL `SLES-03936`) are reconstructed in C. Each one was rebuilt and compared,",
         "over its full address range and any jump table, with the bytes of the PAL",
         "overlay. This proves exact code generation per function; it is not a",
@@ -143,13 +144,13 @@ def main() -> int:
         "",
         "Every C file states its own recipe in its header comment (`tools/recipe_headers.py`).",
         "",
-        f"Per-function results are in `reports/card-cage-{args.version}.json`. This certificate",
+        f"Per-function results are in `reports/milestone-1-{args.version}.json`. This certificate",
         "and that file contain hashes and counts only; no byte of the game and no PsyQ",
         "binary is included.",
         "",
     ]
-    out_md = ROOT / "reports" / f"card-cage-{args.version}.md"
-    out_json = ROOT / "reports" / f"card-cage-{args.version}.json"
+    out_md = ROOT / "reports" / f"milestone-1-{args.version}.md"
+    out_json = ROOT / "reports" / f"milestone-1-{args.version}.json"
     out_md.parent.mkdir(exist_ok=True)
     out_md.write_text("\n".join(lines), encoding="utf-8", newline="\n")
 

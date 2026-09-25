@@ -1,7 +1,12 @@
 # dw3-decomp-expanded
 
 A matching decompilation of *Digimon World 2003* / *Digimon World 3*
-(PAL, `SLES-03936`), starting with the **Card Cage**.
+(PAL, `SLES-03936`). **Milestone 1 is complete: the card game overlays are at
+100% C matching.**
+
+"Card Cage" is this project's name for the game's card game. It covers all the
+overlays related to it: `CARDGAME`, `STCRDABM`, `STCRDDEK` and `STCRDSHP`. File
+names such as `recipes/card_cage.json` use the same name.
 
 ## Purpose
 
@@ -73,10 +78,10 @@ the check is therefore removed before assembling (`tools/div_guard.py`). Of the
 318 functions, 21 divide. The public toolchain does not insert the check in the
 first place.
 
-## Milestone: Card Cage (v0.1.0)
+## Milestone 1: card game overlays, 100% C matching (v0.1.0)
 
-All 318 functions identified in the four Card Cage overlays are recovered in C
-and match byte for byte.
+All 318 functions identified in the four card game overlays are recovered in C
+and match byte for byte, on both the public and the PsyQ toolchain.
 
 | Overlay | Functions |
 | --- | ---: |
@@ -86,7 +91,8 @@ and match byte for byte.
 | `STCRDSHP` | 44 |
 | **Total** | **318** |
 
-The reproducible certificate is in [`reports/`](reports/). It proves exact code
+The reproducible certificate is
+[`reports/milestone-1-v0.1.0.md`](reports/milestone-1-v0.1.0.md). It proves exact code
 generation for each function. It is not a byte-identical rebuild of the `.PRO`
 files: their headers, data and layout are not reconstructed here.
 

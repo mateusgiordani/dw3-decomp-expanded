@@ -20,7 +20,7 @@
    "maspsx/__init__.py": "8fdf7a5afc0e73bb14c5f80d09bab5852005f35bc77be1eac66a353874f81a39"
   },
   "args": ["--aspsx-version=2.79"],
-  "div_guard_note": "--expand-div is not passed: maspsx then emits no zero-divisor guard, which matches the Card Cage overlays. The PsyQ path must strip the guard instead (recipe field strip_div_guard)."
+  "div_guard_note": "--expand-div is not passed: maspsx then emits no zero-divisor guard, which matches the card game overlays. The PsyQ path must strip the guard instead (recipe field strip_div_guard)."
  },
  "gnu_as": {
   "command": "mipsel-linux-gnu-as",

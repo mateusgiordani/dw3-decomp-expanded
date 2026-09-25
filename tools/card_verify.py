@@ -1,4 +1,4 @@
-"""Rebuild every Card Cage function and compare it with the PAL reference.
+"""Rebuild every function of the card game overlays and compare it with PAL.
 
 Two toolchains are supported; both must reproduce the same PAL bytes.
 
@@ -11,7 +11,7 @@ Two toolchains are supported; both must reproduce the same PAL bytes.
 ``--toolchain psyq`` uses the original, proprietary PsyQ tools, which you must
   supply: ``CC1PSX.EXE`` 2.8.1 SN32 BUILD 4.0.0010 and ``ASPSX.EXE`` 2.79 (see
   ``config/toolchain.json`` for their SHA-256 and SDK releases). ASPSX inserts a
-  zero-divisor guard after every division that the Card Cage overlays do not
+  zero-divisor guard after every division that the card game overlays do not
   have, so this path always removes it from the compiler output before ASPSX
   (a no-op when a function has no division). maspsx emits no guard because
   ``--expand-div`` is not passed, so the open path needs no removal.
