@@ -1,0 +1,21 @@
+# Game data and proprietary tools are never committed.
+*.PRO
+*.pro
+*.bin
+*.cue
+*.iso
+*.chd
+*.img
+*.exe
+*.EXE
+*.ps-exe
+*.psexe
+*.obj
+*.o
+*.zip
+*.7z
+*.rar
+/pal/
+/toolchains/
+/build/
+__pycache__/

@@ -1,0 +1,56 @@
+// CARDGAME:0x800860d4 (size 604, 0x25c)
+// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x3424
+// Prologue 27bdffc8 addiu sp,-0x38 ; sw s5,0x2c(sp) ; move s5,a0 ; sw s2,0x20(sp) ; move s2,a1 ; sw s1,0x1c(sp) ; move s1,a2 ; sw s3,0x24(sp) ; lw s3,0x4c(sp) ; sw ra,0x30(sp) ; sw s4,0x28(sp) ; sw s0,0x18(sp)
+// Body: lui v0,0x800a + addiu 0x58b4 -> table 0x800a58b4 ; sll v1,s3,2 ; addu a0,v1,v0 ; lw v1,0x48(sp) ; lh v0,0(a0) ; slt v0,v0,v1 ; beq -> early-return if entry.w0 >= lim (delay move s4,a3 always) ; lh v1,2(a0) kind dispatch: ==1 case1, <2 then ==0 case0 else tail, >=2 then ==2 case2 else tail ; 8x jal CARDGAME:0x80086090 + 5x jalr *(q+0xeac) ; tail slti idx<3, cond increment, return idx
+// Epilogue lw ra,0x30(sp) ; lw s5,0x2c(sp) ; lw s4,0x28(sp) ; lw s3,0x24(sp) ; lw s2,0x20(sp) ; lw s1,0x1c(sp) ; lw s0,0x18(sp) ; jr ra + addiu sp,+0x38 at 0x80086328/0x8008632c; size 0x25c = distance to 0x80086330 (functions.csv end). Prev gap CARDGAME:0x80086090 size 0x44 leaf ends at 0x800860d4 exactly.
+// Ghidra program CARDGAME (project ddw3-pal-sles-03936) read-only: disasm 151 insns verified word-equal against PAL (0 mismatches via subprocess capture); decompile + x-ref to (5 callers: 0x8008c29c/F0x8008c044, 0x800926c4/F0x80092638, 0x8008b2f8/F0x8008ad98, 0x8008a464/F0x8008a068, 0x800884c8/F0x80087edc) + x-ref from (8x UNCONDITIONAL_CALL 0x80086090 + indirect jalr slots; DATA 0x800a58b4).
+// Callee CARDGAME:0x80086090 is an unclaimed 0x44-byte leaf (lui 0x800a5844 + scaled halfword load, 3 args -> short); no canonical label in symbols/function_labels.csv, so conservative extern name used here, not recovered in this task.
+// Table 0x800a58b4: 4-byte entries {short w0; short kind;} (sibling 0x800896f0 uses same extern-D idiom for 0x800a58b4+0x20 region D0x800a58d4).
+// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base).
+// Status rev5 (s23-run2): exact_byte_match. F-result pairs are passed DIRECTLY
+// as (int16_t)-cast callback args, no sa/sb locals: the first-result extend
+// (sll s0 before 2nd jal + sra in its delay) only schedules when the value
+// must survive the second call. Statement temporaries (short or int+cast)
+// sink the extend to the use site (move + late pair, +8 B) and cannot match.
+#include <stdint.h>
+
+typedef struct {
+    int16_t w0;
+    int16_t kind;
+} CardEnt60d4;
+
+extern CardEnt60d4 D0x800a58b4[];
+/* Callee binary returns lh (already sign-extended), but caller-side codegen
+   shows assignment-time extension (sll s0 early + sra in jal delay), so the
+   original declaration must have been int-returning: the caller extends. */
+extern int32_t CARDGAME_F0x80086090(void *, int32_t, int32_t);
+
+typedef void (*CardCb60d4)(void *, int32_t, int32_t, int32_t, int32_t, int32_t);
+
+int32_t CARDGAME_F0x800860d4(void *p, void *q, void *r, int32_t flag, int32_t lim, int32_t idx) {
+    CardEnt60d4 *e = D0x800a58b4 + idx;
+    int16_t kind;
+
+    if (e->w0 >= lim)
+        return idx;
+    kind = e->kind;
+    switch (kind) {
+    case 0:
+        (*(CardCb60d4 *)((char *)q + 0xeac))(q, 2, 1, 0, (int16_t)CARDGAME_F0x80086090(r, 0, 0), (int16_t)CARDGAME_F0x80086090(r, 0, 1));
+        (*(CardCb60d4 *)((char *)q + 0xeac))(q, 4, 2, 0, (int16_t)CARDGAME_F0x80086090(r, 1, 0), (int16_t)CARDGAME_F0x80086090(r, 1, 1));
+        if (flag != 0)
+            (*(CardCb60d4 *)((char *)q + 0xeac))(q, 0, 0, flag, 0, 0x42);
+        if (*(uint8_t *)((char *)p + 0x420) == 0x9a)
+            (*(CardCb60d4 *)((char *)q + 0xeac))(q, 5, 4, 0x24, 0, 0x14);
+        break;
+    case 1:
+        (*(CardCb60d4 *)((char *)q + 0xeac))(q, 3, 1, 0, (int16_t)CARDGAME_F0x80086090(r, 2, 0), (int16_t)CARDGAME_F0x80086090(r, 2, 1));
+        break;
+    case 2:
+        (*(CardCb60d4 *)((char *)q + 0xeac))(q, 1, 3, 0, (int16_t)CARDGAME_F0x80086090(r, 3, 0), (int16_t)CARDGAME_F0x80086090(r, 3, 1));
+        break;
+    }
+    if (idx < 3)
+        idx++;
+    return idx;
+}

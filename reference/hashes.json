@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "reference_version": "PAL-SLES-03936",
+  "game": {
+    "title": "Digimon World 2003",
+    "region": "PAL Europe",
+    "serial": "SLES-03936",
+    "disc_exe": "SLES_039.36",
+    "volume_id": "DMW3",
+    "redump_id": 3160,
+    "redump_url": "http://redump.org/disc/3160/"
+  },
+  "disc": {
+    "track_mode": "MODE2/2352",
+    "tracks": 1,
+    "sectors": 294280,
+    "size_bytes": 692146560,
+    "crc32": "007df18e",
+    "md5": "da76a5685b875c353343102b7587fded",
+    "sha1": "457cb233349ba841e03b33d8060f8fbcadd45cb3",
+    "sha256": "fb70dc9a995aed628cf515cabc87c7b14e5142559076ec394dfe793ec3e26a04"
+  },
+  "overlays": {
+    "CARDGAME": {
+      "disc_path": "AAA/PRO/CARDGAME.PRO",
+      "size": 143664,
+      "lba": 486,
+      "sha256": "2886ada962c4893d321bead7db4294e09cb586212db013bb69ce14e64f770498"
+    },
+    "STCRDABM": {
+      "disc_path": "AAA/PRO/STCRDABM.PRO",
+      "size": 11724,
+      "lba": 724,
+      "sha256": "6293e8c1379258dc9607c26a732fa1f3e6c96b3257b0b68db0a3263a88853722"
+    },
+    "STCRDDEK": {
+      "disc_path": "AAA/PRO/STCRDDEK.PRO",
+      "size": 35748,
+      "lba": 730,
+      "sha256": "07a853a5774abf4b9f4e3cf57d93bb3f144dd1bde509b8472e4ff569d81c3d73"
+    },
+    "STCRDSHP": {
+      "disc_path": "AAA/PRO/STCRDSHP.PRO",
+      "size": 41552,
+      "lba": 748,
+      "sha256": "f8daf77958e9ff5ffe9c108e4c1cdb46fd4826f44881eec6a71972ccd64b3230"
+    }
+  }
+}

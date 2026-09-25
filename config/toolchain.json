@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "note": "Proprietary PsyQ binaries are not distributed; they are identified by SHA-256 only.",
+  "cc1_flags": [
+    "-quiet",
+    "-O2",
+    "-G0",
+    "-mips1",
+    "-msoft-float"
+  ],
+  "variants": {
+    "base": [],
+    "o2-g0-no-strength-reduce": [
+      "-fno-strength-reduce"
+    ],
+    "o2-g0-nosr-nosplit": [
+      "-fno-strength-reduce",
+      "-mno-split-addresses"
+    ]
+  },
+  "tools": {
+    "cc1psx": [
+      {
+        "id": "psyq-gcc-2.8.1-sn32-4.0.0010",
+        "sha256": "26eb8259fa3e077d1980eb1e0c942006752135953dd03173200bf99ef6f5b6c9",
+        "version": "2.8.1 SN32 BUILD 4.0.0010"
+      }
+    ],
+    "aspsx": [
+      {
+        "id": "aspsx-2.79",
+        "sha256": "fcb987495ba18f9d8b5dc29696f7e6650091d3d86471c60b2a8aa00396888992",
+        "version": "2.79"
+      }
+    ]
+  },
+  "combinations_used": [
+    [
+      "psyq-gcc-2.8.1-sn32-4.0.0010",
+      "aspsx-2.79",
+      "base"
+    ],
+    [
+      "psyq-gcc-2.8.1-sn32-4.0.0010",
+      "aspsx-2.79",
+      "o2-g0-no-strength-reduce"
+    ],
+    [
+      "psyq-gcc-2.8.1-sn32-4.0.0010",
+      "aspsx-2.79",
+      "o2-g0-nosr-nosplit"
+    ]
+  ]
+}
