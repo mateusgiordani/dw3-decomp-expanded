@@ -89,9 +89,9 @@ for byte on both the public and the PsyQ toolchain. A later boundary review of
 the PAL bytes showed that the function catalog was incomplete. A sweep found
 85 candidate functions (prologue/epilogue pairs and leaf functions reached by a
 direct call). A review of each one against the PAL bytes then confirmed **89
-functions**: every candidate was real, one was split in two at its true callback
-entry, and four more leaf functions reached only through pointers were found
-next to them. The catalog now matches the binary for all four overlays, with no
+functions**: every candidate was real (one had its start moved back to its true
+callback entry), and four more leaf functions reached only through pointers were
+found next to them. The catalog now matches the binary for all four overlays, with no
 candidate left unresolved.
 
 | Overlay | Functions | At C matching | Still to recover |
