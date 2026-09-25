@@ -1,21 +1,56 @@
-// STCRDDEK:0x80088e74 (size 984, 0x3d8)
-// PAL: reference/extracted/pro/stcrddek.bin base 0x80082cb0 file-off 0x61c4
-// Prologue 27bdff30 addiu sp,-0xd0, saves s0-s5/ra, move s4,a0, addiu a0,sp,0x10, jal 0x8001f648
-// Epilogue 03e00008 jr ra + 27bd00d0 addiu sp,+0xd0 at 0x80089244/0x80089248
-// Next STCRDDEK:0x8008924c (addiu sp,-0x90) starts exactly at +984; prev ends at 0x80088e74
-// Ghidra program STCRDDEK (project ddw3-pal-sles-03936) read-only, no state changed:
-//   disasm 246 insns, decompile, x-ref to (caller STCRDDEK_func_80089e98 @ 0x8008a058),
-//   x-ref from (jal EXE 0x8001f648 + intra-function branches + stack-callback jalr).
-// All 246 words verified equal to stcrddek.bin @ 0x61c4 (sha256 5bb84767...0708).
-// EXE helper F0x8001f648 fills the sp+0x10 buffer (buf[40]); callback slots at
-// buf+0x74/0x7c/0x84/0x88/0x8c/0x94 (same dispatch shape as CARDGAME/STFGTREP).
-// Tables D_80044B38 (slot 0x424/4=265, arg 0x63e0000) and D_8004DE10 (slot 0x188/4=98).
-// Upstream stcrddek.s used as guide only. No new headers or symbols.
-// Status: exact_byte_match 984/984 with psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0,
-// variant o2-g0-no-strength-reduce (base folds the cursor offset 0xf4 into s0).
-// Matching notes: the +0x68 counter is updated in memory before the compare; the
-// last draw call is written in both arms so jump2 cannot cross-jump the a0 copy;
-// the loop base tb is loaded after s3 = 0; the later +0x58 read uses its own local.
+/*
+ * STCRDDEK:0x80088e74 STCRDDEK_func_80088e74
+ * 984 bytes at STCRDDEK.PRO offset 0x61c4 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float -fno-strength-reduce
+ *  Variant     o2-g0-no-strength-reduce
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80088e74
+ *  Symbols     D_80044B38=0x80044b38 D_8004DE10=0x8004de10
+ *              F0x8001f648=0x8001f648 STCRDDEK_F0x80088e74=0x80088e74
+ *  Compare     984 bytes from 0x80088e74 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x80088e74
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Prologue 27bdff30 addiu sp,-0xd0, saves s0-s5/ra, move s4,a0, addiu
+ * a0,sp,0x10, jal 0x8001f648
+ *
+ * Epilogue 03e00008 jr ra + 27bd00d0 addiu sp,+0xd0 at 0x80089244/0x80089248
+ *
+ * Next STCRDDEK:0x8008924c (addiu sp,-0x90) starts exactly at +984; prev ends
+ * at 0x80088e74
+ *
+ * All 246 words verified equal to stcrddek.bin @ 0x61c4 (sha256
+ * 5bb84767...0708).
+ *
+ * EXE helper F0x8001f648 fills the sp+0x10 buffer (buf[40]); callback slots at
+ * buf+0x74/0x7c/0x84/0x88/0x8c/0x94 (same dispatch shape as CARDGAME/STFGTREP).
+ *
+ * Tables D_80044B38 (slot 0x424/4=265, arg 0x63e0000) and D_8004DE10 (slot
+ * 0x188/4=98).
+ *
+ * No new headers or symbols.
+ *
+ * Matching notes: the +0x68 counter is updated in memory before the compare;
+ * the last draw call is written in both arms so jump2 cannot cross-jump the a0
+ * copy; the loop base tb is loaded after s3 = 0; the later +0x58 read uses its
+ * own local.
+ */
 
 extern void F0x8001f648(void *);
 extern int D_80044B38[];

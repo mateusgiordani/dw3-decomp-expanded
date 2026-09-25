@@ -1,12 +1,55 @@
-/* STCRDDEK:0x80085210. PAL recovery of all menu states and the shared clock tail.
- * Ghidra structure was checked against every PAL instruction and the 64-slot table;
- * callback arguments absent from the decompiler were restored from a0/a1 setup.
- * r6: every case stores its own next state and continues to the clock tail (case 0x3f falls
- * through with its store), bases are extern symbols, and branch layout/locals follow PAL.
- * r7: exact_byte_match (4964/4964). Quatro formas obrigatorias, medidas em strategy-r7.md:
- * lista de cartas como membro array de struct (ordem base+indice no addu), corpo do caso 0x20
- * com enderecos planos sem locais a/b, callback +0x2c com retorno void (sem sugestao de v0 no
- * local-alloc) e D_80055C48 com retorno (sugestao de v0 empurra x5c para a3). */
+/*
+ * STCRDDEK:0x80085210 STCRDDEK_func_80085210
+ * 4964 bytes at STCRDDEK.PRO offset 0x2560 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80085210, jump table (.rodata) at 0x80082cb0
+ *  Symbols     D_80044B38=0x80044b38 D_80048D34=0x80048d34
+ *              D_8004B7D0=0x8004b7d0 D_8004DF9C=0x8004df9c
+ *              D_80055C48=0x80055c48 D_8005CCA8=0x8005cca8
+ *              D_8008B830=0x8008b830 STCRDDEK_F0x80083934=0x80083934
+ *              STCRDDEK_F0x80083d28=0x80083d28 STCRDDEK_F0x80084278=0x80084278
+ *              STCRDDEK_F0x80084440=0x80084440 STCRDDEK_F0x800847c0=0x800847c0
+ *              STCRDDEK_F0x80085210=0x80085210
+ *              STCRDDEK_func_80083934=0x80083934
+ *              STCRDDEK_func_80083d28=0x80083d28
+ *              STCRDDEK_func_80084278=0x80084278
+ *              STCRDDEK_func_80084440=0x80084440
+ *              STCRDDEK_func_800847c0=0x800847c0
+ *              STCRDDEK_func_80088ac8=0x80088ac8
+ *  Compare     4964 bytes from 0x80085210 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x80085210
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * PAL recovery of all menu states and the shared clock tail.
+ *
+ * Ghidra structure was checked against every PAL instruction and the 64-slot
+ * table; callback arguments absent from the decompiler were restored from a0/a1
+ * setup.
+ *
+ * r6: every case stores its own next state and continues to the clock tail
+ * (case 0x3f falls through with its store), bases are extern symbols, and
+ * branch layout/locals follow PAL.
+ */
+
 #include "common/types.h"
 typedef int32_t code();
 /* 0x80048D34 deck table view: per-card limits at +0x3A2, 51-slot int16 decks at +0x63E. */

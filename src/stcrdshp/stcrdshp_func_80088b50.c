@@ -1,34 +1,64 @@
+/*
+ * STCRDSHP:0x80088b50 STCRDSHP_func_80088b50
+ * 336 bytes at STCRDSHP.PRO offset 0x5ea0 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80088b50
+ *  Symbols     D_80048D34=0x80048d34 D_8008CB80=0x8008cb80
+ *              D_8008CB84=0x8008cb84 STCRDSHP_func_80087d00=0x80087d00
+ *              STCRDSHP_func_800880c4=0x800880c4
+ *              STCRDSHP_func_8008838c=0x8008838c
+ *              STCRDSHP_func_80088b50=0x80088b50
+ *              StcrdshpWork_80088b50=0x80088b50
+ *  Compare     336 bytes from 0x80088b50 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDSHP:0x80088b50
+ */
+
 #include "common/types.h"
 
 /*
- * STCRDSHP:0x80088b50, 336 bytes (0x80088b50-0x80088ca0).
+ * (0x80088b50-0x80088ca0).
  *
- * Card-shop state dispatcher. PAL bytes recovered from Ghidra program
- * STCRDSHP (project ddw3-pal-sles-03936): disassembly first, then
- * decompiler + xrefs, cross-checked word-for-word against
- * reference/extracted/pro/stcrdshp.bin at offset 0x80088b50-0x80082cb0
- * (84 words; next function starts at 0x80088ca0, confirming the
- * 336-byte boundary). In-program xrefs to this function: none; it is
- * reached via the overlay's dispatch path (same pattern as the other
- * STCRDSHP callbacks registered through EXE 0x80014504).
+ * PAL bytes recovered from Ghidra program
  *
- * Behaviour:
- * - kind == 1: run the shop update pair (0x8008838c, 0x800880c4).
+ * In-program xrefs to this function: none; it is reached via the overlay's
+ * dispatch path (same pattern as the other STCRDSHP callbacks registered
+ * through EXE 0x80014504).
+ *
+ * Behaviour: - kind == 1: run the shop update pair (0x8008838c, 0x800880c4).
+ *
  * - kind == 2: nothing (return).
+ *
  * - kind == 3: EXE sys-vector branch gated on flag +0x68.
- * - otherwise (kind < 2, i.e. 0/negative, or kind > 3): phase gate on
- *   field +0x10 against the EXE-resident vectors at 0x8008CB80/0x8008CB84.
+ *
+ * - otherwise (kind < 2, i.e. 0/negative, or kind > 3): phase gate on field
+ * +0x10 against the EXE-resident vectors at 0x8008CB80/0x8008CB84.
  *
  * Match-critical source shape (psyq-gcc-2.8.1-sn32-4.0.0010, aspsx-2.79,
- * O2/G0, base variant): the goto layout reproduces PAL block order
- * (phase gate inline first, kind==1/kind==3 bodies out of line at the
- * end, so the poll block needs no extra lui and both trailing jumps
- * share the epilogue); the kind dispatch keeps the `slti`+`bne` range
- * test (`kind < 2` after excluding kind == 1); the phase gate keeps the
- * dual `beq` test (phase == 0, then phase == 1 against the preserved
- * `a0 == 1`) with a shared call block; the kind==3 vectors are read
- * through one `&D_80048D34` base per branch so the compiler shares a
- * single `lui`/`addiu` base in `s0` (taken path) / `v0` (else path)
+ *
+ * O2/G0, base variant): the goto layout reproduces PAL block order (phase gate
+ * inline first, kind==1/kind==3 bodies out of line at the end, so the poll
+ * block needs no extra lui and both trailing jumps share the epilogue); the
+ * kind dispatch keeps the `slti`+`bne` range test (`kind < 2` after excluding
+ * kind == 1); the phase gate keeps the dual `beq` test (phase == 0, then phase
+ * == 1 against the preserved `a0 == 1`) with a shared call block; the kind==3
+ * vectors are read through one `&D_80048D34` base per branch so the compiler
+ * shares a single `lui`/`addiu` base in `s0` (taken path) / `v0` (else path)
  * with the PAL offsets +0x34/+0x2708/+0x270c.
  *
  * Externs name fixed RAM slots; link addresses are supplied by the exact

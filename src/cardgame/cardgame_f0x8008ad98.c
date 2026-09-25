@@ -1,10 +1,49 @@
-/* CARDGAME:0x8008ad98..0x8008baa4, PAL-SLES-03936.
+/*
+ * CARDGAME:0x8008ad98 CARDGAME_F0x8008ad98
+ * 3340 bytes at CARDGAME.PRO offset 0x80e8 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008ad98, jump table (.rodata) at 0x800833fc
+ *  Symbols     CARDGAME_F0x800860d4=0x800860d4 CARDGAME_F0x80086a30=0x80086a30
+ *              CARDGAME_F0x80086d28=0x80086d28 CARDGAME_F0x80089f18=0x80089f18
+ *              CARDGAME_F0x8008ad58=0x8008ad58 CARDGAME_F0x8008ad78=0x8008ad78
+ *              DAT_8004B7D0=0x8004b7d0 D_80055c48=0x80055c48
+ *              D_800a58a4=0x800a58a4 FUN_80086a18=0x80086a18
+ *  Compare     3340 bytes from 0x8008ad98 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8008ad98
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * 0x8008baa4, PAL-SLES-03936.
+ *
  * Both 14-entry dispatch tables start at 0x800833fc. Callback names retain
  * offsets; broader semantics and full object capacities remain uncertain.
+ *
  * Partial member-array views preserve the observed address-expression trees.
+ *
  * Explicit backedges preserve PAL ascending loops without GCC loop reversal.
+ *
  * Consecutive loops reuse their real counter; byte values and offsets retain
- * distinct lifetimes. See the r9 Astra submission for measured controls. */
+ * distinct lifetimes. See the r9 Astra submission for measured controls.
+ */
+
 #include "common/types.h"
 typedef struct { uint8_t unknown[0x446]; int8_t fields[1]; } flags_view;
 typedef struct { uint8_t unknown[0x49e]; uint8_t fields[1]; } markers_view;

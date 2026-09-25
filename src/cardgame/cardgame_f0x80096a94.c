@@ -1,22 +1,44 @@
-// CARDGAME:0x80096a94 (size 396, 0x18c)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x13de4
-// Framed function from boundary sweep reports/handoffs/cardgame-boundary-sweep.md #113
-// Prologue 27bdff30 addiu sp,-0xd0 ; epilogue jr ra / 27bd00d0 addiu sp,+0xd0
-// Prev CARDGAME:0x80096950 (324B) ends at 0x80096a94; next CARDGAME:0x80096c20 at +0x18c.
-// Callers (Ghidra CARDGAME read-only x-ref to): 9 UNCONDITIONAL_CALL sites in
-//   CARDGAME_F0x8009b168 (0x8009b240/0x8009b2b8), CARDGAME_F0x80096e8c (0x80096f98),
-//   CARDGAME_F0x80098898 (0x80098e40/0x80098e7c/0x80098eb8/0x80098ef4/0x80098f44/0x80098fac).
-// Callee: EXE F0x8001f648 (C_MATCHING, decomp/src/exe/exe_f0x8001f648.c) fills a
-//   0xa0-byte callback struct at sp+0x10; this function then issues 5 indirect
-//   calls through its slots (+0x74/+0x7c/+0x84/+0x8c/+0x94 struct-relative).
-// Data: EXE function-pointer word at 0x80044f5c, reached in PAL as
-//   lui s5,0x8004 / addiu s5,0x4b38 / lw v0,0x424(s5) with the lui/addiu hoisted
-//   above the digit loop; expressed here via an EXE base local so the pinned
-//   psyq-gcc-2.8.1 -O2 hoist reproduces the PAL schedule. Digit rendering via
-//   signed /10 and %10 (magic 0x66666667, mult/mfhi/sra/subu).
-// Ghidra CARDGAME disasm/decompile/xrefs read-only (project ddw3-pal-sles-03936,
-// base 0x80082cb0, no import/mutation); upstream cardgame.s GUIDE only.
-// Toolchain: PsyQ GCC 2.8.1 + ASPSX 2.79, o2-g0-no-strength-reduce.
+/*
+ * CARDGAME:0x80096a94 CARDGAME_F0x80096a94
+ * 396 bytes at CARDGAME.PRO offset 0x13de4 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float -fno-strength-reduce
+ *  Variant     o2-g0-no-strength-reduce
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80096a94
+ *  Symbols     CARDGAME_F0x80096a94=0x80096a94 D0x80044b38=0x80044b38
+ *              F0x8001f648=0x8001f648
+ *  Compare     396 bytes from 0x80096a94 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80096a94
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Prologue 27bdff30 addiu sp,-0xd0 ; epilogue jr ra / 27bd00d0 addiu sp,+0xd0
+ *
+ * Prev CARDGAME:0x80096950 (324B) ends at 0x80096a94; next CARDGAME:0x80096c20
+ * at +0x18c.
+ *
+ * Data: EXE function-pointer word at 0x80044f5c, reached in PAL as lui
+ * s5,0x8004 / addiu s5,0x4b38 / lw v0,0x424(s5) with the lui/addiu hoisted
+ * above the digit loop; expressed here via an EXE base local so the pinned
+ * psyq-gcc-2.8.1 -O2 hoist reproduces the PAL schedule. Digit rendering via
+ * signed /10 and %10 (magic 0x66666667, mult/mfhi/sra/subu).
+ */
+
 #include <stdint.h>
 
 extern void F0x8001f648(void *buf);

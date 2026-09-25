@@ -1,39 +1,57 @@
-// CARDGAME:0x8009e668 (size 1892, 0x764)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x1bbb8
-// Boundary: prologue addiu sp,sp,-0x30 (saves s0/s1/s2/s3/ra) at 0x8009e668;
-//   epilogue lw ra/s3/s2/s1/s0 + jr ra/addiu sp,+0x30 at 0x8009edb0..0x8009edc8;
-//   next CARDGAME:0x8009edcc (+0x764); prev FUN_8009e62c (60B) ends at +0x0.
-//   functions.csv agrees (CARDGAME_F0x8009e668 DISASSEMBLED, [0x8009e668,0x8009edcc)).
-// Ghidra CARDGAME (ddw3-pal-sles-03936, read-only): 473-insn disasm matches PAL
-//   word-for-word (first8 d0ffbd27 1800b0af 21808000 2000b2af 2190a000 1c00b1af
-//   98041126 2800bfaf; last4 1c00b18f 1800b08f 0800e003 3000bd27);
-//   decompile CARDGAME_F0x8009e668(int param_1, int param_2), void return.
-// Xref: 1 caller FUN_800a2df8 via 0x800a2e28 UNCONDITIONAL_CALL (in-overlay).
-//   Direct callees CARDGAME:0x8009e024, CARDGAME:0x8009dbe8, FUN_8009df68.
-//   Computed jumps via jt1 0x80083800 / jt2 0x80083848 (18 words each, in-overlay
-//   rodata; entries verified against cardgame.bin). Indirect jalr via engine
-//   slots +0xf24/+0xea4/+0xea8 off *(p2+0x18), and EXE word 0x8004df9c reached as
-//   0x8004de10-base +0x18c (lui 0x8005 + addiu -0x21f0, extern array + index 0x63).
-// Semantics: two-phase card-state machine. Phase 1 dispatches on *(p1+0x499):
-//   1 = refresh via e024 + max(0x72c,0x79e)*8 budget + 40-byte copy loop,
-//   2/3/4 = budget init (max*5, s8(0x575)*10, s8(0x575)*5+22),
-//   5..0xf chain = halfword-pair select from table 0x800a5d2c via dbe8,
-//   6..0x10 = mode pair via df68. Old/new state bytes shuffle at 0x498/0x499/0x49b.
-//   Phase 2 dispatches on *(p1+0x498) and issues engine f24 queue calls plus EXE
-//   accumulator calls, advancing 0x4cc/0x4d0 and setting follow-up states.
-// Codegen notes: p1+0x498 family is accessed through a dedicated base (s1) while
-//   p1 bytes (0x575/0x584/0x72c/0x79e/0x49e) use p1 (s0) directly; both bases are
-//   kept in callee-saved regs across the direct calls. The EXE vector is read
-//   through an extern array base (DAT_8004DE10, --symbol at link): a plain
-//   0x8004df9c fptr constant would emit lui+lw, while extern array + 0x63 index
-//   yields the observed lui/addiu base + lw 0x18c pair (same device as 878b4).
-//   The 0x800a5d2c halfword table is likewise an extern symbol (lui 0x800a +
-//   addiu 0x5d2c), not a numeric constant. f24 call sites pass *(p2+0x18) with
-//   two textual derefs (slot base + a0 arg), matching the observed double lw;
-//   only the 5/6-group sites reuse the cached eng value (see handoff readings).
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base),
-//   alt aspsx-2.86.
-// Status: C_MATCHING (exact_byte_match, 1892/1892 bytes, rodata 144/144 bytes).
+/*
+ * CARDGAME:0x8009e668 CARDGAME_F0x8009e668
+ * 1892 bytes at CARDGAME.PRO offset 0x1b9b8 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8009e668, jump table (.rodata) at 0x80083800
+ *  Symbols     CARDGAME_F0x8009dbe8=0x8009dbe8 CARDGAME_F0x8009e024=0x8009e024
+ *              DAT_8004DE10=0x8004de10 DAT_800A5D2C=0x800a5d2c
+ *              FUN_8009df68=0x8009df68
+ *  Compare     1892 bytes from 0x8009e668 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8009e668
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Xref: 1 caller FUN_800a2df8 via 0x800a2e28 UNCONDITIONAL_CALL (in-overlay).
+ * Direct callees CARDGAME:0x8009e024, CARDGAME:0x8009dbe8, FUN_8009df68.
+ * Computed jumps via jt1 0x80083800 / jt2 0x80083848 (18 words each, in-overlay
+ * rodata; entries verified against cardgame.bin). Indirect jalr via engine
+ * slots +0xf24/+0xea4/+0xea8 off *(p2+0x18), and EXE word 0x8004df9c reached as
+ * 0x8004de10-base +0x18c (lui 0x8005 + addiu -0x21f0, extern array + index
+ * 0x63).
+ *
+ * Semantics: two-phase card-state machine. Phase 1 dispatches on *(p1+0x499): 1
+ * = refresh via e024 + max(0x72c,0x79e)*8 budget + 40-byte copy loop, 2/3/4 =
+ * budget init (max*5, s8(0x575)*10, s8(0x575)*5+22), 5..0xf chain =
+ * halfword-pair select from table 0x800a5d2c via dbe8, 6..0x10 = mode pair via
+ * df68. Old/new state bytes shuffle at 0x498/0x499/0x49b.
+ *
+ * Codegen notes: p1+0x498 family is accessed through a dedicated base (s1)
+ * while p1 bytes (0x575/0x584/0x72c/0x79e/0x49e) use p1 (s0) directly; both
+ * bases are kept in callee-saved regs across the direct calls. The EXE vector
+ * is read through an extern array base (DAT_8004DE10, --symbol at link): a
+ * plain 0x8004df9c fptr constant would emit lui+lw, while extern array + 0x63
+ * index yields the observed lui/addiu base + lw 0x18c pair (same device as
+ * 878b4).
+ */
+
 #include <stdint.h>
 
 typedef int32_t (*cardgame_exe0_t)(void);

@@ -1,17 +1,55 @@
-// CARDGAME:0x800860d4 (size 604, 0x25c)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x3424
-// Prologue 27bdffc8 addiu sp,-0x38 ; sw s5,0x2c(sp) ; move s5,a0 ; sw s2,0x20(sp) ; move s2,a1 ; sw s1,0x1c(sp) ; move s1,a2 ; sw s3,0x24(sp) ; lw s3,0x4c(sp) ; sw ra,0x30(sp) ; sw s4,0x28(sp) ; sw s0,0x18(sp)
-// Body: lui v0,0x800a + addiu 0x58b4 -> table 0x800a58b4 ; sll v1,s3,2 ; addu a0,v1,v0 ; lw v1,0x48(sp) ; lh v0,0(a0) ; slt v0,v0,v1 ; beq -> early-return if entry.w0 >= lim (delay move s4,a3 always) ; lh v1,2(a0) kind dispatch: ==1 case1, <2 then ==0 case0 else tail, >=2 then ==2 case2 else tail ; 8x jal CARDGAME:0x80086090 + 5x jalr *(q+0xeac) ; tail slti idx<3, cond increment, return idx
-// Epilogue lw ra,0x30(sp) ; lw s5,0x2c(sp) ; lw s4,0x28(sp) ; lw s3,0x24(sp) ; lw s2,0x20(sp) ; lw s1,0x1c(sp) ; lw s0,0x18(sp) ; jr ra + addiu sp,+0x38 at 0x80086328/0x8008632c; size 0x25c = distance to 0x80086330 (functions.csv end). Prev gap CARDGAME:0x80086090 size 0x44 leaf ends at 0x800860d4 exactly.
-// Ghidra program CARDGAME (project ddw3-pal-sles-03936) read-only: disasm 151 insns verified word-equal against PAL (0 mismatches via subprocess capture); decompile + x-ref to (5 callers: 0x8008c29c/F0x8008c044, 0x800926c4/F0x80092638, 0x8008b2f8/F0x8008ad98, 0x8008a464/F0x8008a068, 0x800884c8/F0x80087edc) + x-ref from (8x UNCONDITIONAL_CALL 0x80086090 + indirect jalr slots; DATA 0x800a58b4).
-// Callee CARDGAME:0x80086090 is an unclaimed 0x44-byte leaf (lui 0x800a5844 + scaled halfword load, 3 args -> short); no canonical label in symbols/function_labels.csv, so conservative extern name used here, not recovered in this task.
-// Table 0x800a58b4: 4-byte entries {short w0; short kind;} (sibling 0x800896f0 uses same extern-D idiom for 0x800a58b4+0x20 region D0x800a58d4).
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base).
-// Status rev5 (s23-run2): exact_byte_match. F-result pairs are passed DIRECTLY
-// as (int16_t)-cast callback args, no sa/sb locals: the first-result extend
-// (sll s0 before 2nd jal + sra in its delay) only schedules when the value
-// must survive the second call. Statement temporaries (short or int+cast)
-// sink the extend to the use site (move + late pair, +8 B) and cannot match.
+/*
+ * CARDGAME:0x800860d4 CARDGAME_F0x800860d4
+ * 604 bytes at CARDGAME.PRO offset 0x3424 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x800860d4
+ *  Symbols     CARDGAME_F0x80086090=0x80086090 D0x800a58b4=0x800a58b4
+ *              D0x800a58d4=0x800a58d4 F0x80087edc=0x80087edc
+ *              F0x8008a068=0x8008a068 F0x8008ad98=0x8008ad98
+ *              F0x8008c044=0x8008c044 F0x80092638=0x80092638
+ *  Compare     604 bytes from 0x800860d4 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x800860d4
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Prologue 27bdffc8 addiu sp,-0x38 ; sw s5,0x2c(sp) ; move s5,a0 ; sw
+ * s2,0x20(sp) ; move s2,a1 ; sw s1,0x1c(sp) ; move s1,a2 ; sw s3,0x24(sp) ; lw
+ * s3,0x4c(sp) ; sw ra,0x30(sp) ; sw s4,0x28(sp) ; sw s0,0x18(sp)
+ *
+ * Body: lui v0,0x800a + addiu 0x58b4 -> table 0x800a58b4 ; sll v1,s3,2 ; addu
+ * a0,v1,v0 ; lw v1,0x48(sp) ; lh v0,0(a0) ; slt v0,v0,v1 ; beq -> early-return
+ * if entry.w0 >= lim (delay move s4,a3 always) ; lh v1,2(a0) kind dispatch: ==1
+ * case1, <2 then ==0 case0 else tail, >=2 then ==2 case2 else tail ; 8x jal
+ * CARDGAME:0x80086090 + 5x jalr *(q+0xeac) ; tail slti idx<3, cond increment,
+ * return idx Epilogue lw ra,0x30(sp) ; lw s5,0x2c(sp) ; lw s4,0x28(sp) ; lw
+ * s3,0x24(sp) ; lw s2,0x20(sp) ; lw s1,0x1c(sp) ; lw s0,0x18(sp) ; jr ra +
+ * addiu sp,+0x38 at 0x80086328/0x8008632c; size 0x25c = distance to 0x80086330
+ * (functions.csv end). Prev gap CARDGAME:0x80086090 size 0x44 leaf ends at
+ * 0x800860d4 exactly.
+ *
+ * DATA 0x800a58b4).
+ *
+ * Table 0x800a58b4: 4-byte entries {short w0; short kind;} (sibling 0x800896f0
+ * uses same extern-D idiom for 0x800a58b4+0x20 region D0x800a58d4).
+ */
+
 #include <stdint.h>
 
 typedef struct {

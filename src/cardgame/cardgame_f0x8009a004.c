@@ -1,48 +1,66 @@
-/* CARDGAME countdown-lerp with EXE vector tail.
+/*
+ * CARDGAME:0x80099ffc CARDGAME_F0x80099ffc
+ * 420 bytes at CARDGAME.PRO offset 0x1734c (overlay loaded at 0x80082cb0).
  *
- * Verified entry: 0x80099ffc (420 bytes, 0x1a4). The eight bytes at
- * 0x80099ffc (lui v0,0x8005; lw v0,-0x2064(v0)) load the tick callback
- * from 0x8004df9c into v0; the framed body at 0x8009a004 opens with
- * stack adjustment then jalr v0 (delay slot move s0,a1). Same corrected
- * entry family as CARDGAME:0x8009a540 (former internal label 0x8009a548).
- * Prev CARDGAME:0x80099f60 (size 0x9c) ends at 0x80099ffc exactly, so the
- * prefix is an unclaimed gap; next CARDGAME:0x8009a1a0 confirms the tail.
- * Coordinator revision 8 covers the complete 0x80099ffc/420 function;
- * 0x8009a004 is an internal prologue. See boundary-review-r8.md.
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80099ffc
+ *  Symbols     DAT_80055c48=0x80055c48 D_8004df9c=0x8004df9c
+ *  Compare     420 bytes from 0x80099ffc against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80099ffc
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * CARDGAME countdown-lerp with EXE vector tail.
+ *
+ * Verified entry: 0x80099ffc (420 bytes, 0x1a4). The eight bytes at 0x80099ffc
+ * (lui v0,0x8005; lw v0,-0x2064(v0)) load the tick callback from 0x8004df9c
+ * into v0; the framed body at 0x8009a004 opens with stack adjustment then jalr
+ * v0 (delay slot move s0,a1). Same corrected entry family as
+ * CARDGAME:0x8009a540 (former internal label 0x8009a548).
  *
  * Body: rem = *(s0+0x28) - tick(); sw rem,(s0+0x28) in blez delay slot.
- * Live branch (rem > 0): word countdown-lerp on +0x00/+0x04
- * (guarded by two word compares) then half countdown-lerp on +0x18/+0x1a
- * from signed s16 deltas, subtracted from zero-extended (lhu) targets
- * (guarded by ONE word compare +0x18 vs +0x1c). Terminal branch
- * (rem <= 0): if lbu(s0+0x42) != 3 call EXE vector (*DAT_80055c48)
- * with a0 = 0x800460bd (lui in beq delay slot, ori in jalr delay slot);
- * then state byte = 1, +0x28/+0x2c = 0, snap words + halves (lhu) to
- * targets, and sh 0,(s0+0x26) only when lbu(s0+0x48) == 0.
  *
- * Matching notes (all load/store widths and reloads are load-bearing):
- * - tick via extern pointer object D_8004df9c (no incoming-v0 ABI).
- * - returned elapsed kept separate from the loaded counter
- *   (PAL subu a0,v1,v0); rem is NOT reused after the first mult --
- *   later mults read s->f28 fresh. Each fresh read follows a store to
- *   the same struct, which kills the CSE quantity and forces a real
- *   reload (word-Y reload needs the f00 store sunk above it by the
- *   scheduler, which also restores PAL store order).
- * - quotients are compiler temps (inlined into the stores), which puts
- *   each div triple (num,total,quot) in PAL registers with total/quot
- *   sharing; d0/d1 compiler stores f00/f04 early and the scheduler
- *   sinks them below the second div (PAL order).
+ * Live branch (rem > 0): word countdown-lerp on +0x00/+0x04 (guarded by two
+ * word compares) then half countdown-lerp on +0x18/+0x1a from signed s16
+ * deltas, subtracted from zero-extended (lhu) targets (guarded by ONE word
+ * compare +0x18 vs +0x1c). Terminal branch (rem <= 0): if lbu(s0+0x42) != 3
+ * call EXE vector (*DAT_80055c48) with a0 = 0x800460bd (lui in beq delay slot,
+ * ori in jalr delay slot); then state byte = 1, +0x28/+0x2c = 0, snap words +
+ * halves (lhu) to targets, and sh 0,(s0+0x26) only when lbu(s0+0x48) == 0.
+ *
+ * Matching notes (all load/store widths and reloads are load-bearing): - tick
+ * via extern pointer object D_8004df9c (no incoming-v0 ABI).
+ *
+ * - returned elapsed kept separate from the loaded counter (PAL subu a0,v1,v0);
+ * rem is NOT reused after the first mult -- later mults read s->f28 fresh. Each
+ * fresh read follows a store to the same struct, which kills the CSE quantity
+ * and forces a real reload (word-Y reload needs the f00 store sunk above it by
+ * the scheduler, which also restores PAL store order).
+ *
+ * - quotients are compiler temps (inlined into the stores), which puts each div
+ * triple (num,total,quot) in PAL registers with total/quot sharing; d0/d1
+ * compiler stores f00/f04 early and the scheduler sinks them below the second
+ * div (PAL order).
+ *
  * - half stores are likewise sunk below the second half div (PAL order).
- * - divisions are bare (PAL has 0 guards over 4 divs): build with
- *   --strip-div-guard (tools/div_guard.py; division_scan 0/196 guarded).
- *
- * Evidence: docs/c-matching-guide/submissions/cardgame-8009a004/
- *   attempts-r7.json + strategy-r7.md; report build/match manifest
- *   CARDGAME_F0x80099ffc_W5r7final (exact_byte_match, full 420 bytes).
- * Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79, -O2 -G0,
- *   variant base, --strip-div-guard, symbols D_8004df9c=0x8004df9c,
- *   DAT_80055c48=0x80055c48.
  */
+
 typedef int (*CardTick9a004)(void);
 extern CardTick9a004 D_8004df9c;
 extern void (*DAT_80055c48)(unsigned int arg);

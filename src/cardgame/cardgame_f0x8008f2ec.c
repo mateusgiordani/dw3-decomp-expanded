@@ -1,31 +1,47 @@
-// CARDGAME:0x8008f2ec (size 580, 0x244)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0xc63c
-// Boundary: prologue 27bdffd8 addiu sp,-0x28, saves s0/s1/s2/s3/s4/ra;
-// s0=a0 (ctx), s2=a1 (card), s1=a2 (row), s3=a3 (col); epilogue jr ra +
-// 27bd0028 addiu sp,+0x28 at 0x8008f528/0x8008f52c. Next framed
-// CARDGAME:0x8008f530 at +0x244 (contiguous, no overlap).
-// Ghidra program CARDGAME (project ddw3-pal-sles-03936) read-only: disasm
-// 145 insns word-equal vs PAL @ 0xc63c
-// (first8 27bdffd8 afb00010 00808021 afb20018 00a09021 afb10014 00c08821 afb3001c;
-// last8 8fbf0024 8fb40020 8fb3001c 8fb20018 8fb10014 8fb00010 03e00008 27bd0028);
-// decompile CARDGAME_F0x8008f2ec; x-ref to from CARDGAME_F0x8008423c at
-// 0x80084308 (unconditional call, args ctx/card/row/col); x-ref from: 3 indirect
-// jalr (card+0xeb8/0xeb4/0xea0) + EXE vector *0x80055c48, rest intra-function.
-// cardgame.s is GUIDE only, never copied as source. No Ghidra state change.
-// Caller CARDGAME_F0x8008423c passes (ctx, card, row byte, col 0..4).
-// Semantics: pending byte ctx+0x423 dispatches card slot calls, then moves to
-// active byte ctx+0x422; active==1 runs a paced cell update on the byte grid at
-// ctx+0x5a8 indexed by (col + row*200) with dir counter ctx+0x434 and limit
-// ctx+0x430; active==2 reports done (returns 1, else 0).
-// Matching notes (all portable C, no register variables): the pending dispatch
-// tests ctx+0x423 twice (if + switch subject) so CSE keeps the move v1,v0 copy;
-// the switch subject is the MEM load itself; the dir/counter cells reload the
-// MEM fields per arm (byte-store aliasing blocks CSE); the cell address is
-// grouped as col + row*200; each dir arm stages the EXE-call segment.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base, no alternates).
-// Status: C_MATCHING (exact_byte_match, sha256
-// 34d401427e089bf1d6ce7140fb545e3e996501a16efd0be96b923c8e8d1dff4c, 580 B,
-// 6 relocations, portable C, no asm, no explicit register variables).
+/*
+ * CARDGAME:0x8008f2ec CARDGAME_F0x8008f2ec
+ * 580 bytes at CARDGAME.PRO offset 0xc63c (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008f2ec
+ *  Symbols     CARDGAME_F0x8008423c=0x8008423c
+ *  Compare     580 bytes from 0x8008f2ec against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8008f2ec
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * No Ghidra state change.
+ *
+ * Caller CARDGAME_F0x8008423c passes (ctx, card, row byte, col 0..4).
+ *
+ * Semantics: pending byte ctx+0x423 dispatches card slot calls, then moves to
+ * active byte ctx+0x422; active==1 runs a paced cell update on the byte grid at
+ * ctx+0x5a8 indexed by (col + row*200) with dir counter ctx+0x434 and limit
+ * ctx+0x430; active==2 reports done (returns 1, else 0).
+ *
+ * Matching notes (all portable C, no register variables): the pending dispatch
+ * tests ctx+0x423 twice (if + switch subject) so CSE keeps the move v1,v0 copy;
+ * the switch subject is the MEM load itself; the dir/counter cells reload the
+ * MEM fields per arm (byte-store aliasing blocks CSE); the cell address is
+ * grouped as col + row*200; each dir arm stages the EXE-call segment.
+ */
+
 #include <stdint.h>
 
 typedef void (*cardgame_f2ec_eb8_t)(void *card, unsigned int mask);

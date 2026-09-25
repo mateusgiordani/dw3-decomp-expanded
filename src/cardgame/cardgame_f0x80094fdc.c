@@ -1,27 +1,44 @@
-// CARDGAME:0x80094fdc (size 84, 0x54)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x1232c
-// Framed function from boundary sweep reports/handoffs/cardgame-boundary-sweep.md #97
-// Disasm (Ghidra CARDGAME, read-only): prologue 27bdffd8 addiu sp,-0x28 ; sw s1,0x1c(sp) ;
-//   addu s1,a0 (ctx) ; addu a0,a1 (cbctx) ; sw s0,0x18(sp) ; addiu s0,zero,1 ;
-//   addu a1,a2 (param) ; addu a2,zero,zero ; sw ra,0x20(sp) ; sw zero,0x424(s1) ;
-//   sw s0,0x10(sp) (5th outgoing arg = 1) ; lw v0,0xee4(a0) ; nop (load delay) ;
-//   jalr ra,v0 ; addu a3,a2,zero (delay, a3 = 0) ; sb s0,0x422(s1) ;
-//   lw ra/s1/s0 ; jr ra ; addiu sp,+0x28.
-// Decompile (Ghidra, hypothesis only): *(param_1 + 0x424) = 0;
-//   (**(code **)(param_2 + 0xee4))(param_2, param_3, 0, 0, 1);
-//   *(param_1 + 0x422) = 1.
-// Xrefs (Ghidra x-ref to 0x80094fdc, read-only): 3 UNCONDITIONAL_CALL sites,
-//   all inside CARDGAME_F0x80084320 (0x80084500, 0x80084518, 0x80084534).
-// Words: 21/21 PAL words match reference (next word 27bdffd8 = CARDGAME:0x80095030
-//   prologue, contiguous, size 0x54 confirmed self-contained).
-// Caller/callee: 3 callers, 0 direct callees (indirect jalr via v0 = *(cbctx+0xee4)).
-// Prior provenance: rev1 (w159) delivered noreorder asm wrapper with exact_byte_match
-//   (candidate == reference sha256, 84 B); campaign rev2 requires reviewed portable C,
-//   and asm-backed wrappers do not count as C, so this revision recovers portable C.
-// Exact 84-byte native GCC 2.8.1 / ASPSX 2.79 result; replay recipe in
-// docs/c-matching-guide/submissions/cardgame-80094fdc/manifest-r5.json.
-// Keep the callback load in the call expression: a separate fn local moves
-// it before the outgoing stack argument and changes the native delay slot.
+/*
+ * CARDGAME:0x80094fdc CARDGAME_F0x80094fdc
+ * 84 bytes at CARDGAME.PRO offset 0x1232c (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80094fdc
+ *  Symbols     (none)
+ *  Compare     84 bytes from 0x80094fdc against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80094fdc
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Decompile (Ghidra, hypothesis only): *(param_1 + 0x424) = 0; (**(code
+ * **)(param_2 + 0xee4))(param_2, param_3, 0, 0, 1); *(param_1 + 0x422) = 1.
+ *
+ * Words: 21/21 PAL words match reference (next word 27bdffd8 =
+ * CARDGAME:0x80095030 prologue, contiguous, size 0x54 confirmed
+ * self-contained).
+ *
+ * Caller/callee: 3 callers, 0 direct callees (indirect jalr via v0 =
+ * *(cbctx+0xee4)).
+ *
+ * Keep the callback load in the call expression: a separate fn local moves it
+ * before the outgoing stack argument and changes the native delay slot.
+ */
 
 typedef void (*cardgame_indirect_80094fdc_t)(void *arg0, int arg1, int arg2, int arg3, int arg4);
 

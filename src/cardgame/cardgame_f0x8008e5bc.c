@@ -1,14 +1,40 @@
-// CARDGAME:0x8008e5bc (size 1672, 0x688)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0xB90C
-// Boundary: prologue 27bdff58 at 0x8008e5bc; epilogue jr ra + addiu sp,+0xa8
-// at 0x8008ec3c/0x8008ec40; next CARDGAME:0x8008ec44 at +0x688 confirms size.
-// Ghidra CARDGAME (ddw3-pal-sles-03936, read-only): 418-word disasm in
-// 40-insn chunks matches PAL word-for-word; decompile is hypothesis only.
-// Dispatch on *(p1+0x422): 2 = countdown via EXE slot *(0x8004df9c);
-// 0 = return 0; 1 = pair census + draws via slot *(p2+0xf08);
-// 3 = record resolve + marks via slot *(p2+0xf18); 4 = return 1.
-// Caller: CARDGAME_F0x80084320 via 0x80085708 (jal 0c02396f).
-// Toolchain base: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0.
+/*
+ * CARDGAME:0x8008e5bc CARDGAME_F0x8008e5bc
+ * 1672 bytes at CARDGAME.PRO offset 0xb90c (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008e5bc
+ *  Symbols     DAT_8004DF9C=0x8004df9c DAT_8005CCB0=0x8005ccb0
+ *              DAT_800A5958=0x800a5958 DAT_800A5DA8=0x800a5da8
+ *              DAT_800A5DC0=0x800a5dc0 DAT_800A5DC2=0x800a5dc2
+ *  Compare     1672 bytes from 0x8008e5bc against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8008e5bc
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Dispatch on *(p1+0x422): 2 = countdown via EXE slot *(0x8004df9c); 0 = return
+ * 0; 1 = pair census + draws via slot *(p2+0xf08); 3 = record resolve + marks
+ * via slot *(p2+0xf18); 4 = return 1.
+ *
+ * Caller: CARDGAME_F0x80084320 via 0x80085708 (jal 0c02396f).
+ */
+
 #include <stdint.h>
 typedef struct { int16_t words[7]; } Tail14;
 

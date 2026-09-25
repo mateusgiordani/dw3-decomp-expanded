@@ -1,28 +1,44 @@
-// CARDGAME:0x80086a30 (size 760, 0x2f8)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x3d80
-// Framed function from boundary sweep reports/handoffs/cardgame-boundary-sweep.md #11:
-// prologue 27bdff88 addiu sp,-0x78 ; sw s0,0x68(sp) ; move s0,a0 ; sw s1,0x6c(sp) ;
-// move s1,a1 ; sw s2,0x70(sp) ; sw ra,0x74(sp) ; jal 0x80086a18 (delay move s2,a2) ;
-// epilogue lw ra,0x74(sp) ; lw s2,0x70(sp) ; lw s1,0x6c(sp) ; lw s0,0x68(sp) ;
-// jr ra ; addiu sp,+0x78. Contiguous: next framed CARDGAME:0x80086d28 at
-// 0x3d80+0x2f8=0x4078 (prologue/epilogue pair); prev 24B init CARDGAME:0x80086a18
-// ends exactly at 0x80086a30.
-// Ghidra project ddw3-pal-sles-03936 program CARDGAME (base 0x80082cb0 known in
-// symbols/overlays.csv), read-only: disasm 190 instr, decompile
-// CARDGAME_F0x80086a30, x-ref to 0x80086a30 -> 8 callers (0x80086d60 wrapper,
-// 0x8008c2b0/0x8008c4b4 in 0x8008c044, 0x8008b320 in 0x8008ad98, 0x8008a48c in
-// 0x8008a068, 0x800884dc/0x80088ed4/0x80088c88 in 0x80087edc).
-// PAL word check vs primary cardgame.bin: off 0x3d80 prologue 0x27bdff88,
-// epilogue jr 0x03e00008 + 0x27bd0078; Ghidra LE bytes match (88ffbd27 ...).
-// Callees/data (PAL-verified): jal CARDGAME:0x80086a18 (clears a1+0xe32/0xe34/
-// 0xe4c/0xe64/0xe7c); jal EXE:0x8001ebf8 (fills sp+0x10 buffer, fn ptr at
-// sp+0x3c); jalr via that fn ptr (arg s0val+1); jump table CARDGAME:0x80083294
-// (6 entries -> case bodies at 0x80086cc0..0x80086cf8); halfword table
-// CARDGAME:0x800a5c20 (5 entries 0x44,0x6f,0x9a,0xc5,0xf0).
-// Entry stride 0x4c via sll/addu strength-reduced chain; plain C '* 76' matches
-// that chain under the pinned toolchain (precedent cardgame_f0x8009ca3c.c,
-// C_MATCHING with 'a1 * 76').
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base hypothesis).
+/*
+ * CARDGAME:0x80086a30 CARDGAME_F0x80086a30
+ * 760 bytes at CARDGAME.PRO offset 0x3d80 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80086a30, jump table (.rodata) at 0x80083294
+ *  Symbols     CARDGAME_F0x80086a18=0x80086a18 CARDGAME_TBL_800a5c20=0x800a5c20
+ *              EXE_F0x8001ebf8=0x8001ebf8 cardgame_f0x8009ca3c=0x8009ca3c
+ *  Compare     760 bytes from 0x80086a30 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80086a30
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Contiguous: next framed CARDGAME:0x80086d28 at 0x3d80+0x2f8=0x4078
+ * (prologue/epilogue pair); prev 24B init CARDGAME:0x80086a18 ends exactly at
+ * 0x80086a30.
+ *
+ * Callees/data (PAL-verified): jal CARDGAME:0x80086a18 (clears a1+0xe32/0xe34/
+ * 0xe4c/0xe64/0xe7c); jal EXE:0x8001ebf8 (fills sp+0x10 buffer, fn ptr at
+ * sp+0x3c); jalr via that fn ptr (arg s0val+1); jump table CARDGAME:0x80083294
+ * (6 entries -> case bodies at 0x80086cc0..0x80086cf8); halfword table
+ * CARDGAME:0x800a5c20 (5 entries 0x44,0x6f,0x9a,0xc5,0xf0).
+ */
+
 #include "common/types.h"
 
 extern void CARDGAME_F0x80086a18(void *a0, void *a1);

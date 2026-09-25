@@ -1,17 +1,51 @@
-/* STCRDDEK:0x80087788..0x800884e8, PAL-SLES-03936.
- * Full 3424-byte body and 544-byte rodata verified by manifest-r7-astra.json.
- * State values, context offsets and grid accesses follow the PAL instructions.
- * Keep separate cancel/refresh paths: GCC merges them after register allocation.
+/*
+ * STCRDDEK:0x80087788 STCRDDEK_func_80087788
+ * 3424 bytes at STCRDDEK.PRO offset 0x4ad8 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80087788, jump table (.rodata) at 0x80082e38
+ *  Symbols     DAT_8004B7D0=0x8004b7d0 D_80044F4C=0x80044f4c
+ *              D_80055C48=0x80055c48 D_8005CCA8=0x8005cca8
+ *              D_8008B848=0x8008b848 STCRDDEK_func_800867e8=0x800867e8
+ *              STCRDDEK_func_8008687c=0x8008687c
+ *              STCRDDEK_func_80086ad8=0x80086ad8
+ *  Compare     3424 bytes from 0x80087788 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x80087788
  */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * 0x800884e8, PAL-SLES-03936.
+ *
+ * State values, context offsets and grid accesses follow the PAL instructions.
+ *
+ * Keep separate cancel/refresh paths: GCC merges them after register
+ * allocation.
+ */
+
 #include <stdint.h>
 
 extern int32_t STCRDDEK_func_800867e8(int32_t a0, int32_t a1);
 extern int32_t STCRDDEK_func_8008687c(int32_t a0);
 extern void STCRDDEK_func_80086ad8(int32_t a0, int32_t a1, int32_t a2);
 
-/* EXE pad vectors through the shared extern base (repo C_MATCHING idiom,
- * cf. cardgame_f0x800878b4.c): cc1 emits one lui/addiu anchor into a saved
- * reg plus lw off(base) per site, matching PAL (lui 0x8005, addiu -0x4830). */
+
 typedef int32_t (*dek_pad0_t)(int32_t);
 typedef int32_t (*dek_pad1_t)(int32_t, int32_t);
 extern int32_t DAT_8004B7D0[];

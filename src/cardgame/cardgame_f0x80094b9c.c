@@ -1,51 +1,79 @@
-// CARDGAME:0x80094b9c (size 1088, 0x440)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x11eec
-// Boundary: prologue 27bdffd0 addiu sp,-0x30, saves s0/s1/s2/s3/s4/ra;
-// s1=a0 (ctx), s3=a1 (card), s2=a2 (idx); epilogue jr ra +
-// 27bd0030 addiu sp,+0x30 at 0x80094fd4/0x80094fd8. Next framed
-// CARDGAME:0x80094fdc at +0x440 (contiguous, no overlap).
-// Ghidra program CARDGAME (project ddw3-pal-sles-03936) read-only: disasm
-// 272 insns word-equal vs PAL @ 0x11eec
-// (first8 27bdffd0 afb1001c 00808821 afb30024 00a09821 afb20020 00c09021 afb10014;
-// last8 8fbf002c 8fb40028 8fb30024 8fb20020 8fb1001c 8fb00018 03e00008 27bd0030);
-// Ghidra function entry CARDGAME_F0x80094b9c size 1088 confirms the boundary.
-// decompile CARDGAME_F0x80094b9c; x-ref to from CARDGAME_F0x80084320 at
-// 0x8008527c and 0x8008529c (UNCONDITIONAL_CALL, args ctx/card/idx 0 then 1);
-// x-ref from: 1 direct jal CARDGAME_F0x8008da2c + indirect jalr
-// (card+0xf24/0xea0(x4)/0xeac/0xeb0/0xec4) + EXE vectors *0x8004df9c,
-// *0x8004bbc4/*0x8004bbd8, *0x80055c48; rest intra-function/stack.
-// cardgame.s is GUIDE only, never copied as source. No Ghidra state change.
-// Caller CARDGAME_F0x80084320 passes (ctx, card, idx 0/1) and tests the return.
-// Semantics: state byte ctx+0x422 dispatches a 7-state card sequencer; state 1
-// paces a cell at ctx+idx*0x72+0x72c against counter ctx+0x428 with timer
-// ctx+0x438, EXE-paced into counters ctx+0x424/0x438, reset at 0x3d into state
-// 2 with short pairs ctx+0x5a4/0x5a6 and ctx+0x66c/0x66e; state 2 drains
-// counter pairs ctx+0x428/0x42c and ctx+0x430/0x434 with EXE vector
-// 0x800452c6 or state 4 + card slot 0xeac, then 4 card slot 0xea0 writes;
-// states 3/5/6 are flag-gated transitions (card+0xe9b, EXE bit tests,
-// card+0x64), state 7 reports done (returns 1, else 0).
-// Matching notes (all portable C, no register variables): switch subject is
-// the state MEM load with cases 1..7 (range-check + table at 0x80083684);
-// case-1/case-2 EXE-paced accums reload MEM per statement (store aliasing
-// blocks CSE); case-2 pair drain stages a flag var set to 1 per arm and
-// reused for the sibling increment (addu) and the EXE/state-4 split; the EXE
-// vector arg stages exeseg = 0x80040000 with ori 0x52c6; case-4 bit tests are
-// plain (f >> t) & 1 (srav+andi, no explicit &31 in source); cell addresses
-// use a scoped stride (int k = idx * 0x72) so the final addu keeps ctx in rs;
-// EXE vectors use extern word-array bases (DAT_8004DE10[0x63] -> 0x8004df9c,
-// DAT_8004B7D0[0xfd/0x102] -> 0x8004bbc4/0x8004bbd8) because only %hi/%lo
-// extern access reproduces the lui+addiu+lw split (raw absolute constants
-// fold to li+ori+lw under this cc1, proven by micro-experiment).
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base).
-// Ranked alternate 1 (documented, rejected): cc1 psyq-gcc-2.7.2-sn32-3.7-build-0002
-// full-function object is 1092 B (4 over) with wider scheduling divergence.
-// (aspsx-2.77/2.67 produce byte-identical objects here; diagnostic only.)
-// Status: r5 EXACT_BYTE_MATCH full-range 1088/1088 (candidate == PAL
-// 4136d551ff5d810f2ca68b80839ae59faa8bc62e396566e36c309e5fb9889030);
-// case-4 fix: hoisted DAT_8004B7D0 base (uint32_t *bb) + branch-local f1/t1/f2/t2.
-// The base hoist orders arg setup before the pointer load and frees the second
-// jalr delay slot for the late save (move s0,v0); distinct lifetimes put the
-// pointer in v1 and the srav into s0, matching PAL. Portable C only.
+/*
+ * CARDGAME:0x80094b9c CARDGAME_F0x80094b9c
+ * 1088 bytes at CARDGAME.PRO offset 0x11eec (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80094b9c, jump table (.rodata) at 0x80083684
+ *  Symbols     CARDGAME_F0x80084320=0x80084320 CARDGAME_F0x8008da2c=0x8008da2c
+ *              DAT_8004B7D0=0x8004b7d0 DAT_8004DE10=0x8004de10
+ *  Compare     1088 bytes from 0x80094b9c and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80094b9c
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Ghidra function entry CARDGAME_F0x80094b9c size 1088 confirms the boundary.
+ *
+ * decompile CARDGAME_F0x80094b9c; x-ref to from CARDGAME_F0x80084320 at
+ * 0x8008527c and 0x8008529c (UNCONDITIONAL_CALL, args ctx/card/idx 0 then 1);
+ * x-ref from: 1 direct jal CARDGAME_F0x8008da2c + indirect jalr
+ * (card+0xf24/0xea0(x4)/0xeac/0xeb0/0xec4) + EXE vectors *0x8004df9c,
+ * *0x8004bbc4/*0x8004bbd8, *0x80055c48; rest intra-function/stack.
+ *
+ * No Ghidra state change.
+ *
+ * Caller CARDGAME_F0x80084320 passes (ctx, card, idx 0/1) and tests the return.
+ *
+ * Semantics: state byte ctx+0x422 dispatches a 7-state card sequencer; state 1
+ * paces a cell at ctx+idx*0x72+0x72c against counter ctx+0x428 with timer
+ * ctx+0x438, EXE-paced into counters ctx+0x424/0x438, reset at 0x3d into state
+ * 2 with short pairs ctx+0x5a4/0x5a6 and ctx+0x66c/0x66e; state 2 drains
+ * counter pairs ctx+0x428/0x42c and ctx+0x430/0x434 with EXE vector 0x800452c6
+ * or state 4 + card slot 0xeac, then 4 card slot 0xea0 writes; states 3/5/6 are
+ * flag-gated transitions (card+0xe9b, EXE bit tests, card+0x64), state 7
+ * reports done (returns 1, else 0).
+ *
+ * Matching notes (all portable C, no register variables): switch subject is the
+ * state MEM load with cases 1..7 (range-check + table at 0x80083684);
+ * case-1/case-2 EXE-paced accums reload MEM per statement (store aliasing
+ * blocks CSE); case-2 pair drain stages a flag var set to 1 per arm and reused
+ * for the sibling increment (addu) and the EXE/state-4 split; the EXE vector
+ * arg stages exeseg = 0x80040000 with ori 0x52c6; case-4 bit tests are plain (f
+ * >> t) & 1 (srav+andi, no explicit &31 in source); cell addresses use a scoped
+ * stride (int k = idx * 0x72) so the final addu keeps ctx in rs;
+ *
+ * EXE vectors use extern word-array bases (DAT_8004DE10[0x63] -> 0x8004df9c,
+ * DAT_8004B7D0[0xfd/0x102] -> 0x8004bbc4/0x8004bbd8) because only %hi/%lo
+ * extern access reproduces the lui+addiu+lw split (raw absolute constants fold
+ * to li+ori+lw under this cc1, proven by micro-experiment).
+ *
+ * Ranked alternate 1 (documented, rejected): cc1
+ * psyq-gcc-2.7.2-sn32-3.7-build-0002 full-function object is 1092 B (4 over)
+ * with wider scheduling divergence.
+ *
+ * (aspsx-2.77/2.67 produce byte-identical objects here; diagnostic only.)
+ *
+ * The base hoist orders arg setup before the pointer load and frees the second
+ * jalr delay slot for the late save (move s0,v0); distinct lifetimes put the
+ * pointer in v1 and the srav into s0, matching PAL. Portable C only.
+ */
+
 #include <stdint.h>
 
 typedef void (*cardgame_94b9c_f24_t)(void *card, int val, unsigned int kind, int zero, int flag);

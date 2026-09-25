@@ -1,10 +1,52 @@
-// CARDGAME:0x8008c044, PAL-SLES-03936; 1452 text bytes + 44-byte table at 0x8008346c.
-// Exact with PsyQ GCC 2.8.1 SN32 4.0.0010 + ASPSX 2.79, -O2 -G0 base.
-// Evidence and controls: docs/c-matching-guide/submissions/cardgame-8008c044/strategy-r7.md.
-// Pending/active dispatches are switches; distinct locals preserve their actual lifetimes.
-// Indexed stores can overlap the signed header: reload it after each store.
-// Keep the old signed element wide and each calculated address in value context.
-// The duplicate store to ctx+0x421 is present in PAL. Callback targets remain indirect.
+/*
+ * CARDGAME:0x8008c044 CARDGAME_F0x8008c044
+ * 1452 bytes at CARDGAME.PRO offset 0x9394 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008c044, jump table (.rodata) at 0x8008346c
+ *  Symbols     CARDGAME_F0x80085de8=0x80085de8 CARDGAME_F0x800860d4=0x800860d4
+ *              CARDGAME_F0x80086a30=0x80086a30 CARDGAME_F0x80087dc8=0x80087dc8
+ *              CARDGAME_F0x8008be04=0x8008be04 CARDGAME_F0x8008c044=0x8008c044
+ *              DAT_8004B7D0=0x8004b7d0 DAT_8005CCB0=0x8005ccb0
+ *              DAT_800A5958=0x800a5958 DAT_800A5DA4=0x800a5da4
+ *  Compare     1452 bytes from 0x8008c044 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8008c044
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * PAL-SLES-03936; 1452 text bytes + 44-byte table at 0x8008346c.
+ *
+ * Exact with PsyQ GCC 2.8.1 SN32 4.0.0010 + ASPSX 2.79, -O2 -G0 base.
+ *
+ * Pending/active dispatches are switches; distinct locals preserve their actual
+ * lifetimes.
+ *
+ * Indexed stores can overlap the signed header: reload it after each store.
+ *
+ * Keep the old signed element wide and each calculated address in value
+ * context.
+ *
+ * The duplicate store to ctx+0x421 is present in PAL. Callback targets remain
+ * indirect.
+ */
+
 #include <stdint.h>
 
 typedef void (*cardgame_c044_cb2_t)(int32_t, int32_t);

@@ -1,24 +1,59 @@
+/*
+ * STCRDSHP:0x800857b0 STCRDSHP_func_800857b0
+ * 1020 bytes at STCRDSHP.PRO offset 0x2b00 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x800857b0
+ *  Symbols     D_80044B38=0x80044b38 EXE_F0x8001ebf8=0x8001ebf8
+ *              EXE_F0x8001f648=0x8001f648 EXE_Glob_80044b38=0x80044b38
+ *              STCRDSHP_func_800857b0=0x800857b0
+ *  Compare     1020 bytes from 0x800857b0 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDSHP:0x800857b0
+ */
+
 #include "common/types.h"
 
-/* STCRDSHP:0x800857b0 (1020 bytes). Card-shop list renderer (conservative names).
- * PAL bytes: reference/extracted/pro/stcrdshp.bin @ base 0x80082cb0, off 0x2b00.
- * Ghidra: ddw3-pal-sles-03936 / STCRDSHP (live program, read-only queries).
+/*
+ * Card-shop list renderer (conservative names).
+ *
  * Caller: STCRDSHP_func_80085da0 (+0x5fbc) passes (obj, 0 or 1).
+ *
  * Direct EXE helpers 0x8001f648/0x8001ebf8 have no Ghidra program here (no EXE
- * program in project); treated as extern imports like EXE_F0x80014504 elsewhere.
+ * program in project); treated as extern imports like EXE_F0x80014504
+ * elsewhere.
+ *
  * Word at EXE 0x80044f5c holds a function pointer; source reaches it as field
  * +0x424 of the object at 0x80044b38 (loop.c hoists the address into s8).
- * Frame: 16-byte outgoing area, the 248-byte work struct at sp+0x10, the
- * digit array at sp+0x108 and the spill slot of the hoisted &digits[0] at
- * sp+0x120 (frame 0x150 total).
- * Matching notes (PsyQ GCC 2.8.1 + ASPSX 2.79, -O2 -G0, base variant):
- * - fn_b0 returns void: a call_value would give the fn pointer a v0
- *   suggestion in local-alloc and move the /6 copy and row temps.
+ *
+ * Frame: 16-byte outgoing area, the 248-byte work struct at sp+0x10, the digit
+ * array at sp+0x108 and the spill slot of the hoisted &digits[0] at sp+0x120
+ * (frame 0x150 total).
+ *
+ * Matching notes (PsyQ GCC 2.8.1 + ASPSX 2.79, -O2 -G0, base variant): - fn_b0
+ * returns void: a call_value would give the fn pointer a v0 suggestion in
+ * local-alloc and move the /6 copy and row temps.
+ *
  * - x/x2 carry a dead initializer: loop.c then sees their first reference
- *   outside the digit loop and keeps col+K in it, while flow deletes the
- *   initializer and local-alloc ties each one to a2.
- * - the digit loops index digits[t]; strength reduction hoists the array
- *   base twice, into the outer preheader after the /10 constant.
+ * outside the digit loop and keeps col+K in it, while flow deletes the
+ * initializer and local-alloc ties each one to a2.
+ *
+ * - the digit loops index digits[t]; strength reduction hoists the array base
+ * twice, into the outer preheader after the /10 constant.
  */
 
 extern void EXE_F0x8001f648(void *work);

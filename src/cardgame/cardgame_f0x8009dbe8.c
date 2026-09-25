@@ -1,29 +1,41 @@
-// CARDGAME:0x8009dbe8 (size 732, 0x2DC)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x1af38
-// Ghidra project ddw3-pal-sles-03936 program CARDGAME (live, read-only, no mutation):
-//   summary: min 0x80082cb0 max 0x800a5ddf MIPS LE 32, 286 functions (image_base 00000000
-//     is the raw-BinaryLoader staging artifact; actual block starts at verified base).
-//   function list: CARDGAME_F0x8009dbe8 size 732; next CARDGAME_F0x8009dec4 confirms end.
-//   disasm 0x8009dbe8 (183 instrs) matches PAL words byte-for-byte (head 0x27bdffc8,
-//     0xafb60028 ... tail 0x8fb10014, 0x8fb00010, 0x03e00008, 0x27bd0038); full prologue
-//     addiu sp,-0x38 + 10 callee-saved stores, epilogue jr ra + addiu sp,+0x38.
-//   decompile 0x8009dbe8 -> count select on param_4 (0/1/2) then per-row loop (hypothesis
-//     only, confirmed against disasm, not copied).
-//   x-ref to 0x8009dbe8: one UNCONDITIONAL_CALL from 0x8009e81c in CARDGAME_F0x8009e668.
-//   graph callers depth2: 0x8009e668 <- FUN_800a2df8; graph callees: none (all calls are
-//     indirect via table slots +0xed8/+0xf14/+0xf18/+0xf3c installed by CARDGAME_F0x8009d310).
-// Table slots (from CARDGAME_F0x8009d310): ed8/f14/f18/f3c are EXE-callback function
-// pointers reached through tbl = *(param_2 + 0x18); rows stride 0x4c (76), 40 rows.
-// Upstream cardgame.s GUIDE only (never authority for base/boundary/compiler).
-// Domain pack: none generated. Target touches GAME card logic only (count select +
-// per-row indirect dispatch + byte copies); no battle/camera, skills, Digimon records,
-// dialogue, field/maps/tiles, sprites/rendering, disc I/O, or overlay-contract question
-// is actually exercised, so no read-only domain pack applies.
-// Signature is conservative: raw byte offsets, no invented struct; widths from access
-// widths (lh=l signed half, lbu/sb = byte, sw/lw = word). Incoming a1 (param_2) is saved
-// and reloaded per row; tbl is re-read from it in the copy step, reproduced here.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base variant):
-// exact_byte_match 732/732 (r7 o55).
+/*
+ * CARDGAME:0x8009dbe8 CARDGAME_F0x8009dbe8
+ * 732 bytes at CARDGAME.PRO offset 0x1af38 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8009dbe8
+ *  Symbols     CARDGAME_F0x8009dbe8=0x8009dbe8
+ *  Compare     732 bytes from 0x8009dbe8 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8009dbe8
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Table slots (from CARDGAME_F0x8009d310): ed8/f14/f18/f3c are EXE-callback
+ * function pointers reached through tbl = *(param_2 + 0x18); rows stride 0x4c
+ * (76), 40 rows.
+ *
+ * Signature is conservative: raw byte offsets, no invented struct; widths from
+ * access widths (lh=l signed half, lbu/sb = byte, sw/lw = word). Incoming a1
+ * (param_2) is saved and reloaded per row; tbl is re-read from it in the copy
+ * step, reproduced here.
+ */
+
 #include <stdint.h>
 
 typedef int32_t (*dbe8_get_t)(int32_t, int32_t);

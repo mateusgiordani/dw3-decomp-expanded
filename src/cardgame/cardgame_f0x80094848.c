@@ -1,11 +1,48 @@
-// CARDGAME:0x80094848 (size 816, 0x330)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x11b98
-// Prologue 27bdffe0 addiu sp,-0x20 ; sw s0,0x10(sp) ; move s0,a0 ; sw s1,0x14(sp) ; move s1,a1 ; sw s2,0x18(sp) ; sw ra,0x1c(sp)
-// Body: state byte at p1+0x422 (1/2/3/4); state1 accumulates word pairs 0x428/0x42c from short table +0x734/+0x736 stride 14 count *(u8*)(p1+0x72c) and 0x430/0x434 from +0x7a6/+0x7a8 count *(u8*)(p1+0x79e), then compares shorts 0x59c/0x59e/0x664/0x666 against words; state2 ticks (*0x8004df9c)() into 0x424, overflow (>14) copies low halves to 0x59c/0x664/0x666/0x59e with 4 indirect (p2+0xea0) calls then state 3, else EXE (*0x80055c48)(0x800452c6) + 4x CARDGAME_F0x80093bc4 lerps with 4 indirect calls; state3 -> 4; state4 -> 1; default 0.
-// Epilogue lw ra,0x1c(sp) ; lw s2,0x18(sp) ; lw s1,0x14(sp) ; lw s0,0x10(sp) ; jr ra ; addiu sp,+0x20 at 0x80094b60/0x80094b74; next CARDGAME:0x80094b78 at +0x330 confirms size 0x330 contiguous (prologue/epilogue pair).
-// Ghidra program CARDGAME (project ddw3-pal-sles-03936) read-only, no cache mutation: disasm 0x80094848 40x5 + tail 0x80094b68 (204 insns) verified word-equal against PAL LE words @ 0x11b98 (first8 27bdffe0 afb00010 00808021 afb10014 00a08821 afb20018 afbf001c 92030422; last4 8fb10014 8fb00010 03e00008 27bd0020); decompile CARDGAME_F0x80094848; x-ref to from CARDGAME_F0x80084320 at 0x800857e4 (a0=s1,a1=s0, checks v0==0); x-ref from: 4x jal CARDGAME_F0x80093bc4, 8x jalr via *(p2+0xea0), jalr (*0x8004df9c), jalr (*0x80055c48). Upstream cardgame.s consulted as guide only (jal stubs at .L0x00002b34 etc.); recomp not used. No symbols/CSV/catalog/status/reference/upstream edits.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base):
-// exact_byte_match 816/816 (r7 o55).
+/*
+ * CARDGAME:0x80094848 CARDGAME_F0x80094848
+ * 816 bytes at CARDGAME.PRO offset 0x11b98 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80094848
+ *  Symbols     CARDGAME_F0x80093bc4=0x80093bc4 CARDGAME_F0x80094848=0x80094848
+ *  Compare     816 bytes from 0x80094848 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80094848
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Prologue 27bdffe0 addiu sp,-0x20 ; sw s0,0x10(sp) ; move s0,a0 ; sw
+ * s1,0x14(sp) ; move s1,a1 ; sw s2,0x18(sp) ; sw ra,0x1c(sp)
+ *
+ * Body: state byte at p1+0x422 (1/2/3/4); state1 accumulates word pairs
+ * 0x428/0x42c from short table +0x734/+0x736 stride 14 count *(u8*)(p1+0x72c)
+ * and 0x430/0x434 from +0x7a6/+0x7a8 count *(u8*)(p1+0x79e), then compares
+ * shorts 0x59c/0x59e/0x664/0x666 against words; state2 ticks (*0x8004df9c)()
+ * into 0x424, overflow (>14) copies low halves to 0x59c/0x664/0x666/0x59e with
+ * 4 indirect (p2+0xea0) calls then state 3, else EXE (*0x80055c48)(0x800452c6)
+ * + 4x CARDGAME_F0x80093bc4 lerps with 4 indirect calls; state3 -> 4; state4 ->
+ * 1; default 0.
+ *
+ * Epilogue lw ra,0x1c(sp) ; lw s2,0x18(sp) ; lw s1,0x14(sp) ; lw s0,0x10(sp) ;
+ * jr ra ; addiu sp,+0x20 at 0x80094b60/0x80094b74; next CARDGAME:0x80094b78 at
+ * +0x330 confirms size 0x330 contiguous (prologue/epilogue pair).
+ */
+
 #include <stdint.h>
 
 typedef void (*cardgame_cb_t)(int32_t, int32_t, int32_t, int32_t);

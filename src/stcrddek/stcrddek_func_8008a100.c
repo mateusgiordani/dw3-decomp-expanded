@@ -1,12 +1,37 @@
+/*
+ * STCRDDEK:0x8008a100 STCRDDEK_func_8008a100
+ * 284 bytes at STCRDDEK.PRO offset 0x7450 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008a100
+ *  Symbols     D_80044B38=0x80044b38 D_8005CCA8=0x8005cca8
+ *              F0x8001ffa8=0x8001ffa8
+ *  Compare     284 bytes from 0x8008a100 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x8008a100
+ */
+
 #include "common/types.h"
 
-/* STCRDDEK:0x8008a100 (284B, 71 instructions)
- * PAL bytes: reference/extracted/pro/stcrddek.bin base 0x80082cb0 file-off 0x7450 (29776)
- * Boundary: reviewed inventory body-8008a100; prologue addiu sp,-0x58, epilogue jr ra / addiu sp,0x58;
- * frame 0x58 with ra@0x50 s1@0x4c s0@0x48, stack buffer at sp+0x10 (56 bytes).
+/*
  * Next function STCRDDEK:0x8008a21c starts immediately after (no gap/overlap).
- * Ghidra: project ddw3-pal-sles-03936 program STCRDDEK, disasm/decompile read-only (no cache mutation).
- * File name does not prove a deck-menu role; semantics unconfirmed, names conservative.
+ *
+ * File name does not prove a deck-menu role; semantics unconfirmed, names
+ * conservative.
  */
 extern void F0x8001ffa8(void *buf);
 extern struct {

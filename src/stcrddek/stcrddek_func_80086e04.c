@@ -1,11 +1,54 @@
-/* STCRDDEK:0x80086e04, PAL-SLES-03936; 2436-byte body, no padding.
+/*
+ * STCRDDEK:0x80086e04 STCRDDEK_func_80086e04
+ * 2436 bytes at STCRDDEK.PRO offset 0x4154 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80086e04, jump table (.rodata) at 0x80082db0
+ *  Symbols     D_80044b38=0x80044b38 D_8004de10=0x8004de10
+ *              EXE_F0x8001f648=0x8001f648 STCRDDEK_DAT_80044f5c=0x80044f5c
+ *              STCRDDEK_DAT_8004df98=0x8004df98
+ *              STCRDDEK_DAT_8005cca8=0x8005cca8
+ *              STCRDDEK_DAT_8008b7f4=0x8008b7f4
+ *              STCRDDEK_DAT_8008b800=0x8008b800
+ *              STCRDDEK_DAT_8008b80c=0x8008b80c
+ *              STCRDDEK_DAT_8008b848=0x8008b848
+ *              STCRDDEK_DAT_8008b850=0x8008b850
+ *              STCRDDEK_TBL_8008b6fc=0x8008b6fc
+ *              STCRDDEK_TBL_8008b7dc=0x8008b7dc
+ *              STCRDDEK_TBL_8008b818=0x8008b818
+ *  Compare     2436 bytes from 0x80086e04 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x80086e04
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * PAL-SLES-03936; 2436-byte body, no padding.
+ *
  * Raw overlay base 0x80082cb0; offset 0x4154; next entry 0x80087788.
+ *
  * The 34-entry jump table is at 0x80082db0 (136 bytes).
- * Read-only Ghidra disassembly and caller 0x80088608 were checked against PAL.
+ *
  * Exact with PsyQ GCC 2.8.1 SN32 4.0.0010 / ASPSX 2.79, -O2 -G0 (base).
- * Evidence: docs/c-matching-guide/submissions/stcrddek-80086e04/strategy-r7-astra.md.
+ *
  * Offset names retain uncertainty about the complete work/callback layouts.
  */
+
 #include "common/types.h"
 
 typedef void (*stcrddek_cb1_t)(int32_t a0);

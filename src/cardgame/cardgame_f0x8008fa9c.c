@@ -1,23 +1,51 @@
-/* CARDGAME:0x8008fa9c (size 1132, 0x46c) */
-/* PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x0cdec */
-/* Framed function from boundary sweep reports/handoffs/cardgame-boundary-sweep.md #72 */
-/* Prologue 27bdffd0 addiu sp,-0x30 ; epilogue jr ra + addiu sp,+0x30 at 0x8008ff00 */
-/* Next CARDGAME:0x8008ff08 at +0x46c (contiguous, no gap) */
-/* State machine on byte st+0x422 (cases 1..4, default returns 0; case 4 returns 1) */
-/* Counter at st+0x424 accumulates EXE tick vector *0x8004df9c (lui 0x8005 + lw -0x2064) */
-/* Table at 0x800a5900 indexed by idx*8 (two words passed as 4th/5th args to ctx+0xf08) */
-/* Per-side stride 200 (0xc8) at st+idx*200; halfword arrays at +0x5a0/+0x5a2/+0x5a4/+0x5a6, */
-/* +0x5b0/+0x600/+0x614; bytes at +0x30a/+0x30b, +0x41b/+0x41c; indirect ctx slots */
-/* +0xf08/+0xf20/+0xea0; gate byte ctx+0x656 must be 1 in state 2 */
-/* Ghidra CARDGAME read-only: disasm (283 + 150 insns) word-equal vs PAL, decompile */
-/* CARDGAME_F0x8008fa9c, x-ref to: 3 callers in CARDGAME_F0x80084320 */
-/*   (0x80085548 a2=s4,a3=0 / 0x8008556c a2=s2,a3=0 / 0x80085590 a2=s4,a3=1) */
-/* Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base; the same
-   object with o2-g0-no-strength-reduce): exact_byte_match 1132/1132 (r8 o55).
-   The loops recompute idx * 200 / st + idx * 200 in their bodies so loop.c hoists
-   copies into the preheaders (which also keeps the duplicated exit-test guards);
-   each loop copies its decremented/incremented counter back (n) so the single-set
-   n gets the sched1 boost; the fill loop reuses the else-branch counter c. */
+/*
+ * CARDGAME:0x8008fa9c CARDGAME_F0x8008fa9c
+ * 1132 bytes at CARDGAME.PRO offset 0xcdec (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008fa9c
+ *  Symbols     D_8004df9c=0x8004df9c D_800A5900=0x800a5900
+ *  Compare     1132 bytes from 0x8008fa9c against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8008fa9c
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Prologue 27bdffd0 addiu sp,-0x30 ; epilogue jr ra + addiu sp,+0x30 at
+ * 0x8008ff00
+ *
+ * Next CARDGAME:0x8008ff08 at +0x46c (contiguous, no gap)
+ *
+ * State machine on byte st+0x422 (cases 1..4, default returns 0; case 4 returns
+ * 1)
+ *
+ * Counter at st+0x424 accumulates EXE tick vector *0x8004df9c (lui 0x8005 + lw
+ * -0x2064)
+ *
+ * Table at 0x800a5900 indexed by idx*8 (two words passed as 4th/5th args to
+ * ctx+0xf08)
+ *
+ * Per-side stride 200 (0xc8) at st+idx*200; halfword arrays at
+ * +0x5a0/+0x5a2/+0x5a4/+0x5a6, +0x5b0/+0x600/+0x614; bytes at +0x30a/+0x30b,
+ * +0x41b/+0x41c; indirect ctx slots +0xf08/+0xf20/+0xea0; gate byte ctx+0x656
+ * must be 1 in state 2
+ */
+
 #include "common/types.h"
 
 typedef int32_t (*cardgame_fa9c_tick_t)(void);

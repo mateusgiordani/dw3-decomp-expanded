@@ -1,23 +1,47 @@
-// STCRDDEK:0x800837b4 (size 272, 0x110)
-// PAL: reference/extracted/pro/stcrddek.bin base 0x80082cb0 file-off 0xb04 (RAW, no header)
-// Boundary: prologue 27bdff90 addiu sp,sp,-0x70 + sw s0/ra at 0x800837b4-0x800837c0;
-// epilogue lw ra,0x6c(sp) + lw s0,0x68(sp) + jr ra + addiu sp,sp,+0x70 at
-// 0x800838b4-0x800838c0. Next framed STCRDDEK:0x800838c4 at +0x110
-// (27bdffe8 addiu sp,sp,-0x18), contiguous, no overlap.
-// Ghidra program STCRDDEK (project ddw3-pal-sles-03936) read-only: 68-insn disasm
-// matches PAL word-for-word (sha256 a3060d9f5443b571fb36d42c9ed97609ffbe9bbc26763110d1699196cb1980d4).
-// Decompile hypothesis + disasm: counter at +0x5c pre-incremented; if >= 0x29,
-// state at +0xc = 2 and counter reset to 0x28, else one deck-grid step: EXE helper
-// fills a stack callback block, then 5 indirect calls driven by an int16 card id
-// from an EXE table, two (0x140,0x100)/(0x300,0x100) pairs, (counter-1)%9, flush.
-// Caller: single direct jal from dispatcher STCRDDEK:0x800838c4 (state 1 path,
-// pairs with STCRDDEK:0x800835d8, which reads the same EXE table base).
-// Callee: 1 direct jal to EXE 0x8001ebf8.
-// Table: EXE halfword entries at 0x80048d34+0x63e (int16 card ids); the lui/addiu
-// pair is a relocated extern address (linker high-adjusted form), not an immediate.
-// upstream stcrddek.s is GUIDE only, never copied. No Ghidra state change.
-// Toolchain base: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0.
-// Status: C_NONMATCHING (portable C,word-exact PAL boundary; see report for diff).
+/*
+ * STCRDDEK:0x800837b4 STCRDDEK_func_800837b4
+ * 272 bytes at STCRDDEK.PRO offset 0xb04 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x800837b4
+ *  Symbols     D0x80048D34=0x80048d34 F0x8001ebf8=0x8001ebf8
+ *              STCRDDEK_func_800837b4=0x800837b4
+ *  Compare     272 bytes from 0x800837b4 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x800837b4
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Decompile hypothesis + disasm: counter at +0x5c pre-incremented; if >= 0x29,
+ * state at +0xc = 2 and counter reset to 0x28, else one deck-grid step: EXE
+ * helper fills a stack callback block, then 5 indirect calls driven by an int16
+ * card id from an EXE table, two (0x140,0x100)/(0x300,0x100) pairs,
+ * (counter-1)%9, flush.
+ *
+ * Callee: 1 direct jal to EXE 0x8001ebf8.
+ *
+ * Table: EXE halfword entries at 0x80048d34+0x63e (int16 card ids); the
+ * lui/addiu pair is a relocated extern address (linker high-adjusted form), not
+ * an immediate.
+ *
+ * No Ghidra state change.
+ */
+
 #include <stdint.h>
 
 extern void F0x8001ebf8(void *);

@@ -1,22 +1,38 @@
-/* STCRDDEK:0x80086574 -- state-dispatch tick (152 B, file off 0x38c4 = vaddr - 0x80082cb0).
- * PAL bytes (authority): prologue addiu sp,-0x20, save s0/s1/ra; v1 = *(a0 + 0xc);
- * beq v1,1 -> 0x800865e4 path; slti/bne pair skips states 2..3; else path does
- * jalr *(a0 + 0x38), jal 0x8008397c, then stores 10 at +0x444/+0x454/+0x464/
- * +0x474/+0x484 (last store in j delay slot); state==1 path is jal 0x80085210
- * then jal 0x80084890. Epilogue restores ra/s1/s0, jr ra, addiu sp,0x20.
- * Ghidra STCRDDEK read-only: disasm matches PAL words exactly (38 words);
- * decompiler agrees on the if (state == 1) / else-if (state < 2 || state > 3)
- * shape; x-ref to 0x80086574: none (callers outside STCRDDEK or table-driven).
- * Struct layout intentionally left unrecovered beyond word offsets used here.
- * Status C_MATCHING (2026-09-08 retry wave): goto-funnel shape keeps the
- * unfolded slti/bne pair (slti 2 / bne->setup with slti 4 in the delay slot,
- * bne->done with nop in the delay slot), the explicit load-delay nop before
- * jalr, and the reloaded move a0,s0 after jalr; exact pipeline under base
- * (psyq-gcc-2.8.1-sn32-4.0.0010/aspsx-2.79 -O2 -G0) reports exact_byte_match,
- * 152/152 bytes, difference_count 0. Supersedes the nested-if C_NONMATCHING
- * note: the `||` fold (addu+sltu, 148 bytes) was a source-shape artifact,
- * not a toolchain variant gap.
+/*
+ * STCRDDEK:0x80086574 STCRDDEK_func_80086574
+ * 152 bytes at STCRDDEK.PRO offset 0x38c4 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80086574
+ *  Symbols     STCRDDEK_func_8008397c=0x8008397c
+ *              STCRDDEK_func_80084890=0x80084890
+ *              STCRDDEK_func_80085210=0x80085210
+ *  Compare     152 bytes from 0x80086574 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x80086574
  */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * state-dispatch tick (152 B, file off 0x38c4 = vaddr - 0x80082cb0).
+ *
+ * Struct layout intentionally left unrecovered beyond word offsets used here.
+ */
+
 #include <stdint.h>
 
 extern void STCRDDEK_func_8008397c(uint32_t *arg0, uint32_t arg1);

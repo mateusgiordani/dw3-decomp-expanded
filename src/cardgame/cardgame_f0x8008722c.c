@@ -1,25 +1,41 @@
-// CARDGAME:0x8008722c (size 220, 0xdc)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x457c
-// Boundary: prologue 27bdffd0 (sp,-0x30) at 0x8008722c, epilogue jr ra +
-// 27bd0030 at 0x80087300/04; prev CARDGAME:0x800870a4 ends 0x80087224,
-// next CARDGAME:0x8008735c prologue at +0xdc: contiguous, no gap.
-// Frame -0x30/+0x30; saves s6,s4,ra,s5,s3,s2,s1,s0.
-// Semantics: n = lh(h+10); if (n <= 0) return; i = 0; pc = p; qc = q;
-// hc = h; do { r = CARDGAME_F0x80085fd0(p, h+12, (int)hc[50]);
-// s1[0x151] = (r == 0 && pc[0x46f] == 0); pc[0x446] = (r != 0 &&
-// pc[0x46f] == 0); qc += 0x4c; pc++; hc++; } while (lh(h+10) > ++i).
-// Ghidra program CARDGAME (project ddw3-pal-sles-03936) read-only: 55 words
-// word-equal to PAL @0x457c; single caller CARDGAME_F0x80087edc at 0x80088678
-// (a0=s3, a1=s4, a2=s5); single callee CARDGAME_F0x80085fd0 at 0x80087280.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79, -O2 -G0, variant
-// o2-g0-no-strength-reduce (PAL keeps raw byte cursors with full-offset
-// loads/stores; pair pinned by the matching sibling cardgame_f0x80085fd0).
-// The guard compares the count against the counter, which is zero there, so
-// the counter is referenced once before the loop. That eighth reference is
-// what puts it in s2 and the halfword cursor in s3, as in PAL: see
-// submissions/cardgame-8008722c/strategy-r6.md for the .lreg priorities.
-// Revision history in that strategy and in the earlier strategy-r5.md.
-// Status: C_MATCHING (220/220, 55/55 PAL words, zero differences).
+/*
+ * CARDGAME:0x8008722c CARDGAME_F0x8008722c
+ * 220 bytes at CARDGAME.PRO offset 0x457c (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float -fno-strength-reduce
+ *  Variant     o2-g0-no-strength-reduce
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008722c
+ *  Symbols     CARDGAME_F0x80085fd0=0x80085fd0
+ *  Compare     220 bytes from 0x8008722c against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8008722c
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Frame -0x30/+0x30; saves s6,s4,ra,s5,s3,s2,s1,s0.
+ *
+ * Semantics: n = lh(h+10); if (n <= 0) return; i = 0; pc = p; qc = q; hc = h;
+ * do { r = CARDGAME_F0x80085fd0(p, h+12, (int)hc[50]); s1[0x151] = (r == 0 &&
+ * pc[0x46f] == 0); pc[0x446] = (r != 0 && pc[0x46f] == 0); qc += 0x4c; pc++;
+ * hc++; } while (lh(h+10) > ++i).
+ *
+ * The guard compares the count against the counter, which is zero there, so the
+ * counter is referenced once before the loop.
+ */
 
 extern unsigned int CARDGAME_F0x80085fd0(void *p, unsigned char *k, int idx);
 

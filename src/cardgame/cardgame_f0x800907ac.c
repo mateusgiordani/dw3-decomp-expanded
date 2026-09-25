@@ -1,26 +1,49 @@
-// CARDGAME:0x800907ac (size 704, 0x2C0)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0xDAFC
-// Framed function: symbols/function_labels.csv CARDGAME,0x800907ac,704 (PAL prologue + jr ra (sweep)).
-// Prologue: addiu sp,sp,-0x28 ; sw s1,0x14(sp) ; move s1,a0 ; sw s3,0x1c(sp) ;
-//   move s3,a1 ; sw s2,0x18(sp) ; move s2,a2 ; sw s4,0x20(sp) ; sw ra,0x24(sp) ;
-//   sw s0,0x10(sp).
-// Epilogue at 0x80090a48: lw ra,0x24(sp) ; lw s4,0x20(sp) ; lw s3,0x1c(sp) ;
-//   lw s2,0x18(sp) ; lw s1,0x14(sp) ; lw s0,0x10(sp) ; jr ra ; addiu sp,sp,0x28.
-// Next function CARDGAME:0x80090a6c at +0x2C0 confirms the 704B boundary.
-// Ghidra program CARDGAME (project ddw3-pal-sles-03936) read-only: disasm 176 words
-// from 0x800907ac, decompile CARDGAME_F0x800907ac, x-ref to (1 caller) + x-ref from;
-// no state changed. cardgame.s/upstream used as locator only, never as authority.
-// Caller: CARDGAME_F0x80084320 at 0x80085614 UNCONDITIONAL_CALL.
-// Callees (all indirect jalr): 2x via word at 0x8004df9c (lui s0,0x8005 /
-//   addiu s0,-0x21f0 / lw v0,0x18c(s0)); 2x via word at p2+0xea0 with
-//   (a0=p2, a1=p3, a2=7 / a2=5); 1x via word at p1+0x810 with (a0=p1, a1/a2=h4/h8).
-// Reference words at file-off 0xDAFC: 27bdffd8 afb10014 00888221 afb3001c ... ;
-// Ghidra byte stream (d8ffbd27 1400b1af ...) matches PAL little-endian words.
-// No domain pack: body touches only card-state bytes/halfwords/words, one EXE-side
-// getter slot and in-overlay callback slots; no rendering/dialogue/disc syscalls
-// observed in disasm, decompile or xrefs, so no knowledge domain is actually touched.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0, variant base
-// (strength reduction on), --strip-div-guard: exact_byte_match 704/704 (r8 o55).
+/*
+ * CARDGAME:0x800907ac CARDGAME_F0x800907ac
+ * 704 bytes at CARDGAME.PRO offset 0xdafc (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x800907ac
+ *  Symbols     DAT_8004DE10=0x8004de10
+ *  Compare     704 bytes from 0x800907ac against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x800907ac
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Prologue: addiu sp,sp,-0x28 ; sw s1,0x14(sp) ; move s1,a0 ; sw s3,0x1c(sp) ;
+ * move s3,a1 ; sw s2,0x18(sp) ; move s2,a2 ; sw s4,0x20(sp) ; sw ra,0x24(sp) ;
+ * sw s0,0x10(sp).
+ *
+ * Epilogue at 0x80090a48: lw ra,0x24(sp) ; lw s4,0x20(sp) ; lw s3,0x1c(sp) ; lw
+ * s2,0x18(sp) ; lw s1,0x14(sp) ; lw s0,0x10(sp) ; jr ra ; addiu sp,sp,0x28.
+ *
+ * Next function CARDGAME:0x80090a6c at +0x2C0 confirms the 704B boundary.
+ *
+ * Caller: CARDGAME_F0x80084320 at 0x80085614 UNCONDITIONAL_CALL.
+ *
+ * Callees (all indirect jalr): 2x via word at 0x8004df9c (lui s0,0x8005 / addiu
+ * s0,-0x21f0 / lw v0,0x18c(s0)); 2x via word at p2+0xea0 with (a0=p2, a1=p3,
+ * a2=7 / a2=5); 1x via word at p1+0x810 with (a0=p1, a1/a2=h4/h8).
+ *
+ * Ghidra byte stream (d8ffbd27 1400b1af ...) matches PAL little-endian words.
+ */
+
 #include "common/types.h"
 
 typedef struct { int8_t b[2]; } cardgame_pair_t;

@@ -1,25 +1,51 @@
-// CARDGAME:0x80096e8c (size 940, 0x3AC)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x141dc
-// Prologue 27bdff28 addiu sp,-0xd8 ; epilogue jr ra / 27bd00d8 addiu sp,+0xd8
-// Next CARDGAME:0x80097238 at +0x3ac; ends at 0x80097238.
-// Caller: CARDGAME_F0x80097508 @0x800978c4 (jal, delay _move a2,s1).
-// Callees: CARDGAME 0x80096a94 (card-arg struct at sp+0x10, flag 1);
-//   EXE F0x8001f648 (C_MATCHING, decomp/src/exe/exe_f0x8001f648.c) fills a
-//   0xa0-byte callback struct (branch1 at sp+0x28, branches 2/3 at sp+0x10);
-//   5 indirect calls through its slots (+0x74/+0x7c/+0x84/+0x8c/+0x94
-//   struct-relative); EXE indirect slot at 0x80044f5c (lui 0x8004 / lw 0x4f5c).
-// Data: CARDGAME table at 0x800a5984, 6-byte entries indexed by p[6]*6
-//   (halfwords +0/+2 via lhu+lh, bytes +4/+5 via lbu).
-// Stack: single 0xb8-byte frame region (sp+0x10..sp+0xc7) holds the card-arg
-//   struct (sp+0x10, 0x11 bytes, consumed by 0x80096a94) and BOTH callback
-//   structs (sp+0x28 branch1, sp+0x10 branches 2/3) with live-range overlap;
-//   modeled as one byte array with documented offsets (PAL reuses the slots).
-// Ghidra CARDGAME disasm (235 insns, 5 read-only sweeps)/decompile/xrefs
-// (project ddw3-pal-sles-03936, base 0x80082cb0, no import/mutation).
-// Word check: file-off 0x141dc LE words match Ghidra byte-strings after endian
-// swap (27bdff28 afb100cc 00c08821 ...); tail words 03e00008 27bd00d8.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base).
-// Status: C_MATCHING (exact_byte_match, 940/940 bytes, 0 differences).
+/*
+ * CARDGAME:0x80096e8c CARDGAME_F0x80096e8c
+ * 940 bytes at CARDGAME.PRO offset 0x141dc (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80096e8c
+ *  Symbols     CARDGAME_F0x80096a94=0x80096a94 CARDGAME_F0x80097508=0x80097508
+ *              D0x80044f5c=0x80044f5c D0x800a5984=0x800a5984
+ *              F0x8001f648=0x8001f648 exe_f0x8001f648=0x8001f648
+ *  Compare     940 bytes from 0x80096e8c against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80096e8c
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Prologue 27bdff28 addiu sp,-0xd8 ; epilogue jr ra / 27bd00d8 addiu sp,+0xd8
+ *
+ * Next CARDGAME:0x80097238 at +0x3ac; ends at 0x80097238.
+ *
+ * Caller: CARDGAME_F0x80097508 @0x800978c4 (jal, delay _move a2,s1).
+ *
+ * Callees: CARDGAME 0x80096a94 (card-arg struct at sp+0x10, flag 1); EXE
+ * indirect slot at 0x80044f5c (lui 0x8004 / lw 0x4f5c).
+ *
+ * Data: CARDGAME table at 0x800a5984, 6-byte entries indexed by p[6]*6
+ * (halfwords +0/+2 via lhu+lh, bytes +4/+5 via lbu).
+ *
+ * Stack: single 0xb8-byte frame region (sp+0x10..sp+0xc7) holds the card-arg
+ * struct (sp+0x10, 0x11 bytes, consumed by 0x80096a94) and BOTH callback
+ * structs (sp+0x28 branch1, sp+0x10 branches 2/3) with live-range overlap;
+ * modeled as one byte array with documented offsets (PAL reuses the slots).
+ */
+
 #include <stdint.h>
 
 extern void CARDGAME_F0x80096a94(void *arg, int32_t flag);

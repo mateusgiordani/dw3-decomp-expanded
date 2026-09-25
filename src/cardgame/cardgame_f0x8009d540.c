@@ -1,23 +1,39 @@
-// CARDGAME:0x8009d540 (size 372, 0x174)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x1a890
-// Boundary: symbols/functions.csv CARDGAME 0x8009d540-0x8009d6b4 (372B, 93 insns)
-//   Prologue 27bdffe8 addiu sp,-0x18; sw s0,0x10(sp); move s0,a0; sw ra,0x14(sp)
-//   Epilogue lw ra,0x14(sp); lw s0,0x10(sp); jr ra; addiu sp,+0x18
-//   Prev CARDGAME 0x8009d310 (560B) ends at 0x8009d540; next CARDGAME 0x8009d6b4
-//   (prologue 27bdffe8) starts at +0x174, confirming no overlap.
-// Ghidra CARDGAME (ddw3-pal-sles-03936, read-only, base 0x80082cb0 verified):
-//   disasm 0x8009d540 --instructions 93 + tail 0x8009d694 --instructions 12,
-//   PAL identical word-for-word; state gate *0xc ==1, dispatch on *0x10,
-//   table 0x800a5bf0 (halfword pairs, addu offset-first, lh 0 / lh +2),
-//   EXE 0x80044f44/0x80044f3c, halfwords +0x54/+0x56, method at +0x28, +0x50 flag
-//   x-ref to 0x8009d540: 1 caller CARDGAME_F0x8009d6b4 via EXE_F0x80014504(task,0x58,0)
-//   (task registration, evidence for callback role, not direct jal)
-//   Ghidra state changed: no (read-only queries only)
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (variant base)
-// Candidate status: EXACT (372B/372B, 0 diffs) - r5 S4, pending parent reproduction
-//   r5 mechanism: integer table base + scaled offset before base (offset-first
-//   addu), fresh idx re-read defeating CSE (reload lh + hazard nop), pointer
-//   [1] second access (lh +2 offset, no ori). See strategy-r5.md.
+/*
+ * CARDGAME:0x8009d540 CARDGAME_F0x8009d540
+ * 372 bytes at CARDGAME.PRO offset 0x1a890 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8009d540
+ *  Symbols     CARDGAME_F0x8009d540=0x8009d540 D_80044f3c=0x80044f3c
+ *              D_80044f44=0x80044f44 D_8005cca8=0x8005cca8
+ *              D_800a5bf0=0x800a5bf0
+ *  Compare     372 bytes from 0x8009d540 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8009d540
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Candidate status: EXACT (372B/372B, 0 diffs) - r5 S4, pending parent
+ * reproduction r5 mechanism: integer table base + scaled offset before base
+ * (offset-first addu), fresh idx re-read defeating CSE (reload lh + hazard
+ * nop), pointer [1] second access (lh +2 offset, no ori).
+ */
+
 #include <stdint.h>
 
 extern int16_t D_800a5bf0[];

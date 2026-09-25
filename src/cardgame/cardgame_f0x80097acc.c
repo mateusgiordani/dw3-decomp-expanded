@@ -1,8 +1,42 @@
-/* CARDGAME:0x80097acc, PAL-SLES-03936, [0x80097acc, 0x8009848c).
- * Exact 2496-byte C recovery; see submission cardgame-80097acc/manifest-r9-astra.json.
+/*
+ * CARDGAME:0x80097acc CARDGAME_F0x80097acc
+ * 2496 bytes at CARDGAME.PRO offset 0x14e1c (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float -fno-strength-reduce
+ *  Variant     o2-g0-no-strength-reduce
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80097acc
+ *  Symbols     CARDGAME_F0x80097958=0x80097958 CARDGAME_F0x80097a24=0x80097a24
+ *              D0x800a59b0=0x800a59b0 DAT_80044f4c=0x80044f4c
+ *              DAT_8004df9c=0x8004df9c DAT_8005cca8=0x8005cca8
+ *              D_80044B38=0x80044b38 func_0x8001fcc0=0x8001fcc0
+ *              func_0x8002abcc=0x8002abcc
+ *  Compare     2496 bytes from 0x80097acc against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80097acc
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * PAL-SLES-03936, [0x80097acc, 0x8009848c).
+ *
  * Local row view has stride 8; indirect callback identities remain slot-based.
+ *
  * Keep the independent row/base and scratch lifetimes: GCC 2.8.1 uses them.
  */
+
 #include <stdint.h>
 typedef struct {
     int32_t x, y;

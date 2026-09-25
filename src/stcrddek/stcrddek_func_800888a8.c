@@ -1,10 +1,40 @@
-/* STCRDDEK:0x800888a8 -- 8 B word setter (file off 0x5bf8 = vaddr - 0x80082cb0).
- * PAL bytes (authority): 0x03E00008 jr ra; 0xAC850074 sw a1,0x74(a0) [store in jr delay slot].
- * Ghidra STCRDDEK read-only: STCRDDEK_func_800888a8 size 8, contiguous
- * (prev 0x80088894+20 ends at entry, next 0x800888b0); decompiler agrees:
- * *(param_1 + 0x74) = param_2. No intra-overlay jal/abs-ptr callers (cross-overlay
- * or table-driven callers); xrefs none. Portable C only, no register variables.
- * Struct type intentionally left unrecovered: unknown layout beyond word at +0x74. */
+/*
+ * STCRDDEK:0x800888a8 STCRDDEK_func_800888a8
+ * 8 bytes at STCRDDEK.PRO offset 0x5bf8 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x800888a8
+ *  Symbols     (none)
+ *  Compare     8 bytes from 0x800888a8 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x800888a8
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * 8 B word setter (file off 0x5bf8 = vaddr - 0x80082cb0).
+ *
+ * No intra-overlay jal/abs-ptr callers (cross-overlay or table-driven callers);
+ * xrefs none. Portable C only, no register variables.
+ *
+ * Struct type intentionally left unrecovered: unknown layout beyond word at
+ * +0x74.
+ */
+
 #include <stdint.h>
 
 void STCRDDEK_func_800888a8(uint32_t *arg0, uint32_t arg1) {

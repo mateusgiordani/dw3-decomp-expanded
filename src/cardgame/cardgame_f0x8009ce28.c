@@ -1,17 +1,35 @@
-// CARDGAME:0x8009ce28 (size 108, 0x6c)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x1a178
-// Portable C recovery (rev 2, cardgame-human-v1). Prior rev 1 was ASM_MATCHING
-// noreorder wrapper (exact_byte_match, sha 062d3d61...); this rev replaces it
-// with reviewed portable C per campaign (asm wrappers are not C).
-// Ghidra CARDGAME read-only: disasm 27 words matches PAL LE words 1:1;
-// decompile: (*_DAT_80055c48)(0x4001c); param_1 + param_2 * 0x4c;
-//   *(param_1 + 0x14a) = 0xb; *(param_1 + 0x134) = 0; *(param_1 + 0x130) = 0;
-// x-ref to 0x8009ce28: DATA ref from 0x8009d48c (CARDGAME_F0x8009d310), no direct
-//   code caller; x-ref from: stack saves + READ 0x80055c48 (indirect target).
-// Upstream cardgame.s GUIDE only. Rendering domain pack read-only:
-//   build/cardgame-8009ce28-domain.json (no C copied).
-// Match key: helper returns int32_t (not void) so GCC 2.8.1 -O2 keeps v0 live
-// and allocates the 76*index temp to v1 ($3), matching PAL sll/addu/subu chain.
+/*
+ * CARDGAME:0x8009ce28 CARDGAME_F0x8009ce28
+ * 108 bytes at CARDGAME.PRO offset 0x1a178 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8009ce28
+ *  Symbols     CARDGAME_F0x8009d310=0x8009d310 D_80055c48=0x80055c48
+ *              _DAT_80055c48=0x80055c48
+ *  Compare     108 bytes from 0x8009ce28 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8009ce28
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Portable C recovery (rev 2, cardgame-human-v1).
+ */
+
 #include "common/types.h"
 
 extern int32_t (*D_80055c48)(uint32_t);

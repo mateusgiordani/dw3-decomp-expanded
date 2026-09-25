@@ -1,12 +1,48 @@
-// CARDGAME:0x80099440; PAL-SLES-03936, base0x80082cb0.
-// Exact1376 text bytes plus24-byte jump table at0x80083730.
-// GCC2.8.1 SN32 4.0.0010 / ASPSX2.79, O2base, --strip-div-guard.
-// Keep all twelve real endpoints distinct across the selector branches.
-// Equal coordinates still have separate PAL subtraction/multiply/divide paths.
-// Raw PS1 addresses keep halfword accesses outside the old compiler array
-// alias class, preserving stores before the tick-pointer load in cases4/5.
-// Case3/4/5 resets intentionally repeat dx2 in the final field, as PAL does.
-// Evidence: submissions/cardgame-80099440/strategy-r7-astra.md.
+/*
+ * CARDGAME:0x80099440 CARDGAME_F0x80099440
+ * 1376 bytes at CARDGAME.PRO offset 0x16790 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80099440, jump table (.rodata) at 0x80083730
+ *  Symbols     CARDGAME_F0x80099440=0x80099440 DAT_8004DF9C=0x8004df9c
+ *  Compare     1376 bytes from 0x80099440 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80099440
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * PAL-SLES-03936, base0x80082cb0.
+ *
+ * Exact1376 text bytes plus24-byte jump table at0x80083730.
+ *
+ * GCC2.8.1 SN32 4.0.0010 / ASPSX2.79, O2base, --strip-div-guard.
+ *
+ * Keep all twelve real endpoints distinct across the selector branches.
+ *
+ * Equal coordinates still have separate PAL subtraction/multiply/divide paths.
+ *
+ * Raw PS1 addresses keep halfword accesses outside the old compiler array alias
+ * class, preserving stores before the tick-pointer load in cases4/5.
+ *
+ * Case3/4/5 resets intentionally repeat dx2 in the final field, as PAL does.
+ */
+
 #include <stdint.h>
 typedef int32_t (*cardgame_tick_fn_t)(void);
 extern int32_t DAT_8004DF9C;

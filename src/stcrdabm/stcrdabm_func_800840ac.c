@@ -1,12 +1,44 @@
+/*
+ * STCRDABM:0x800840ac STCRDABM_func_800840ac
+ * 1108 bytes at STCRDABM.PRO offset 0x13fc (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x800840ac
+ *  Symbols     D0x80044b38=0x80044b38 D0x80044f4c=0x80044f4c
+ *              D0x80048d34=0x80048d34 D0x8005cca8=0x8005cca8
+ *              F0x8001ebf8=0x8001ebf8 STCRDABM_func_800840ac=0x800840ac
+ *  Compare     1108 bytes from 0x800840ac against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDABM:0x800840ac
+ */
+
 #include "common/types.h"
 
-/* STCRDABM:0x800840ac, PAL-SLES-03936, 1108-byte body at module base
- * 0x80082cb0. Callers 800852d0/80085390/80085454 discard the return value.
+/*
+ * PAL-SLES-03936, 1108-byte body at module base 0x80082cb0. Callers
+ * 800852d0/80085390/80085454 discard the return value.
+ *
  * EXE:8001ebf8 initializes 0x54 bytes: data pointer +0, callbacks +0x2c/+0x50.
- * Widget methods are reloaded after each call. Complete early-exit hide tails
- * preserve the PAL call sites through GCC cross-jumping; see strategy-r5.md.
+ *
+ * Widget methods are reloaded after each call.
+ *
  * Normal service calls use vector 80044b38+414; special-ID path uses the
  * absolute 80044f4c slot. These are two views of the same PAL pointer.
+ *
  * Table +0x4df is unsigned presence; +0x3a2 is a signed byte value.
  */
 extern void F0x8001ebf8(void *);

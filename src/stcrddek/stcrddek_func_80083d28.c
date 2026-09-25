@@ -1,9 +1,40 @@
+/*
+ * STCRDDEK:0x80083d28 STCRDDEK_func_80083d28
+ * 1360 bytes at STCRDDEK.PRO offset 0x1078 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float -fno-strength-reduce
+ *  Variant     o2-g0-no-strength-reduce
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80083d28
+ *  Symbols     D_80044B38=0x80044b38 D_80048D34=0x80048d34
+ *              D_8004935C=0x8004935c D_8005CCA8=0x8005cca8
+ *              F0x8001ebf8=0x8001ebf8 STCRDDEK_func_80083d28=0x80083d28
+ *  Compare     1360 bytes from 0x80083d28 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x80083d28
+ */
+
 #include "common/types.h"
 
-/* STCRDDEK:0x80083d28, PAL-SLES-03936, 1360-byte body.
+/*
+ * PAL-SLES-03936, 1360-byte body.
+ *
  * GCC 2.8.1 / ASPSX 2.79, O2 with -fno-strength-reduce.
+ *
  * Per-path final calls preserve the PAL tails before compiler cross-jumping.
- * See docs/c-matching-guide/submissions/stcrddek-80083d28/strategy-r5.md for measured controls. */
+ */
 
 extern void F0x8001ebf8(void *buf);
 

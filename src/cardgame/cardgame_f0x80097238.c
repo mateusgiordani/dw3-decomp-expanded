@@ -1,13 +1,46 @@
-// CARDGAME:0x80097238 (size 216, 0xD8)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x14588
-// Boundary: prologue 27bdffd0 addiu sp,-0x30 at 0x80097238, epilogue 03e00008 jr ra + 27bd0030 addiu sp,+0x30 at 0x80097308/0x8009730c.
-// Next function CARDGAME:0x80097310 (addiu sp,-0x20) confirms size 0xD8 contiguous.
-// Ghidra program CARDGAME read-only (project ddw3-pal-sles-03936, base 0x80082cb0): disasm 54 words, decompile + xrefs read-only, no cache mutation.
-// Callers: CARDGAME_F0x80097508 -> jal 0x80097238 at 0x80097748 (UNCONDITIONAL_CALL). Callees: 3 indirect jalr per iteration (vtable at +0x134/+0x118/+0x148 from object at *(cursor+4)).
-// Reference words compared with coordinator reference/extracted/pro/cardgame.bin @ off 0x14588 (54 words, Ghidra bytes match reference dump word-for-word).
-// Exact toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 -fno-strength-reduce.
-// The late local cursor initialization reproduces PAL prologue order while the
-// pinned no-strength-reduce variant preserves the base+4 loads. Full 216-byte match.
+/*
+ * CARDGAME:0x80097238 CARDGAME_F0x80097238
+ * 216 bytes at CARDGAME.PRO offset 0x14588 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float -fno-strength-reduce
+ *  Variant     o2-g0-no-strength-reduce
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80097238
+ *  Symbols     CARDGAME_F0x80097508=0x80097508
+ *  Compare     216 bytes from 0x80097238 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80097238
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Next function CARDGAME:0x80097310 (addiu sp,-0x20) confirms size 0xD8
+ * contiguous.
+ *
+ * Callers: CARDGAME_F0x80097508 -> jal 0x80097238 at 0x80097748
+ * (UNCONDITIONAL_CALL). Callees: 3 indirect jalr per iteration (vtable at
+ * +0x134/+0x118/+0x148 from object at *(cursor+4)).
+ *
+ * Exact toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0
+ * -fno-strength-reduce.
+ *
+ * The late local cursor initialization reproduces PAL prologue order while the
+ * pinned no-strength-reduce variant preserves the base+4 loads. Full 216-byte
+ * match.
+ */
+
 #include <stdint.h>
 
 typedef void (*cardgame_cb3_t)(int32_t, int32_t, int32_t);

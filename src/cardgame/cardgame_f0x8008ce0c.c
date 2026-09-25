@@ -1,30 +1,44 @@
-// CARDGAME:0x8008ce0c (size 464, 0x1D0)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0xa15c (RAW, no header)
-// Boundary: prologue 27bdff78 addiu sp,-0x88, saves s1/s3/s0/ra/s2 at
-// 0x74/0x7c/0x70/0x80/0x78(sp); s1=a0, s3=a1, s0=a2; epilogue lw
-// ra/s3/s2/s1/s0 + jr ra + addiu sp,+0x88 at 0x8008cfc0-0x8008cfd8.
-// Next framed CARDGAME:0x8008cfdc at +0x1D0 (27bdffc8 prologue), size 0x1D0
-// contiguous, no overlap.
-// Ghidra program CARDGAME (project ddw3-pal-sles-03936) read-only: disasm 116
-// words matches PAL; decompile CARDGAME_F0x8008ce0c(param_1,param_2,param_3)
-// (hypothesis only): 5 indirect jalr via table in p2 (offsets 0xecc, 0xf14,
-// 0xf3c, 0xf24, 0xec8), field stores at p1+0x440/0x422/0x438, halfword select
-// via p1[0x575]*8+0x580, halfword clear at p2+0x594, 5-arg call (5th arg
-// 0x1000 spilled at sp+0x10), 15-byte descending fill of 1 at p1+0x49e..0x4ac,
-// zero at p1+0x4ad, 15-byte descending clear at p1+0x46f..0x47d, guarded card
-// tail (direct jal to EXE 0x8001ebf8 with a0=sp+0x18, call through the word at
-// sp+0x44, byte test against 6, *76 stride flag set at p2+0x150 with ori 1).
-// cardgame.s is GUIDE only; never copied as source. No Ghidra state change.
-// Callers: 2 direct jal from CARDGAME_F0x80084320 (0x80084d8c with a2=0,
-// 0x80084da4 with a2=1, both jal word 0c023383); 1 direct callee EXE
-// F0x8001ebf8 (0x8001ebf8, DISASSEMBLED; fills the 0x54 buffer including the
-// callback word at +0x2c, read-only evidence only) plus 5 indirect table
-// slots loaded from s3=p2.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base), exact_byte_match, no alternates needed.
-// Status: C_MATCHING (portable C, no asm, no explicit register variables).
-// Reg note: the two static `flag = 1` sets (p3==0 inline + p3==1 gated) tail-merge
-// into one `li s2,1`; the extra static set raises flag above p2 in the global
-// pick order, yielding p1->s1, p2->s3, p3->s0, flag->s2 per PAL.
+/*
+ * CARDGAME:0x8008ce0c CARDGAME_F0x8008ce0c
+ * 464 bytes at CARDGAME.PRO offset 0xa15c (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008ce0c
+ *  Symbols     F0x8001ebf8=0x8001ebf8
+ *  Compare     464 bytes from 0x8008ce0c against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8008ce0c
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Next framed CARDGAME:0x8008cfdc at +0x1D0 (27bdffc8 prologue), size 0x1D0
+ * contiguous, no overlap.
+ *
+ * No Ghidra state change.
+ *
+ * Callers: 2 direct jal from CARDGAME_F0x80084320 (0x80084d8c with a2=0,
+ * 0x80084da4 with a2=1, both jal word 0c023383); 1 direct callee EXE
+ *
+ * Reg note: the two static `flag = 1` sets (p3==0 inline + p3==1 gated)
+ * tail-merge into one `li s2,1`; the extra static set raises flag above p2 in
+ * the global pick order, yielding p1->s1, p2->s3, p3->s0, flag->s2 per PAL.
+ */
+
 typedef void (*cardgame_8ce0c_cb1_t)(int32_t);
 typedef void (*cardgame_8ce0c_cb3_t)(int32_t, int32_t, int32_t);
 typedef void (*cardgame_8ce0c_cb4_t)(int32_t, int32_t, int32_t, int32_t);

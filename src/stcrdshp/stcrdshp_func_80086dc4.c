@@ -1,10 +1,51 @@
-/* STCRDSHP:0x80086dc4..0x80087a2c, PAL-SLES-03936, 3176 bytes.
+/*
+ * STCRDSHP:0x80086dc4 STCRDSHP_func_80086dc4
+ * 3176 bytes at STCRDSHP.PRO offset 0x4114 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80086dc4, jump table (.rodata) at 0x80082da4
+ *  Symbols     D_80044B38=0x80044b38 D_80044F4C=0x80044f4c
+ *              D_80048D34=0x80048d34 D_8004B7D0=0x8004b7d0
+ *              D_80055C48=0x80055c48 D_8005CCA8=0x8005cca8
+ *              D_8008CB80=0x8008cb80 D_8008CB88=0x8008cb88
+ *              D_8008CB8C=0x8008cb8c D_8008CB9C=0x8008cb9c
+ *              F0x8001ebf8=0x8001ebf8 STCRDSHP_func_8008627c=0x8008627c
+ *              STCRDSHP_func_80086dc4=0x80086dc4
+ *  Compare     3176 bytes from 0x80086dc4 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only STCRDSHP:0x80086dc4
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * 0x80087a2c, PAL-SLES-03936, 3176 bytes.
+ *
  * The reviewed full CFG exceeds Ghidra's 184-byte automatic function.
+ *
  * Table: 52 entries at 0x80082da4. All price-vector loads use 0x80044f4c.
+ *
  * Polls and callback receivers retain local lifetimes. Successful paths own
  * their real state increment; compiler suffix merging reproduces PAL.
+ *
  * Money is at global base+0x6c; card flag at base+card+0x3a2. The final address
- * first takes the card index, then adds the base. See r7 Astra evidence. */
+ * first takes the card index, then adds the base. See r7 Astra evidence.
+ */
+
 #include "common/types.h"
 
 extern void STCRDSHP_func_8008627c(void *ws, void *ctx, int32_t flag);

@@ -1,5 +1,36 @@
-/* STCRDSHP:0x8008300c. Parent reconstruction restores every PAL output slot,
- * reloads the signed halfword ID before calls, and reads the +0x58 word. */
+/*
+ * STCRDSHP:0x8008300c STCRDSHP_func_8008300c
+ * 700 bytes at STCRDSHP.PRO offset 0x35c (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008300c
+ *  Symbols     F0x8001ae38=0x8001ae38 F0x8001b364=0x8001b364
+ *              STCRDSHP_func_8008300c=0x8008300c
+ *  Compare     700 bytes from 0x8008300c against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDSHP:0x8008300c
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Parent reconstruction restores every PAL output slot, reloads the signed
+ * halfword ID before calls, and reads the +0x58 word.
+ */
+
 #include "common/types.h"
 extern int32_t F0x8001ae38(int32_t, int32_t, int32_t, int32_t);
 extern int32_t F0x8001b364(int32_t, int32_t, int32_t, int32_t);

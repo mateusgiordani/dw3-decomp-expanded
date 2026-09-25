@@ -1,3 +1,29 @@
+/*
+ * CARDGAME:0x8008def8 CARDGAME_F0x8008def8
+ * 404 bytes at CARDGAME.PRO offset 0xb248 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008def8
+ *  Symbols     CARDGAME_F0x8008def8=0x8008def8
+ *  Compare     404 bytes from 0x8008def8 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8008def8
+ */
+
 #include "common/types.h"
 
 typedef struct {
@@ -34,13 +60,13 @@ typedef struct {
     CardGameCb8008def8 cb1; /* +0xf34 */
 } CardGameArg8008def8;
 
-/* CARDGAME:0x8008def8 (404 bytes, body 404) at base 0x80082cb0 (file off 0x5b48).
- * Callers (Ghidra read-only, project ddw3-pal-sles-03936 program CARDGAME):
- * x-ref to 0x8008def8 from CARDGAME_F0x80084320 at 0x800848d8/0x80084928/0x80084944.
- * Match: exact_byte_match 404/404 with psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base).
- * The abs stores negate into temporaries; shi is reused for the limit1 load (a second
- * set, so sched1 gives the shi = t copy no birthing boost) and t is reused as the loop
- * negation temporary (it outlives shi, so cse keeps t canonical and the copy survives).
+/*
+ * at base 0x80082cb0 (file off 0x5b48).
+ *
+ * The abs stores negate into temporaries; shi is reused for the limit1 load (a
+ * second set, so sched1 gives the shi = t copy no birthing boost) and t is
+ * reused as the loop negation temporary (it outlives shi, so cse keeps t
+ * canonical and the copy survives).
  */
 void CARDGAME_F0x8008def8(CardGameCtx8008def8 *ctx, CardGameArg8008def8 *arg, int32_t packed, int32_t mode)
 {

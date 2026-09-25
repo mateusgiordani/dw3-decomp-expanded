@@ -1,23 +1,51 @@
-// STCRDDEK:0x80084890 (size 2432, 0x980; file off 0x1be0 = vaddr - base 0x80082cb0)
-// PAL: reference/extracted/pro/stcrddek.bin (RAW, no header; 35748 B)
-// Boundary: prologue addiu sp,sp,-0x120 + saves s0-s4/ra at 0x80084890-0x848b4;
-// epilogue restores + jr ra + addiu sp,sp,+0x120 at 0x800851f0-0x8520c.
-// Next framed STCRDDEK:0x80085210 at +0x980, size 2432 contiguous, no overlap.
-// Prev reviewed STCRDDEK:0x800847c0 size 208 ends exactly at entry.
-// Ghidra program STCRDDEK (project ddw3-pal-sles-03936) read-only: disasm 608
-// words match PAL word-for-word (func sha256
-// 2361353532786e24aaac9bcade1759071a4a3a391c7eea4db3a85a7ccaa441ca);
-// decompile + full-disasm walkthrough in reports/handoffs/stcrddek-80084890-c-recovery.md.
-// Callers: 1 direct jal from STCRDDEK 0x800865f0 (in STCRDDEK_func_80086574,
-// UNCONDITIONAL_CALL); no other intra-overlay refs (table-driven/cross-overlay
-// callers possible, as with sibling tiny setters).
-// Callees: 2 direct EXE helpers (0x8001f648 table-fill x2, 0x8001ebf8 card-decode
-// x3); all other calls are indirect jalr via the stack table below or via EXE
-// RAM vectors 0x8004df98 (tick) and 0x80044f5c (gfx ctx factory, arg 0x63e0000).
-// stcrddek.s / recomp are GUIDES only; nothing copied as source.
-// No Ghidra state change. Deck-menu role still unconfirmed beyond name hint.
-// Toolchain hypothesis: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base).
-// Full-body exact candidate in revision 6; coordinator review pending (see handoff).
+/*
+ * STCRDDEK:0x80084890 STCRDDEK_func_80084890
+ * 2432 bytes at STCRDDEK.PRO offset 0x1be0 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80084890
+ *  Symbols     D0x8004DE10=0x8004de10 D_80044B38=0x80044b38
+ *              D_80048D34=0x80048d34 EXE_F0x8001ebf8=0x8001ebf8
+ *              EXE_F0x8001f648=0x8001f648 STCRDDEK_anim_tbl=0x8008a484
+ *  Compare     2432 bytes from 0x80084890 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x80084890
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Next framed STCRDDEK:0x80085210 at +0x980, size 2432 contiguous, no overlap.
+ *
+ * Prev reviewed STCRDDEK:0x800847c0 size 208 ends exactly at entry.
+ *
+ * Callers: 1 direct jal from STCRDDEK 0x800865f0 (in STCRDDEK_func_80086574,
+ * UNCONDITIONAL_CALL); no other intra-overlay refs (table-driven/cross-overlay
+ * callers possible, as with sibling tiny setters).
+ *
+ * Callees: 2 direct EXE helpers (0x8001f648 table-fill x2, 0x8001ebf8
+ * card-decode x3); all other calls are indirect jalr via the stack table below
+ * or via EXE
+ *
+ * RAM vectors 0x8004df98 (tick) and 0x80044f5c (gfx ctx factory, arg
+ * 0x63e0000).
+ *
+ * No Ghidra state change. Deck-menu role still unconfirmed beyond name hint.
+ */
+
 #include "common/types.h"
 
 extern void EXE_F0x8001f648(void *tbl);

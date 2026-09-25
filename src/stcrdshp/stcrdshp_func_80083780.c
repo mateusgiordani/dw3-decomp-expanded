@@ -1,11 +1,43 @@
-/* STCRDSHP:0x80083780. Complete PAL selected-card display and hide paths.
- * exact_byte_match 1064/1064: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79, -O2 -G0, base.
+/*
+ * STCRDSHP:0x80083780 STCRDSHP_func_80083780
+ * 1064 bytes at STCRDSHP.PRO offset 0xad0 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80083780
+ *  Symbols     D_80044B38=0x80044b38 D_80048D34=0x80048d34
+ *              D_8005CCA8=0x8005cca8 F0x8001ebf8=0x8001ebf8
+ *              STCRDSHP_func_80083780=0x80083780
+ *  Compare     1064 bytes from 0x80083780 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDSHP:0x80083780
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Complete PAL selected-card display and hide paths.
+ *
  * Matching notes: the tables are addressed through their symbols (D_80048D34
  * byte table via tab = &D_80048D34[id], D_80044B38.fn414, D_8005CCA8); the slot
  * offset is a named local so self stays the first addend; CLEAR alone keeps a
  * do/while(0) (its loop notes weight the resources references so resources wins
  * s0 over id); the first DRAW(0x60) calls the +0x114 method through an int
- * return type, so jump2 does not cross-jump it with the id-list DRAW(0x60). */
+ * return type, so jump2 does not cross-jump it with the id-list DRAW(0x60).
+ */
+
 #include "common/types.h"
 extern void F0x8001ebf8(void *);
 extern uint8_t D_80048D34[];

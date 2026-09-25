@@ -1,24 +1,57 @@
-// CARDGAME:0x8009d15c (size 436, 0x1b4)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x1a4ac
-// Framed function: prologue 27bdff40 addiu sp,-0xc0, epilogue jr ra / addiu sp,+0xc0.
-// Prev CARDGAME:0x8009d140 (7 words, short-table lookup) ends exactly at 0x8009d15c;
-// next framed CARDGAME:0x8009d310 at +0x1b4 (27bdffe8). Upstream cardgame.s GUIDE only:
-// jal 0x8009d140 words at file-off 0x1a5ec/0x1a61c fall inside this range. No Ghidra mutation.
-// Ghidra program CARDGAME (project ddw3-pal-sles-03936) read-only disasm confirms every
-// word; decompile gives 4 loops (40/40/9/100) over short arrays.
-// Stack: ctx at sp+0x10 (56 B, EXE 0x8001ffa8 render buffer, callbacks at +0x1c..0x30
-// read by callee 0x8009d0b0 via s1+0x20/0x24/0x28); hbuf at sp+0x48 (88 B, EXE 0x8001ebf8
-// buffer, word0 = base, callback at +0x2c = sp+0x74, same convention as 0x8008d854).
-// Frame 0x10 outgoing + 56 + 88 locals + 7 saved (s0-s5,ra) = 0xc0.
-// Callers: none direct; DATA ref from CARDGAME:0x8009d310 (callback table registered via
-// EXE 0x80014504). Callees: EXE 0x8001ebf8/0x8001ffa8, CARDGAME 0x8009d0b0/0x8009d140,
-// plus indirect jalr via hbuf callback (load-delay nop, addiu/move in delay slots).
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0, variant o2-g0-no-strength-reduce
-// (2.8.1 base 424 B, 2.7.2 base 428 B / nsr 440 B are controls, not the build).
-// r9 (o55/s0923i): explicit cursors (no SR): the src1 parameter is the one reused source/
-// destination cursor (PAL s0 in all four loops), d walks dst in loops 1-3, n stays a real
-// counter; loops 1-3 share i and loop 4 has its own counter j, so src1 outranks the counters
-// for s0. exact_byte_match 436/436. Details: strategy-r9-o55/attempts-r9.
+/*
+ * CARDGAME:0x8009d15c CARDGAME_F0x8009d15c
+ * 436 bytes at CARDGAME.PRO offset 0x1a4ac (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float -fno-strength-reduce
+ *  Variant     o2-g0-no-strength-reduce
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8009d15c
+ *  Symbols     CARDGAME_F0x8009d0b0=0x8009d0b0 CARDGAME_F0x8009d140=0x8009d140
+ *              CARDGAME_F0x8009d15c=0x8009d15c DAT_800a5bdc=0x800a5bdc
+ *              func_8001ebf8=0x8001ebf8 func_8001ffa8=0x8001ffa8
+ *  Compare     436 bytes from 0x8009d15c against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8009d15c
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Framed function: prologue 27bdff40 addiu sp,-0xc0, epilogue jr ra / addiu
+ * sp,+0xc0.
+ *
+ * Prev CARDGAME:0x8009d140 (7 words, short-table lookup) ends exactly at
+ * 0x8009d15c; next framed CARDGAME:0x8009d310 at +0x1b4 (27bdffe8). No Ghidra
+ * mutation.
+ *
+ * Stack: ctx at sp+0x10 (56 B, EXE 0x8001ffa8 render buffer, callbacks at
+ * +0x1c..0x30 read by callee 0x8009d0b0 via s1+0x20/0x24/0x28); hbuf at sp+0x48
+ * (88 B, EXE 0x8001ebf8 buffer, word0 = base, callback at +0x2c = sp+0x74, same
+ * convention as 0x8008d854).
+ *
+ * Frame 0x10 outgoing + 56 + 88 locals + 7 saved (s0-s5,ra) = 0xc0.
+ *
+ * Callers: none direct; DATA ref from CARDGAME:0x8009d310 (callback table
+ * registered via
+ *
+ * EXE 0x80014504). Callees: EXE 0x8001ebf8/0x8001ffa8, CARDGAME
+ * 0x8009d0b0/0x8009d140, plus indirect jalr via hbuf callback (load-delay nop,
+ * addiu/move in delay slots).
+ *
+ * Details: strategy-r9-o55/attempts-r9.
+ */
+
 extern void func_8001ebf8(void *buf);
 extern void func_8001ffa8(void *buf);
 extern void CARDGAME_F0x8009d0b0(void *ctx, int base, int idx);

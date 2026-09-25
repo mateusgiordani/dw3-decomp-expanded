@@ -1,15 +1,33 @@
-/* STCRDDEK:0x8008687c (size 108, 27 words, file-off 0x3bcc = vaddr - 0x80082cb0).
- * PAL bytes (authority): reference/extracted/pro/stcrddek.bin base 0x80082cb0.
- * Boundary: leaf, no frame; entry 0x8008687c (addu a1,a0,zero), terminal jr ra
- * words at 0x800868bc / 0x800868d0 / 0x800868d8 / 0x800868e0; next function
- * STCRDDEK:0x800868e8 (addiu sp,sp,-0x30) starts immediately after, so the
- * 27-word range is contiguous with no overlap or gap.
- * Ghidra project ddw3-pal-sles-03936, program STCRDDEK, read-only: disasm
- * 27 words matches PAL word-for-word (Ghidra byte strings are the same words;
- * e.g. 21288000 == LE 00802821 addu a1,a0,zero); decompiler agrees on the
- * clamp/accumulate shape; x-ref to: 4 direct jal callers at 0x800877f8,
- * 0x800883b0, 0x800883e4, 0x800884a8 (UNCONDITIONAL_CALL); x-ref from: intra-
- * function conditional jumps only, no callees. No Ghidra state change.
+/*
+ * STCRDDEK:0x8008687c STCRDDEK_func_8008687c
+ * 108 bytes at STCRDDEK.PRO offset 0x3bcc (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008687c
+ *  Symbols     (none)
+ *  Compare     108 bytes from 0x8008687c against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x8008687c
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * No Ghidra state change.
+ *
  * Behavior (conservative): if word at +0xc == 0 return 1; else add word at +0x4
  * into word at +0x8, store the sum, then clamp: delta > 0 with sum > 0x1000, or
  * delta <= 0 with sum < 0, clears the accumulator (and the +0xc word on the
@@ -17,8 +35,8 @@
  * written first so the upper-bound check stays on the fall-through path, as in
  * the original branch layout (blez to the negative-side check). Struct layout
  * beyond these three words is unrecovered, so the object stays int32_t *.
- * Toolchain hypothesis: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0.
- * Status: C_MATCHING candidate (portable C, no asm, no register variables). */
+ */
+
 #include "common/types.h"
 
 int32_t STCRDDEK_func_8008687c(int32_t *arg0) {

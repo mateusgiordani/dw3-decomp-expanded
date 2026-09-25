@@ -1,54 +1,63 @@
-// CARDGAME:0x80089974 (size 1364, 0x554)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x6cc4
-// Boundary: prologue c0ffbd27 (addiu sp,sp,-0x40) at 0x80089974, saves
-//   s3(st),s5(ctx),s0,s1,s2,s4,s6,s7,s8(ret),ra; epilogue jr ra +
-//   addiu sp,+0x40 at 0x80089ec0/0x80089ec4; next CARDGAME:0x80089ec8
-//   (li v0,1; jr ra; ...) at +0x554. Prev CARDGAME:0x80089864 size 272 ends
-//   exactly at 0x80089974; next framed CARDGAME:0x80089f18 (+0x50 gap).
-//   symbols/function_labels.csv: CARDGAME_F0x80089974, 1364 B (sweep).
-// Jump table 6 words at 0x80083364: 800899e0 80089a8c 80089c54 80089c94
-//   80089dfc 80089e70 = cases 1-6 of byte st+0x422 (lbu; -1; sltiu <6;
-//   default returns 0). Case targets confirmed via PAL words.
-// Ghidra CARDGAME (ddw3-pal-sles-03936, read-only, no mutation): disasm in
-//   9x40-insn chunks word-equal vs PAL @ 0x6cc4 (first8 c0ffbd27 2400b3af
-//   21988000 2c00b5af 21a8a000 3c00bfaf 3800beaf 3400b7af; last4 1c00b18f
-//   1800b08f 0800e003 4000bd27); decompile CARDGAME_F0x80089974(int,int)->int
-//   (decompiler misreads the case-4 a3 delay slot; disasm rules: equal->0x44).
-// X-ref to: 1 caller CARDGAME_F0x80084320 @ 0x80085b94 (jal, delay move
-//   a1,s0; return tested via beq v0,zero; upstream cardgame.s jal agrees).
-// X-ref from: 6 computed jumps (jt), direct jal CARDGAME_F0x800896f0
-//   (case 2, delay move a1,s5) + jal CARDGAME_F0x80087dc8 (case 3, tested);
-//   indirect jalr via ctx slots 0xf24/0xf0c/0xf28/0xeac/0xeb0 and EXE vectors
-//   0x8004bbcc/0x8004bbd8/0x8004bbc4 via shared base 0x8004b7d0
-//   (lui 0x8005 + addiu -0x4830), 0x80055c48 (lui 0x8005 + lw),
-//   0x8004df9c (lui 0x8005 + lw -0x2064).
-// Codegen notes (portable C, no register variables): int ret = 0 in s8,
-//   returned via shared move v0,s8; case-2 pair tests use || (bne-to-call
-//   then beq-to-rest asymmetry proves short-circuit, not bitwise-or);
-//   sllv pairs use plain 1 << x (no hardware-redundant &31); srav tests use
-//   signed >> with &1; a3 defaults 0x43, set 0x44 when 0x434==0x440;
-//   vec args 0x4001c/0x40019 via lui a0,0x4 + ori (delay-filled).
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base),
-//   +<=2 ranked alternates.
-// Revision 5 (2026-09-11): reverted the PAD_MASK/PAD_PRESS macro refactor
-//   (committed 2026-09-08, integration batch 036, commit 51c0c7ff) that
-//   introduced named b0/b1/c0/c1 temporaries for the case-2/case-4 pad-state
-//   tests. That refactor forced the values returned by the first two
-//   syscalls in each test to be spilled across the following syscall calls,
-//   which pushed the object from 1364 B to 1396 B (CODEGEN_SIZE, reproduced
-//   against psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 in this
-//   revision). Restored the original fully-inlined nested expressions from
-//   worker commit de03b8d51bca2378cd8cb851e037cd47f9830a9b.
-//   With the revert, tools/fn_exact_pipeline.py (same pinned toolchain,
-//   --rodata 0x80083364, symbols DAT_8004B7D0/800896f0/87dc8/D_80055c48/
-//   D_8004df9c) reports exact_byte_match: object and .rdata (24 B jump
-//   table) both difference_count 0, candidate/reference sha256
-//   2d1e1e37080a001678058c7b24fe52e4799839b125a3083a98f5211c584bbf2e.
-//   The previously documented aspsx_midtext_rdata_resume_offset_jmp
-//   assembler blocker (reports/handoffs/cardgame-80089974-c-recovery.md)
-//   does not reproduce against this exact source/toolchain pairing.
-// Status: C_MATCHING (exact_byte_match, see handoff for the full command
-//   and byte report).
+/*
+ * CARDGAME:0x80089974 CARDGAME_F0x80089974
+ * 1364 bytes at CARDGAME.PRO offset 0x6cc4 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80089974, jump table (.rodata) at 0x80083364
+ *  Symbols     CARDGAME_F0x80087dc8=0x80087dc8 CARDGAME_F0x800896f0=0x800896f0
+ *              CARDGAME_F0x80089974=0x80089974 DAT_8004B7D0=0x8004b7d0
+ *              D_8004df9c=0x8004df9c D_80055c48=0x80055c48
+ *  Compare     1364 bytes from 0x80089974 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80089974
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Jump table 6 words at 0x80083364: 800899e0 80089a8c 80089c54 80089c94
+ * 80089dfc 80089e70 = cases 1-6 of byte st+0x422 (lbu; -1; sltiu <6; default
+ * returns 0). Case targets confirmed via PAL words.
+ *
+ * X-ref from: 6 computed jumps (jt), direct jal CARDGAME_F0x800896f0 (case 2,
+ * delay move a1,s5) + jal CARDGAME_F0x80087dc8 (case 3, tested); indirect jalr
+ * via ctx slots 0xf24/0xf0c/0xf28/0xeac/0xeb0 and EXE vectors
+ * 0x8004bbcc/0x8004bbd8/0x8004bbc4 via shared base 0x8004b7d0 (lui 0x8005 +
+ * addiu -0x4830), 0x80055c48 (lui 0x8005 + lw), 0x8004df9c (lui 0x8005 + lw
+ * -0x2064).
+ *
+ * Codegen notes (portable C, no register variables): int ret = 0 in s8,
+ * returned via shared move v0,s8; case-2 pair tests use || (bne-to-call then
+ * beq-to-rest asymmetry proves short-circuit, not bitwise-or); sllv pairs use
+ * plain 1 << x (no hardware-redundant &31); srav tests use signed >> with &1;
+ * a3 defaults 0x43, set 0x44 when 0x434==0x440; vec args 0x4001c/0x40019 via
+ * lui a0,0x4 + ori (delay-filled).
+ *
+ * Revision 5 (2026-09-11): reverted the PAD_MASK/PAD_PRESS macro refactor
+ * (committed 2026-09-08, integration batch 036, commit 51c0c7ff) that
+ * introduced named b0/b1/c0/c1 temporaries for the case-2/case-4 pad-state
+ * tests. That refactor forced the values returned by the first two syscalls in
+ * each test to be spilled across the following syscall calls, which pushed the
+ * object from 1364 B to 1396 B (CODEGEN_SIZE, reproduced against
+ * psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 in this revision). Restored
+ * the original fully-inlined nested expressions from worker commit
+ * de03b8d51bca2378cd8cb851e037cd47f9830a9b.
+ */
+
 #include <stdint.h>
 
 typedef void (*cardgame_9974_f24_t)(void *ctx, int a1, int a2, int a3, int a4);

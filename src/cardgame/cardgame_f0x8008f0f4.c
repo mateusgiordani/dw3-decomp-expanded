@@ -1,25 +1,54 @@
-// CARDGAME:0x8008f0f4, 484-byte PAL body at verified base 0x80082cb0.
-// Boundary: prologue 27bdffd8 (addiu sp,sp,-0x28) at file-off 0x0c444;
-// epilogue jr ra + 27bd0028 at 0x8008f2d0/0x8008f2d4; next CARDGAME:0x8008f2ec.
-// Ghidra CARDGAME (ddw3-pal-sles-03936, read-only): 121-insn disasm matches PAL
-// word-for-word (head 27bdffd8 afb10014 00808821 afb40020 00a0a021;
-// tail 8fbf0024 8fb40020 8fb3001c 8fb20018 8fb10014 8fb00010 03e00008 27bd0028).
-// Xref: 1 caller CARDGAME_F0x80084320 via 0x80085674 UNCONDITIONAL_CALL.
-// Decompile CARDGAME_F0x8008f0f4(int,int,int): mode byte at p1+0x422 dispatches
-// 1 (twin EXE-vector accumulations plus two p2+0xea0 method calls) and 2
-// (per-index halfword table copy with stride 200); returns 0/1 via s3.
-// Codegen notes (hypothesis 1): EXE vector is extern word-array base
-// DAT_8004DE10 with slot 0x63 (lui 0x8005 + addiu -0x21f0 into s0, held across
-// both jalr calls; lw 0x18c(s0)), matching the sibling DAT_8004B7D0 idiom.
-// idx*200 stays inline at each site (PAL recomputes the ((2i+i)*8+i)*8 chain
-// per site, hoisting only idx*2); entry gate compares ret<limit so the PAL
-// slt-against-s3 (not blez/$zero) is expressible; cursor is re-read for ++
-// (lh for address scaling, lhu for increment+store).
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base).
-// Full-range exact C: r9 H6, SHA-256 17e1c58f5c0162f4eab6e1a7bc11f382
-// 52b188bf7fdabff1fc803aaea580111b. Explicit backedge prevents invariant
-// motion; distinct loaded-value lifetimes let local allocation choose PAL
-// homes. See docs/c-matching-guide/submissions/cardgame-8008f0f4/strategy-r9.md.
+/*
+ * CARDGAME:0x8008f0f4 CARDGAME_F0x8008f0f4
+ * 484 bytes at CARDGAME.PRO offset 0xc444 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008f0f4
+ *  Symbols     DAT_8004DE10=0x8004de10
+ *  Compare     484 bytes from 0x8008f0f4 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8008f0f4
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * 484-byte PAL body at verified base 0x80082cb0.
+ *
+ * Xref: 1 caller CARDGAME_F0x80084320 via 0x80085674 UNCONDITIONAL_CALL.
+ *
+ * Decompile CARDGAME_F0x8008f0f4(int,int,int): mode byte at p1+0x422 dispatches
+ * 1 (twin EXE-vector accumulations plus two p2+0xea0 method calls) and 2
+ * (per-index halfword table copy with stride 200); returns 0/1 via s3.
+ *
+ * Codegen notes (hypothesis 1): EXE vector is extern word-array base
+ * DAT_8004DE10 with slot 0x63 (lui 0x8005 + addiu -0x21f0 into s0, held across
+ * both jalr calls; lw 0x18c(s0)), matching the sibling DAT_8004B7D0 idiom.
+ *
+ * idx*200 stays inline at each site (PAL recomputes the ((2i+i)*8+i)*8 chain
+ * per site, hoisting only idx*2); entry gate compares ret<limit so the PAL
+ * slt-against-s3 (not blez/$zero) is expressible; cursor is re-read for ++ (lh
+ * for address scaling, lhu for increment+store).
+ *
+ * Full-range exact C: r9 H6, SHA-256 17e1c58f5c0162f4eab6e1a7bc11f382
+ * 52b188bf7fdabff1fc803aaea580111b. Explicit backedge prevents invariant
+ * motion; distinct loaded-value lifetimes let local allocation choose PAL
+ * homes.
+ */
+
 #include <stdint.h>
 
 typedef int32_t (*cardgame_tick_t)(void);

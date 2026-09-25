@@ -1,3 +1,31 @@
+/*
+ * CARDGAME:0x80088f78 CARDGAME_F0x80088f78
+ * 1388 bytes at CARDGAME.PRO offset 0x62c8 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80088f78, jump table (.rodata) at 0x8008334c
+ *  Symbols     CARDGAME_F0x80088f78=0x80088f78 DAT_8004B7D0=0x8004b7d0
+ *              DAT_8004DE10=0x8004de10
+ *  Compare     1388 bytes from 0x80088f78 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80088f78
+ */
+
 #include <stdint.h>
 
 typedef void (*cardgame_8f78_f28_t)(int32_t ctx, int32_t arg);

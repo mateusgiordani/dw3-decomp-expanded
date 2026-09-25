@@ -1,27 +1,49 @@
-/* STCRDDEK:0x80084278 (size 456, 0x1C8; file off 0x15C8 = vaddr - 0x80082cb0).
- * PAL bytes (authority): prologue addiu sp,sp,-0x30 at 0x80084278; epilogue
- * jr ra / addiu sp,sp,+0x30 at 0x80084438; next function prologue
- * addiu sp,sp,-0x80 at 0x80084440. All 114 words verified against
- * reference/extracted/pro/stcrddek.bin at coordinator root (first word
- * d0ffbd27, last word 3000bd27; full 456-byte hex dump in handoff).
- * Ghidra ddw3-pal-sles-03936 program STCRDDEK (read-only, no mutation):
- * disasm 0x80084278 (64 insns) + tail 0x80084374/0x80084410, decompile as
- * STCRDDEK_func_80084278, x-ref to: callers at 0x80085984 (a2=1),
- * 0x80085f34 (a2=1), 0x8008610c (a2=0) via jal.
+/*
+ * STCRDDEK:0x80084278 STCRDDEK_func_80084278
+ * 456 bytes at STCRDDEK.PRO offset 0x15c8 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80084278
+ *  Symbols     STCRDDEK_func_80084278=0x80084278
+ *              stcrddek_tbl_80044B38=0x80044b38
+ *              stcrddek_word_8005CCA8=0x8005cca8
+ *  Compare     456 bytes from 0x80084278 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x80084278
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
  * Body: 8-slot row refresh. rows holds 8 groups of 3 object-pointer words
  * starting at word 0x19 (bytes 0x64/0x68/0x6C); the rows[i*3+k] index form lets
- * the -O2 strength reducer keep rows itself as the loop base. When mode
- * is 0 every object gets its +0x144 method called with 0. Otherwise each slot
- * reads a signed-short id from data+0x88 indexed by (*(data+0x78)+i): id 0
- * repeats the three +0x144 calls with 0; nonzero id fetches two resources via
- * the EXE helper behind 0x80044B38+0x414 with base *(0x8005CCA8) (+0x16 for
- * the id, +0x32 with count 8), calls +0x114 on the first two objects, +0x118
- * on the third with the signed byte at data+id+0x2FE, then the tail calls the
- * third object via +0x144 (flag 0) or +0x148 (flag 1).
- * Keep each final indirect call in its own branch: GCC merges their tail
- * and preserves the PAL callback-load/argument scheduling. Exact with
- * PsyQ GCC 2.8.1 / ASPSX 2.79, O2/G0 base. Widget layout remains unknown.
+ * the -O2 strength reducer keep rows itself as the loop base. When mode is 0
+ * every object gets its +0x144 method called with 0. Otherwise each slot reads
+ * a signed-short id from data+0x88 indexed by (*(data+0x78)+i): id 0 repeats
+ * the three +0x144 calls with 0; nonzero id fetches two resources via the EXE
+ * helper behind 0x80044B38+0x414 with base *(0x8005CCA8) (+0x16 for the id,
+ * +0x32 with count 8), calls +0x114 on the first two objects, +0x118 on the
+ * third with the signed byte at data+id+0x2FE, then the tail calls the third
+ * object via +0x144 (flag 0) or +0x148 (flag 1).
+ *
+ * Keep each final indirect call in its own branch: GCC merges their tail and
+ * preserves the PAL callback-load/argument scheduling. Exact with PsyQ GCC
+ * 2.8.1 / ASPSX 2.79, O2/G0 base. Widget layout remains unknown.
  */
+
 #include <stdint.h>
 
 typedef void (*STCRDDEK_m114_t)(void *obj, void *res, int32_t arg);

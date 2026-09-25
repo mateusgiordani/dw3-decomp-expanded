@@ -1,28 +1,59 @@
-// CARDGAME:0x8009e024 (size 1340, 0x53c)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x1b374
-// Boundary: prologue 27bdffc0 (addiu sp,sp,-0x40) at 0x8009e024; epilogue jr ra + 27bd0040 at
-// 0x8009e558/0x8009e55c; next CARDGAME:0x8009e560 (d0ffbd27) at +0x53c. Size 1340 contiguous.
-// Ghidra CARDGAME (ddw3-pal-sles-03936, read-only, no mutation): disasm in 24-160 insn chunks
-// matches PAL word-for-word (head 27bdffc0 afbe0038 0080f021 afb30024; tail 8fb10014 8fb00010
-// 03e00008 27bd0040); decompile CARDGAME_F0x8009e024(int param_1, int param_2).
-// Xrefs: 1 caller CARDGAME_F0x8009e668 via 0x8009e6cc UNCONDITIONAL_CALL (upstream cardgame.s
-// jal at file-off 0x1ba1c agrees); indirect callees via card slots *(s1+0xf14)/(s1+0xf3c)/(s1+0xf40).
-// Jump tables (PAL bytes, BitConverter-verified): JT1 @0x800837c0, 10 entries
-// (8009e278,8009e304,8009e35c,8009e3b4,8009e3e0 x5,8009e4fc) under sltiu 0xa check, so the source
-// switch has cases 0-9 (case 9 is a no-op falling to the loop end) plus default; JT2 @0x800837e8,
-// 5 entries (8009e444,8009e464,8009e488,8009e4a0,8009e4c4) under addiu -4 / sltiu 5 check for the
-// inner switch on cases 4-8. Tables are contiguous (0x800837c0+40 == 0x800837e8).
-// Externs: DAT_8005CCB0 (EXE word, lui 0x8006 + lw -0x3350) is the table index; DAT_800A5958
-// (lui 0x800a + addiu 0x5958) is the 16-byte-entry table (fields 0/4 in group A, 8/12 in group B).
-// Codegen notes: DAT loads stay inside the loops (calls block hoisting); F14 args nest
-// (table[idx]+acc) so the addu schedules into the jalr delay slot; acc += 0x2900 schedules into
-// the F3C jalr delay slot; case1/case2 init v1 = 0 then conditional = 6 (clear in branch delay).
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79, variant o2-g0-no-strength-reduce.
-// r7 (o55/s0923f): table base as integer local set right after i = 0 (lui before the loop
-// inits); one inner counter j shared by every case (saved across the case 4-8 calls); case 4-8
-// constant 1 is a local set before its loop (PAL li s4,1 there, not hoisted out of the outer
-// loop); case 0 selects the element pointer in the branches and does one compare/store.
-// exact_byte_match 1340/1340. Details: strategy-r7-o55/attempts-r7.
+/*
+ * CARDGAME:0x8009e024 CARDGAME_F0x8009e024
+ * 1340 bytes at CARDGAME.PRO offset 0x1b374 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float -fno-strength-reduce
+ *  Variant     o2-g0-no-strength-reduce
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8009e024, jump table (.rodata) at 0x800837c0
+ *  Symbols     CARDGAME_F0x8009e024=0x8009e024 DAT_8005CCB0=0x8005ccb0
+ *              DAT_800A5958=0x800a5958
+ *  Compare     1340 bytes from 0x8009e024 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8009e024
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Jump tables (PAL bytes, BitConverter-verified): JT1 @0x800837c0, 10 entries
+ * (8009e278,8009e304,8009e35c,8009e3b4,8009e3e0 x5,8009e4fc) under sltiu 0xa
+ * check, so the source switch has cases 0-9 (case 9 is a no-op falling to the
+ * loop end) plus default; JT2 @0x800837e8, 5 entries
+ * (8009e444,8009e464,8009e488,8009e4a0,8009e4c4) under addiu -4 / sltiu 5 check
+ * for the inner switch on cases 4-8. Tables are contiguous (0x800837c0+40 ==
+ * 0x800837e8).
+ *
+ * Externs: DAT_8005CCB0 (EXE word, lui 0x8006 + lw -0x3350) is the table index;
+ * DAT_800A5958 (lui 0x800a + addiu 0x5958) is the 16-byte-entry table (fields
+ * 0/4 in group A, 8/12 in group B).
+ *
+ * Codegen notes: DAT loads stay inside the loops (calls block hoisting); F14
+ * args nest (table[idx]+acc) so the addu schedules into the jalr delay slot;
+ * acc += 0x2900 schedules into the F3C jalr delay slot; case1/case2 init v1 = 0
+ * then conditional = 6 (clear in branch delay).
+ *
+ * r7 (o55/s0923f): table base as integer local set right after i = 0 (lui
+ * before the loop inits); one inner counter j shared by every case (saved
+ * across the case 4-8 calls); case 4-8 constant 1 is a local set before its
+ * loop (PAL li s4,1 there, not hoisted out of the outer loop); case 0 selects
+ * the element pointer in the branches and does one compare/store.
+ *
+ * Details: strategy-r7-o55/attempts-r7.
+ */
+
 #include <stdint.h>
 
 typedef int32_t (*cardgame_f14_t)(int32_t, int32_t, int32_t, int32_t);

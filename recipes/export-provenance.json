@@ -3,5 +3,6 @@
   "functions": 318,
   "recipe_origin": {
     "accepted_manifest": 318
-  }
+  },
+  "post_export": "tools/recipe_headers.py --write (recipe headers; source hashes refer to the result)"
 }

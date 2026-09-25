@@ -1,3 +1,29 @@
+/*
+ * STCRDSHP:0x8008543c STCRDSHP_func_8008543c
+ * 324 bytes at STCRDSHP.PRO offset 0x278c (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008543c
+ *  Symbols     stcrdshp_tbl_8004DE10=0x8004de10
+ *  Compare     324 bytes from 0x8008543c against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDSHP:0x8008543c
+ */
+
 #include "common/types.h"
 
 /* RAM-resident vector block: PAL keeps 0x8004DE10 in callee-saved s2
@@ -20,10 +46,7 @@ void STCRDSHP_func_8008543c(void *self) {
     int32_t level;
     uint8_t *resource;
     uint8_t *f;
-    /* sched1-ready-list-boost (docs/c-matching-guide/card-techniques.md):
-     * b is set twice, so li 0x2a loses the sched1 ready-list boost and the
-     * lui of 0xe1000245 lands before sb 7; m is set right after the alloc
-     * so the 0xffffff split stays above li 5, as in PAL. */
+    
     uint32_t m;
     uint8_t b;
 

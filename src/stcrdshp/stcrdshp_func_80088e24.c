@@ -1,16 +1,37 @@
+/*
+ * STCRDSHP:0x80088e24 STCRDSHP_func_80088e24
+ * 208 bytes at STCRDSHP.PRO offset 0x6174 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80088e24
+ *  Symbols     D_80044B38=0x80044b38 D_8005CCA8=0x8005cca8
+ *              F0x8001ffa8=0x8001ffa8 STCRDDEK_func_8008a100=0x8008a100
+ *  Compare     208 bytes from 0x80088e24 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDSHP:0x80088e24
+ */
+
 #include "common/types.h"
 
-/* STCRDSHP:0x80088e24 (208B, 52 instructions)
- * PAL bytes: reference/extracted/pro/stcrdshp.bin base 0x80082cb0 file-off 0x6174 (24948)
- * Boundary: prologue addiu sp,-0x58, epilogue jr ra / addiu sp,0x58;
- * frame 0x58 with ra@0x50 s1@0x4c s0@0x48, stack buffer at sp+0x10 (56 bytes).
+/*
  * Next function STCRDSHP:0x80088ef4 starts immediately after (no gap/overlap).
- * Ghidra: project ddw3-pal-sles-03936 program STCRDSHP, disasm/decompile/x-ref
- * read-only (no cache mutation). STCRDSHP bytes authoritative: Ghidra words
- * match the reference bin word-for-word, so the campaign program stands.
- * Shape matches C_MATCHING sibling STCRDDEK_func_8008a100 (char buf[56],
- * slots buf+0x24/buf+0x2c, EXE vectors via D_80044B38 fn40c/fn424); fresh
- * immediates, not copied from upstream/recomp. Shop role unclaimed.
+ *
+ * STCRDSHP bytes authoritative: Ghidra words match the reference bin
+ * word-for-word, so the campaign program stands.
  */
 extern void F0x8001ffa8(void *buf);
 extern struct {

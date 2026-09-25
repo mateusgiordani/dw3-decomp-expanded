@@ -1,12 +1,47 @@
-// CARDGAME:0x80090058 (size 1812, 0x714)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0xd3a8
-// Boundary: prologue 27bdff70 (addiu sp,sp,-0x90) at 0x80090058; epilogue jr ra + 27bd0090 at 0x80090764/0x80090768; next CARDGAME:0x8009076c at +0x714.
-// Ghidra CARDGAME (ddw3-pal-sles-03936, read-only): full 453-word sweep in 40-insn chunks matches PAL word-for-word (first12 27bdff70 afb10074 00808821 afb40080 00a0a021 afb3007c 00c09821 afbf0088 afb50084 afb20078 afb00070 92220422; epilogue 8800bf8f 8400b58f 8000b48f 7c00b38f 7800b28f 7400b18f 7000b08f 0800e003 9000bd27); decompile CARDGAME_F0x80090058(int,int,int,int).
-// Xref: 2 callers in CARDGAME_F0x80084320 via 0x800855d0 (a3=3) and 0x800855f4 (a3=4) UNCONDITIONAL_CALL (jal 0x80090058); jump-table DATA ref to 0x8008353c indexed by (*(u8*)(p1+0x422))-1 with 6 computed targets (0x800900bc/0x80090190/0x8009059c/0x800906a4/0x800906f4/0x80090740), default returns 0.
-// Codegen notes: switch on state byte p1+0x422 (values 1..6, s5 return flag, case6 sets 1); per-side stride 200 (0xc8) at p1+p3*200 and per-slot stride 76 (0x4c) at p2+idx*76; indirect table calls via p2+0xed8/0xf08/0xea0/0xebc/0xf1c plus EXE jal 0x8001ebf8 filling stack buffer (fn at sp+0x44, base at sp+0x18) and EXE indirect via word at 0x8004df9c (lui 0x8005 + lw -0x2064 + jalr).
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base), +<=2 alternates.
-// Status: exact_byte_match 1812/1812 (base). tmp and u are reused temporaries (no birthing boost, u stays in v1);
-// row_word lets value die at the count*2 shift, so local-alloc reads count there as in PAL.
+/*
+ * CARDGAME:0x80090058 CARDGAME_F0x80090058
+ * 1812 bytes at CARDGAME.PRO offset 0xd3a8 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80090058, jump table (.rodata) at 0x8008353c
+ *  Symbols     CARDGAME_F0x80090058=0x80090058 DAT_8004DF9C=0x8004df9c
+ *              EXE_FUNC_8001EBF8=0x8001ebf8
+ *  Compare     1812 bytes from 0x80090058 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80090058
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Xref: 2 callers in CARDGAME_F0x80084320 via 0x800855d0 (a3=3) and 0x800855f4
+ * (a3=4) UNCONDITIONAL_CALL (jal 0x80090058); jump-table DATA ref to 0x8008353c
+ * indexed by (*(u8*)(p1+0x422))-1 with 6 computed targets
+ * (0x800900bc/0x80090190/0x8009059c/0x800906a4/0x800906f4/0x80090740), default
+ * returns 0.
+ *
+ * Codegen notes: switch on state byte p1+0x422 (values 1..6, s5 return flag,
+ * case6 sets 1); per-side stride 200 (0xc8) at p1+p3*200 and per-slot stride 76
+ * (0x4c) at p2+idx*76; indirect table calls via
+ * p2+0xed8/0xf08/0xea0/0xebc/0xf1c plus EXE jal 0x8001ebf8 filling stack buffer
+ * (fn at sp+0x44, base at sp+0x18) and EXE indirect via word at 0x8004df9c (lui
+ * 0x8005 + lw -0x2064 + jalr).
+ */
+
 #include <stdint.h>
 
 typedef struct {

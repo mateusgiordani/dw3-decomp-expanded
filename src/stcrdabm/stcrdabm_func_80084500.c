@@ -1,13 +1,43 @@
+/*
+ * STCRDABM:0x80084500 STCRDABM_func_80084500
+ * 1736 bytes at STCRDABM.PRO offset 0x1850 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80084500
+ *  Symbols     DAT_80044f5c=0x80044f5c DAT_8004df98=0x8004df98
+ *              EXE_80044b38=0x80044b38 EXE_8004de10=0x8004de10
+ *              F0x8001ebf8=0x8001ebf8 F0x8001f648=0x8001f648
+ *              TBL_80085a4c=0x80085a4c
+ *  Compare     1736 bytes from 0x80084500 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDABM:0x80084500
+ */
+
 #include "common/types.h"
 
-/* STCRDABM:0x80084500 (1736 bytes, file-off 6224 = vaddr-0x80082cb0)
+/*
  * PAL-SLES-03936; reviewed body-80084500, base 0x80082cb0.
+ *
  * Conservative candidate: name suggests album only, semantics unconfirmed.
+ *
  * Single pointer arg (offsets 0x50..0xD0 observed); two stack work areas:
- * cb[0xA0] at sp+0x10 filled by F0x8001f648, eb[0x58] at sp+0xB0 filled
- * by F0x8001ebf8. Callbacks via cb slots, EXE vectors at 0x80044f5c
- * and 0x8004df98, data table at 0x80085a4c indexed by arg+0xB0.
- * Upstream/recomp guides only; no semantic promotion.
+ * cb[0xA0] at sp+0x10 filled by F0x8001f648, eb[0x58] at sp+0xB0 filled by
+ * F0x8001ebf8. Callbacks via cb slots, EXE vectors at 0x80044f5c and
+ * 0x8004df98, data table at 0x80085a4c indexed by arg+0xB0.
  */
 extern void F0x8001f648(void *buf);
 extern void F0x8001ebf8(void *buf);

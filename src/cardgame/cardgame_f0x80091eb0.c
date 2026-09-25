@@ -1,40 +1,40 @@
+/*
+ * CARDGAME:0x80091eb0 CARDGAME_F0x80091eb0
+ * 744 bytes at CARDGAME.PRO offset 0xf200 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80091eb0
+ *  Symbols     CARDGAME_F0x8009170c=0x8009170c CARDGAME_F0x80091eb0=0x80091eb0
+ *  Compare     744 bytes from 0x80091eb0 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80091eb0
+ */
+
 #include "common/types.h"
 
-/* CARDGAME:0x80091eb0 (size 744, 0x2E8)
- * PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0xF200
+/*
  * Scope is exactly one framed function: prologue 27bdffc8 addiu sp,-0x38 at
  * 0x80091eb0; epilogue 03e00008 jr ra + 27bd0038 addiu sp,+0x38 at
- * 0x80092190/0x80092194; next prologue c8ffbd27 addiu sp,-0x38 at 0x80092198
- * = +0x2E8. Size 744 contiguous (186 words), no overlap.
- * PAL word check (primary checkout, read-only): first8 LE
- * 27bdffc8 afb20020 00808821 afb5002c 00c0a821 001510c0 00551023 000210c0
- * equal Ghidra disasm bytes word-for-word; last4 8fb1001c 8fb00018 03e00008
- * 27bd0038; body sha256 401c0b1c9524e3db (744 B at 0xF200).
- * Ghidra program CARDGAME (project ddw3-pal-sles-03936), read-only queries,
- * no cache mutation:
- *   disasm 0x80091eb0 (200-instr query) + disasm 0x80092074 (120-instr query)
- *     -> full 186-instr body recovered (prologue through jr/delay + next
- *     prologue confirmed).
- *   decompile 0x80091eb0 -> CARDGAME_F0x80091eb0(int,int,int): 12-slot scan,
- *     14-byte entry shift, 2 indirect calls, 64+12-byte struct copy, direct
- *     call FUN_8009170c, flag-propagation loop, final indirect call + stores.
- *   x-ref to 0x80091eb0: 1 caller CARDGAME_F0x80084320 at 0x8008481c
- *     (jal 0x80091eb0; a0=s1,a1=s0,a2=s2 pass-through handles + selector).
- *   x-ref from 0x80091eb0: 1 direct callee FUN_8009170c at 0x800920c0
- *     (jal 0x8009170c, args a0=p1,a1=p2,a2=sel,a3=slot); 3 indirect jalr via
- *     p2+0xF14 (p2,slot,0xE500,0x6100), p2+0xF3C (p2,slot,half@s0+2),
- *     p2+0xF24 (p2,found,5,0,stack 0x1000); rest are intra-function branches
- *     and stack spills.
- * Signature is conservative: p1/p2 are byte bases with raw offsets (no
- * invented struct); sel/slot/found are word-sized ints; halfword at dst+2 is
- * signed (lh). Callers pass (s1,s0,s2) so all three params are word handles.
- * Domain pack: none generated. Function touches card-entry bytes and p2 slot
- * arrays only; no battle/camera, skill, digimon-record, dialogue,
- * field/map/tile, sprite/rendering, disc-I/O, or overlay-load semantics were
- * identified (indirect callbacks at p2+0xF14/0xF3C/0xF24 are unidentified, so
- * no knowledge domain can be meaningfully attached; recomp C is never copied
- * per campaign rule).
- * Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base).
+ * 0x80092190/0x80092194; next prologue c8ffbd27 addiu sp,-0x38 at 0x80092198 =
+ * +0x2E8. Size 744 contiguous (186 words), no overlap.
+ *
+ * Signature is conservative: p1/p2 are byte bases with raw offsets (no invented
+ * struct); sel/slot/found are word-sized ints; halfword at dst+2 is signed
+ * (lh). Callers pass (s1,s0,s2) so all three params are word handles.
  */
 
 extern void CARDGAME_F0x8009170c(uint8_t *p1, uint8_t *p2, int32_t sel, int32_t slot);

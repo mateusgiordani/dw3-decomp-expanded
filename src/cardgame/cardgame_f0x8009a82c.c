@@ -1,21 +1,45 @@
-// CARDGAME:0x8009a82c (size 364, 0x16c)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x17b7c
-// Framed function from symbols/function_labels.csv (boundary sweep):
-// prologue 27bdff40 addiu sp,-0xc0, sw s0,0xb0(sp), move s0,a0, sw ra,0xb8(sp),
-// sw s1,0xb4(sp); epilogue lw ra,0xb8(sp), lw s1,0xb4(sp), lw s0,0xb0(sp),
-// jr ra, addiu sp,+0xc0. Next CARDGAME:0x8009a998 contiguous, size 0x16c exact.
-// Ghidra CARDGAME (ddw3-pal-sles-03936, read-only): disasm 91 insns at 0x8009a82c,
-// decompile CARDGAME_F0x8009a82c(param_1); 1 caller CARDGAME_F0x8009b168 via
-// 0x8009b4f8 jal; 1 direct callee EXE 0x8001f648 (jal, a0=sp+0x10) plus 6 computed
-// jalr via stack table sp+0x84/0x88/0x8c/0x94/0x9c/0xa4 filled by that helper.
-// Words compared with reference bin at off 0x17b7c: head 27bdff40 afb000b0
-// 00808021 ... tail 8fbf00b8 8fb100b4 8fb000b0 03e00008 27bd00c0, all equal.
-// cardgame.s / upstream ddw3 GUIDE only, never copied. No Ghidra state change.
-// Stack table family matches C_MATCHING CARDGAME_F0x8009af28 pattern:
-// F0x8001f648(buf) fills uint8_t buf[0xa0] at sp+0x10, fn slots at
-// buf+0x74/0x78/0x7c/0x84/0x8c/0x94 (sp+0x84/0x88/0x8c/0x94/0x9c/0xa4).
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base).
-// Symbols: F0x8001f648=0x8001f648, CARDGAME_F0x8009a82c=0x8009a82c,
+/*
+ * CARDGAME:0x8009a82c CARDGAME_F0x8009a82c
+ * 364 bytes at CARDGAME.PRO offset 0x17b7c (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8009a82c
+ *  Symbols     CARDGAME_F0x8009a82c=0x8009a82c D_800A5AD8=0x800a5ad8
+ *              F0x8001f648=0x8001f648
+ *  Compare     364 bytes from 0x8009a82c against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8009a82c
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Next CARDGAME:0x8009a998 contiguous, size 0x16c exact.
+ *
+ * Words compared with reference bin at off 0x17b7c: head 27bdff40 afb000b0
+ * 00808021 ... tail 8fbf00b8 8fb100b4 8fb000b0 03e00008 27bd00c0, all equal.
+ *
+ * No Ghidra state change.
+ *
+ * F0x8001f648(buf) fills uint8_t buf[0xa0] at sp+0x10, fn slots at
+ * buf+0x74/0x78/0x7c/0x84/0x8c/0x94 (sp+0x84/0x88/0x8c/0x94/0x9c/0xa4).
+ *
+ * Symbols: F0x8001f648=0x8001f648, CARDGAME_F0x8009a82c=0x8009a82c,
+ */
+
 #include <stdint.h>
 
 extern uint8_t D_800A5AD8[];

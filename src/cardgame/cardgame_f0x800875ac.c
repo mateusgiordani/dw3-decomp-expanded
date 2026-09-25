@@ -1,14 +1,52 @@
-// CARDGAME:0x800875ac (size 776, 0x308)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x48fc
-// Prologue 27bdffc8 addiu sp,-0x38 ; sw s4,0x20(sp) ; move s4,a0 ; sw ra,0x34(sp) ; sw s8..s0 (9 callee-saved + ra, frame 0x38)
-// Body: off=idx*76 (x4+x1=x5,x4=x20,-x1=x19,x4=x76) base-first addu v0,s6,v0; lbu/ori/sb bit0 at p2+off+0x150; sh 1 at p2+off+0x12e (s8=1); pad tablets via s3=0x8004b7d0 base (lw 0x3f4=*0x8004bbc4, 0x408=*0x8004bbd8, 0x3fc=*0x8004bbcc); (b0>>(b1)&1) tests for imm 0xe/0xc; EXE (*0x80055c48)(0x800450bd) with lui+ori arg; mode byte p1+0x423 = 0xe/0xb/5; word p1+0x440 = -1/idx; limit *(short*)(p3+10); pair tests (A&(1<<B))|(C&(1<<D)) single-branch; lb test p1+idx+0x446; sb 1 at p1+idx+0x46f; jal CARDGAME_F0x800870a4(p1,p2,p3,+-1 step)
-// Epilogue lw ra,0x34(sp) ... ; jr ra ; addiu sp,+0x38 at 0x800878ac/0x800878b0; next CARDGAME:0x800878b4 at +0x308 confirms size 0x308 contiguous (prologue/epilogue pair).
-// Ghidra program CARDGAME (project ddw3-pal-sles-03936) read-only: disasm 194 insns verified word-equal against PAL bytes @ 0x48fc (first8 LE 27bdffc8 afb40020 0080a021 afbf0034 afbe0030 afb7002c afb60028 afb50024; last4 LE 8fb10014 8fb00010 03e00008 27bd0038); decompile CARDGAME_F0x800875ac; x-ref to from CARDGAME_F0x80087edc at 0x80088604; callees 2x jal 0x800870a4 (a3=+1/-1), jalr tablets, EXE *0x80055c48.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base):
-// exact_byte_match 776/776 (r8 o55) with --symbol D_8004B7D0=0x8004b7d0 (PAL builds
-// the pad table base with lui/addiu %hi/%lo, i.e. a symbol, not a constant).
-// The two long-lived 1s: the stores use literal 1 (CSE keeps that value in s8 for the
-// sh at +0x12e and the sb at +0x46f), the shift masks use their own m = 1 (s5).
+/*
+ * CARDGAME:0x800875ac CARDGAME_F0x800875ac
+ * 776 bytes at CARDGAME.PRO offset 0x48fc (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x800875ac
+ *  Symbols     CARDGAME_F0x800870a4=0x800870a4 D_8004B7D0=0x8004b7d0
+ *  Compare     776 bytes from 0x800875ac against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x800875ac
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Prologue 27bdffc8 addiu sp,-0x38 ; sw s4,0x20(sp) ; move s4,a0 ; sw
+ * ra,0x34(sp) ; sw s8..s0 (9 callee-saved + ra, frame 0x38)
+ *
+ * Body: off=idx*76 (x4+x1=x5,x4=x20,-x1=x19,x4=x76) base-first addu v0,s6,v0;
+ * lbu/ori/sb bit0 at p2+off+0x150; sh 1 at p2+off+0x12e (s8=1); pad tablets via
+ * s3=0x8004b7d0 base (lw 0x3f4=*0x8004bbc4, 0x408=*0x8004bbd8,
+ * 0x3fc=*0x8004bbcc); (b0>>(b1)&1) tests for imm 0xe/0xc; EXE
+ * (*0x80055c48)(0x800450bd) with lui+ori arg; mode byte p1+0x423 = 0xe/0xb/5;
+ * word p1+0x440 = -1/idx; limit *(short*)(p3+10); pair tests
+ * (A&(1<<B))|(C&(1<<D)) single-branch; lb test p1+idx+0x446; sb 1 at
+ * p1+idx+0x46f; jal CARDGAME_F0x800870a4(p1,p2,p3,+-1 step)
+ *
+ * Epilogue lw ra,0x34(sp) ... ; jr ra ; addiu sp,+0x38 at
+ * 0x800878ac/0x800878b0; next CARDGAME:0x800878b4 at +0x308 confirms size 0x308
+ * contiguous (prologue/epilogue pair).
+ *
+ * The two long-lived 1s: the stores use literal 1 (CSE keeps that value in s8
+ * for the sh at +0x12e and the sb at +0x46f), the shift masks use their own m =
+ * 1 (s5).
+ */
+
 #include <stdint.h>
 
 typedef int32_t (*cardgame_pad0_t)(int32_t);

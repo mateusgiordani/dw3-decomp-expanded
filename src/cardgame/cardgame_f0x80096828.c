@@ -1,28 +1,59 @@
-// CARDGAME:0x80096828 (size 296, 0x128)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x13b78
-// Framed function: prologue addiu sp,-0x88 (16 bytes outgoing args at
-// sp+0x00..0x0f, 0x58-byte locals at sp+0x10..sp+0x67, saves s0-s6,ra at
-// 0x68..0x84), body, epilogue jr ra / addiu sp,+0x88. Prev CARDGAME bytes
-// end 0x80096824 (jr ra); next CARDGAME:0x80096950 starts at +0x128.
-// Ghidra CARDGAME (project ddw3-pal-sles-03936, read-only disasm/decompile/
-// xrefs, no import/mutation): all 74 words equal the PAL bytes.
-// Callers (x-ref): 3 jal sites in CARDGAME_F0x8009f110 (a0 = 0, 1, 2), each
-// storing the v0 return value; a1/a2 come from the halfwords at
-// 0x800a5d48/0x800a5d4a and are stored back as halfwords.
-// Callees: EXE F0x8001ebf8 fills the 0x58-byte locals; EXE EXE_F0x80014504
-// allocates the 0x74-byte obj with tpl CARDGAME_F0x80096418, flag 0x1c; the
-// per-iteration indirect callback comes from the locals slot at +0x2c.
-// Data: EXE halfword table base 0x80048d34, read at +0x63e, indexed by
-// a0*102 + 2*i over 40 iterations; 6 byte counters at obj+0x60..0x65.
-// Stored handlers: CARDGAME_F0x800967f8 -> obj+0x6c,
-// CARDGAME_F0x80096808 -> obj+0x70.
-// Revision 7 (GCC 2.8.1 SN32 / ASPSX 2.79 O2, exact):
-// - the table base is held as an integer and added as off + base, so the
-//   address add keeps PAL's offset-first operand order (pointer arithmetic
-//   puts the pointer first);
-// - a1/a2 are int32_t parameters narrowed at their halfword stores, which lets
-//   all three parameter moves precede the first call's argument setup as in PAL.
-// Status: exact candidate; parent reproduction pending.
+/*
+ * CARDGAME:0x80096828 CARDGAME_F0x80096828
+ * 296 bytes at CARDGAME.PRO offset 0x13b78 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80096828
+ *  Symbols     CARDGAME_F0x80096418=0x80096418 CARDGAME_F0x800967f8=0x800967f8
+ *              CARDGAME_F0x80096808=0x80096808 D0x80048d34=0x80048d34
+ *              EXE_F0x80014504=0x80014504 F0x8001ebf8=0x8001ebf8
+ *  Compare     296 bytes from 0x80096828 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80096828
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Framed function: prologue addiu sp,-0x88 (16 bytes outgoing args at
+ * sp+0x00..0x0f, 0x58-byte locals at sp+0x10..sp+0x67, saves s0-s6,ra at
+ * 0x68..0x84), body, epilogue jr ra / addiu sp,+0x88. Prev CARDGAME bytes end
+ * 0x80096824 (jr ra); next CARDGAME:0x80096950 starts at +0x128.
+ *
+ * Callers (x-ref): 3 jal sites in CARDGAME_F0x8009f110 (a0 = 0, 1, 2), each
+ * storing the v0 return value; a1/a2 come from the halfwords at
+ * 0x800a5d48/0x800a5d4a and are stored back as halfwords.
+ *
+ * Callees: EXE F0x8001ebf8 fills the 0x58-byte locals; EXE EXE_F0x80014504
+ * allocates the 0x74-byte obj with tpl CARDGAME_F0x80096418, flag 0x1c; the
+ * per-iteration indirect callback comes from the locals slot at +0x2c.
+ *
+ * Data: EXE halfword table base 0x80048d34, read at +0x63e, indexed by a0*102 +
+ * 2*i over 40 iterations; 6 byte counters at obj+0x60..0x65.
+ *
+ * Stored handlers: CARDGAME_F0x800967f8 -> obj+0x6c, CARDGAME_F0x80096808 ->
+ * obj+0x70.
+ *
+ * Revision 7 (GCC 2.8.1 SN32 / ASPSX 2.79 O2, exact): - the table base is held
+ * as an integer and added as off + base, so the address add keeps PAL's
+ * offset-first operand order (pointer arithmetic puts the pointer first); -
+ * a1/a2 are int32_t parameters narrowed at their halfword stores, which lets
+ * all three parameter moves precede the first call's argument setup as in PAL.
+ */
+
 #include <stdint.h>
 
 extern void F0x8001ebf8(void *buf);

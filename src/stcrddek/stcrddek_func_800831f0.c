@@ -1,24 +1,37 @@
-// STCRDDEK:0x800831f0 (size 248, 0xf8)
-// PAL: reference/extracted/pro/stcrddek.bin base 0x80082cb0 file-off 0x540
-// Boundary: reports/investigations/pro-310-triage/modules/stcrddek-inventory.json
-//   body-800831f0: address 2148020720, instruction_bytes 248, range [2148020720, 2148020968);
-//   next body-800832e8 starts exactly at 2148020968 (addiu sp,-0x18); prev 16 bytes
-//   (800893a8 800893a8 80089e2c 80089e5c) are not code of this function.
-// Ghidra STCRDDEK (ddw3-pal-sles-03936, read-only): 62-insn disasm matches PAL
-//   words exactly; decompile STCRDDEK_func_800831f0 shows gate on *(arg0+0xc)
-//   (body unless 1 <= state <= 3), then EXE table calls, stack halfword table,
-//   method at +0x12c of the returned object, *arg1 = STCRDDEK_func_8008a0b8(),
-//   method at +0x38 of arg0 (hypothesis only, confirmed against disasm).
-// Xref: Ghidra x-ref to 0x800831f0 empty (no direct jal); inventory call_seeds
-//   proposes caller STCRDDEK 0x800832e8 via task_callback_argument at site
-//   0x800832fc (F0x80014504(STCRDDEK_func_800831f0, 0x50, 4)); decompile of
-//   0x800832e8 confirms this registration (evidence for callback role).
-//   Upstream stcrddek.s holds no 0x800831f0 label (guide only, never authority).
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base hypothesis).
-// Attempt history on pinned base: (1) single if with || got merged by GCC into
-//   (state-1)<u 3 (60-word object, 8 B short); (2) this three-if/goto chain keeps
-//   beq/bltz/slti+bne separate and matches. No compiler alternates used.
-// Status: C_MATCHING (portable C, no asm; pipeline exact_byte_match, difference_count 0).
+/*
+ * STCRDDEK:0x800831f0 STCRDDEK_func_800831f0
+ * 248 bytes at STCRDDEK.PRO offset 0x540 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x800831f0
+ *  Symbols     D_8004DE10=0x8004de10 F0x80014504=0x80014504
+ *              STCRDDEK_func_8008a0b8=0x8008a0b8
+ *  Compare     248 bytes from 0x800831f0 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x800831f0
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Attempt history on pinned base: (1) single if with || got merged by GCC into
+ * (state-1)<u 3 (60-word object, 8 B short); (2) this three-if/goto chain keeps
+ * beq/bltz/slti+bne separate and matches. No compiler alternates used.
+ */
+
 #include <stdint.h>
 
 extern int32_t D_8004DE10[];

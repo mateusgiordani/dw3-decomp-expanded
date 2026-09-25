@@ -1,21 +1,44 @@
-// CARDGAME:0x8009535c (size 412, 0x19c)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x126ac.
-// Boundary: prologue 27bdffe8 (addiu sp,sp,-0x18) at 0x8009535c; epilogue jr ra + 27bd0018
-// at 0x800954f0/0x800954f4. Next CARDGAME:0x800954f8 framed (addiu sp,sp,-0x198): contiguous.
-// Ghidra CARDGAME (ddw3-pal-sles-03936, read-only, no state changed): 103-insn disasm
-// verified word-equal against PAL; decompile used as hypothesis only, confirmed vs disasm.
-// Caller: CARDGAME_F0x80084320 via 0x80085828 (return 0/1/2 = stay/continue/advance to 0x4d).
-// Callee: EXE vector *(uint32_t *)0x80055c48 with lui+ori arg (0x80040000 | 0x52c6),
-// same idiom as CARDGAME:0x80088f78 case 3.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 + variant
-// o2-g0-no-strength-reduce (PAL keeps recomputed addresses: unbiased cur1,
-// separate a0+t0 per pair-2 load; base variant creates extra inductions).
-// r8 (o55/s0923h): exact_byte_match 412/412. Both loops are real do-while loops, so
-// flow weights refs by depth and global alloc reproduces PAL homes (a a2, idx a3,
-// dirty t4, outer t5, mark t6); the clear loop is a goto loop (idx weight). With the
-// byte read into a short widened to int and the target a short, the inner loop has
-// 59 insns at loop.c time, so the two stored 1s stay in the loop as in PAL.
-// Detail: docs/c-matching-guide/submissions/cardgame-8009535c/strategy-r8-o55.md.
+/*
+ * CARDGAME:0x8009535c CARDGAME_F0x8009535c
+ * 412 bytes at CARDGAME.PRO offset 0x126ac (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float -fno-strength-reduce
+ *  Variant     o2-g0-no-strength-reduce
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8009535c
+ *  Symbols     CARDGAME_F0x8009535c=0x8009535c D_80055c48=0x80055c48
+ *  Compare     412 bytes from 0x8009535c against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8009535c
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Caller: CARDGAME_F0x80084320 via 0x80085828 (return 0/1/2 =
+ * stay/continue/advance to 0x4d).
+ *
+ * Callee: EXE vector *(uint32_t *)0x80055c48 with lui+ori arg (0x80040000 |
+ * 0x52c6), same idiom as CARDGAME:0x80088f78 case 3.
+ *
+ * Both loops are real do-while loops, so flow weights refs by depth and global
+ * alloc reproduces PAL homes (a a2, idx a3, dirty t4, outer t5, mark t6); the
+ * clear loop is a goto loop (idx weight). With the byte read into a short
+ * widened to int and the target a short, the inner loop has 59 insns at loop.c
+ * time, so the two stored 1s stay in the loop as in PAL.
+ */
+
 #include <stdint.h>
 
 typedef void (*cardgame_exe_vec_t)(uint32_t arg);

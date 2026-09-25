@@ -1,24 +1,50 @@
-// CARDGAME:0x80087b80 (size 584, 0x248) -- portable C, exact_byte_match
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x4ed0.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79, variant base (-O2 -G0).
-// Link symbols: --symbol CARDGAME_F0x80087b80=0x80087b80
-//   --symbol CARDGAME_F0x80086f24=0x80086f24 --symbol D_8004B7D0=0x8004B7D0
-//   --symbol D_80055c48=0x80055c48
-// Caller: CARDGAME_F0x80087edc via jal at 0x80088634. Next function
-// CARDGAME:0x80087dc8 at +0x248; no overlap.
-// Body: set bit0 at p2+idx*76+0x150 and half 1 at +0x12e (idx=*(p1+0x43c)
-// re-read, stride 76); r0=(*0x8004bbc4)(0), r1=(*0x8004bbd8)(0,14): if
-// ((r0>>r1)&1) (*0x80055c48)(0x800450bd), *(p1+0x440)=-1, *(p1+0x423)=10;
-// if p3!=0: two bitmask rounds (kinds 7 then 5); round1 && idx>0 ->
-// CARDGAME_F0x80086f24(p1,p2,p3,-1); round2 && idx<p3-1 -> (...,1).
-//
-// Matching-critical shapes (evidence: RTL -da dumps, see
-// docs/c-matching-guide/submissions/cardgame-80087b80/strategy-r9-o55.md):
-// - Each round is one expression (A & (1 << B)) | (C & (1 << D)): the four
-//   calls are pre-expanded, so each result copy sinks into the next jalr
-//   delay slot and the 2-arg pointers load into v1, as in PAL.
-// - Round 1 indexes the local tbl (s3); round 2 indexes D_8004B7D0 directly,
-//   giving PAL's fresh base in s0, which round 2's third result then reuses.
+/*
+ * CARDGAME:0x80087b80 CARDGAME_F0x80087b80
+ * 584 bytes at CARDGAME.PRO offset 0x4ed0 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80087b80
+ *  Symbols     CARDGAME_F0x80086f24=0x80086f24 CARDGAME_F0x80087b80=0x80087b80
+ *              D_8004B7D0=0x8004b7d0 D_80055c48=0x80055c48
+ *  Compare     584 bytes from 0x80087b80 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80087b80
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Link symbols: --symbol CARDGAME_F0x80087b80=0x80087b80 --symbol
+ * CARDGAME_F0x80086f24=0x80086f24 --symbol D_8004B7D0=0x8004B7D0 --symbol
+ * D_80055c48=0x80055c48
+ *
+ * Caller: CARDGAME_F0x80087edc via jal at 0x80088634. Next function
+ * CARDGAME:0x80087dc8 at +0x248; no overlap.
+ *
+ * Body: set bit0 at p2+idx*76+0x150 and half 1 at +0x12e (idx=*(p1+0x43c)
+ * re-read, stride 76); r0=(*0x8004bbc4)(0), r1=(*0x8004bbd8)(0,14): if
+ * ((r0>>r1)&1) (*0x80055c48)(0x800450bd), *(p1+0x440)=-1, *(p1+0x423)=10; if
+ * p3!=0: two bitmask rounds (kinds 7 then 5); round1 && idx>0 ->
+ *
+ * CARDGAME_F0x80086f24(p1,p2,p3,-1); round2 && idx<p3-1 -> (...,1).
+ *
+ * - Round 1 indexes the local tbl (s3); round 2 indexes D_8004B7D0 directly,
+ * giving PAL's fresh base in s0, which round 2's third result then reuses.
+ */
+
 #include <stdint.h>
 
 typedef int32_t (*cardgame_tbl0_t)(int32_t);

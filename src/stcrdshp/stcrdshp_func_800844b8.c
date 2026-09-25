@@ -1,10 +1,48 @@
+/*
+ * STCRDSHP:0x800844b8 STCRDSHP_func_800844b8
+ * 3604 bytes at STCRDSHP.PRO offset 0x1808 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x800844b8, jump table (.rodata) at 0x80082cb0
+ *  Symbols     B_80048D34=0x80048d34 D_8008CB88=0x8008cb88
+ *              D_8008CB8C=0x8008cb8c E_80044F4C=0x80044f4c
+ *              E_8004B454=0x8004b454 E_8004BBC4=0x8004bbc4
+ *              E_8004BBC8=0x8004bbc8 E_8004BBCC=0x8004bbcc
+ *              E_8004BBD8=0x8004bbd8 E_8004DC0C=0x8004dc0c
+ *              E_80055C48=0x80055c48 M_80044B38=0x80044b38
+ *              O_8008CB80=0x8008cb80 P_8005CCA8=0x8005cca8
+ *              R_8004DC04=0x8004dc04 STCRDSHP_func_800832c8=0x800832c8
+ *              STCRDSHP_func_800835b8=0x800835b8
+ *              STCRDSHP_func_80083780=0x80083780
+ *              STCRDSHP_func_800843c0=0x800843c0
+ *              STCRDSHP_func_80085fdc=0x80085fdc T_8008C708=0x8008c708
+ *              X_8004B7D0=0x8004b7d0
+ *  Compare     3604 bytes from 0x800844b8 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only STCRDSHP:0x800844b8
+ */
+
 #include "common/types.h"
 
-/* STCRDSHP:0x800844b8..0x800852cc, PAL-SLES-03936 (3604 bytes).
- * Recovered from Ghidra ddw3-pal-sles-03936/STCRDSHP at verified base
- * 0x80082cb0 and cross-checked against the complete PAL binary range.
+/*
+ * 0x800852cc, PAL-SLES-03936 (3604 bytes).
+ *
  * The switch table at 0x80082cb0 has 61 entries (244 bytes).
- * See submissions/stcrdshp-800844b8/strategy-r7-astra.md for exact evidence.
  */
 
 extern int32_t STCRDSHP_func_800832c8(void *p, void *q, int32_t mode);

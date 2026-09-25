@@ -1,13 +1,55 @@
+/*
+ * STCRDDEK:0x80089354 STCRDDEK_func_80089354
+ * 2884 bytes at STCRDDEK.PRO offset 0x66a4 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80089354, jump table (.rodata) at 0x80083058
+ *  Symbols     D_80044B38=0x80044b38 D_8004935C=0x8004935c
+ *              D_8004B7D0=0x8004b7d0 D_80055C48=0x80055c48
+ *              D_8005CCA8=0x8005cca8 D_8008B830=0x8008b830
+ *              STCRDDEK_func_80083594=0x80083594
+ *              STCRDDEK_func_8008660c=0x8008660c
+ *              STCRDDEK_func_800887d4=0x800887d4
+ *              STCRDDEK_func_80088d24=0x80088d24
+ *              STCRDDEK_func_8008924c=0x8008924c
+ *              STCRDDEK_func_80089354=0x80089354
+ *  Compare     2884 bytes from 0x80089354 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x80089354
+ */
+
 #include "common/types.h"
 
-/* STCRDDEK:0x80089354 - deck-menu candidate state machine (2884 B, 0xB44).
- * PAL base 0x80082cb0; file off 0x66a4; body sha 5fda69eead9fc985d39e77c8986e4839f614a3efda969570b740bda8d10dcac4.
- * Boundary: [0x80089354, 0x80089e98); tail jr ra at 0x80089e90, next prologue at 0x80089e98.
- * Switch on *(p1 + 0x10) via table at 0x80083058, bound 0x66; default target 0x800893a8.
+/*
+ * deck-menu candidate state machine (2884 B, 0xB44).
+ *
+ * PAL base 0x80082cb0; file off 0x66a4; body sha
+ * 5fda69eead9fc985d39e77c8986e4839f614a3efda969570b740bda8d10dcac4.
+ *
+ * Switch on *(p1 + 0x10) via table at 0x80083058, bound 0x66; default target
+ * 0x800893a8.
+ *
  * Caller: STCRDDEK_func_80089e98 (+0xd4 jal at 0x80089f6c, a0=s0, a1=s1).
- * Ghidra program STCRDDEK read-only; no mutation; reference words match (see handoff).
- * Every case stores its own next state and returns; case 0x65 falls through with its store, so
- * jump2 redirects the other stores to that one and keeps the per-case loads (see strategy-r6). */
+ *
+ * Every case stores its own next state and returns; case 0x65 falls through
+ * with its store, so jump2 redirects the other stores to that one and keeps the
+ * per-case loads (see strategy-r6).
+ */
 
 extern void STCRDDEK_func_8008924c(int32_t p1);
 extern void STCRDDEK_func_80088d24(int32_t p1, uint32_t *p2, int32_t a2, int32_t a3);

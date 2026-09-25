@@ -1,7 +1,83 @@
-// CARDGAME:0x80084320 (size 6856, 0x1ac8)
-// PAL reference: reference/extracted/pro/cardgame.bin, base 0x80082cb0.
-// Full-range PAL match: 6856 bytes; see submission manifest-r15.json.
-// Source lifetimes and the count access view preserve native PsyQ allocation.
+/*
+ * CARDGAME:0x80084320 CARDGAME_F0x80084320
+ * 6856 bytes at CARDGAME.PRO offset 0x1670 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80084320, jump table (.rodata) at 0x80082cf8
+ *  Symbols     CARDGAME_F0x80084188=0x80084188 CARDGAME_F0x8008423c=0x8008423c
+ *              CARDGAME_F0x80084320=0x80084320 CARDGAME_F0x80086330=0x80086330
+ *              CARDGAME_F0x8008642c=0x8008642c CARDGAME_F0x80086d78=0x80086d78
+ *              CARDGAME_F0x80086eb0=0x80086eb0 CARDGAME_F0x80087edc=0x80087edc
+ *              CARDGAME_F0x80088f0c=0x80088f0c CARDGAME_F0x80088f78=0x80088f78
+ *              CARDGAME_F0x800894e4=0x800894e4 CARDGAME_F0x80089580=0x80089580
+ *              CARDGAME_F0x80089974=0x80089974 CARDGAME_F0x8008a068=0x8008a068
+ *              CARDGAME_F0x8008ad98=0x8008ad98 CARDGAME_F0x8008baa4=0x8008baa4
+ *              CARDGAME_F0x8008bc6c=0x8008bc6c CARDGAME_F0x8008c044=0x8008c044
+ *              CARDGAME_F0x8008c5f0=0x8008c5f0 CARDGAME_F0x8008c6e0=0x8008c6e0
+ *              CARDGAME_F0x8008c988=0x8008c988 CARDGAME_F0x8008ca4c=0x8008ca4c
+ *              CARDGAME_F0x8008cb5c=0x8008cb5c CARDGAME_F0x8008ce0c=0x8008ce0c
+ *              CARDGAME_F0x8008cfdc=0x8008cfdc CARDGAME_F0x8008d274=0x8008d274
+ *              CARDGAME_F0x8008d594=0x8008d594 CARDGAME_F0x8008ddc0=0x8008ddc0
+ *              CARDGAME_F0x8008def8=0x8008def8 CARDGAME_F0x8008e398=0x8008e398
+ *              CARDGAME_F0x8008e5bc=0x8008e5bc CARDGAME_F0x8008ec44=0x8008ec44
+ *              CARDGAME_F0x8008eec8=0x8008eec8 CARDGAME_F0x8008f0f4=0x8008f0f4
+ *              CARDGAME_F0x8008f530=0x8008f530 CARDGAME_F0x8008f560=0x8008f560
+ *              CARDGAME_F0x8008f750=0x8008f750 CARDGAME_F0x8008f790=0x8008f790
+ *              CARDGAME_F0x8008f978=0x8008f978 CARDGAME_F0x8008fa9c=0x8008fa9c
+ *              CARDGAME_F0x8008ff08=0x8008ff08 CARDGAME_F0x80090058=0x80090058
+ *              CARDGAME_F0x800907ac=0x800907ac CARDGAME_F0x80090ba0=0x80090ba0
+ *              CARDGAME_F0x80090cd8=0x80090cd8 CARDGAME_F0x800915d4=0x800915d4
+ *              CARDGAME_F0x80091858=0x80091858 CARDGAME_F0x800919fc=0x800919fc
+ *              CARDGAME_F0x80091c6c=0x80091c6c CARDGAME_F0x80091eb0=0x80091eb0
+ *              CARDGAME_F0x80092198=0x80092198 CARDGAME_F0x80092438=0x80092438
+ *              CARDGAME_F0x80092638=0x80092638 CARDGAME_F0x80092ba4=0x80092ba4
+ *              CARDGAME_F0x80092e60=0x80092e60 CARDGAME_F0x80093710=0x80093710
+ *              CARDGAME_F0x80093b10=0x80093b10 CARDGAME_F0x80093c18=0x80093c18
+ *              CARDGAME_F0x80093cac=0x80093cac CARDGAME_F0x8009403c=0x8009403c
+ *              CARDGAME_F0x800942dc=0x800942dc CARDGAME_F0x80094848=0x80094848
+ *              CARDGAME_F0x80094b9c=0x80094b9c CARDGAME_F0x80094fdc=0x80094fdc
+ *              CARDGAME_F0x80095030=0x80095030 CARDGAME_F0x8009518c=0x8009518c
+ *              CARDGAME_F0x80095274=0x80095274 CARDGAME_F0x8009535c=0x8009535c
+ *              FUN_80083f48=0x80083f48 FUN_80083f84=0x80083f84
+ *              FUN_80083fc8=0x80083fc8 FUN_8008400c=0x8008400c
+ *              FUN_8008404c=0x8008404c FUN_80084090=0x80084090
+ *              FUN_800840d0=0x800840d0 FUN_800840f0=0x800840f0
+ *              FUN_8008985c=0x8008985c FUN_80089ec8=0x80089ec8
+ *              FUN_8008ad48=0x8008ad48 FUN_8008c8d8=0x8008c8d8
+ *              FUN_8008deac=0x8008deac FUN_8008e08c=0x8008e08c
+ *              FUN_8008e5b0=0x8008e5b0 FUN_8008f0b4=0x8008f0b4
+ *              FUN_8008f2d8=0x8008f2d8 FUN_8008f948=0x8008f948
+ *              FUN_8009076c=0x8009076c FUN_80090a6c=0x80090a6c
+ *              FUN_80090a90=0x80090a90 FUN_800915c4=0x800915c4
+ *              FUN_80093624=0x80093624 FUN_80093adc=0x80093adc
+ *              FUN_80094828=0x80094828 FUN_80094b78=0x80094b78
+ *              FUN_80095208=0x80095208 FUN_800952f4=0x800952f4
+ *              func_0x8001ebf8=0x8001ebf8
+ *  Compare     6856 bytes from 0x80084320 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80084320
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Source lifetimes and the count access view preserve native PsyQ allocation.
+ */
+
 #include <stdint.h>
 
 typedef uint8_t undefined1;

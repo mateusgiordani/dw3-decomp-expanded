@@ -1,34 +1,54 @@
-// CARDGAME:0x8009a1a0 (size 692, 0x2b4)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x174f0
-// Framed function: prologue addiu sp,-0x20 ; sw s1,0x14(sp) ; move s1,a1 ;
-// sw ra,0x1c(sp) ; sw s2,0x18(sp) ; sw s0,0x10(sp). Epilogue lw ra,0x1c(sp) ;
-// lw s2,0x18(sp) ; lw s1,0x14(sp) ; lw s0,0x10(sp) ; jr ra ; addiu sp,+0x20.
-// Next CARDGAME:0x8009a454 at +0x2b4 (contiguous), size 692 self-contained
-// (symbols/function_labels.csv: CARDGAME,0x8009a1a0,function,692).
-// PAL words checked against Ghidra disasm word-for-word (first16 27bdffe0
-// afb10014 00a08821 afbf001c afb20018 afb00010 8e220030 00000000 18400028
-// 00009021 3c028005 8c42df9c 00000000 0040f809 24101c00 8e230030, tail
-// a6250022 02401021 8fbf001c 8fb20018 8fb10014 8fb00010 03e00008 27bd0020).
-// Ghidra program CARDGAME (project ddw3-pal-sles-03936, base 0x80082cb0)
-// read-only, no mutation: disasm 0x8009a1a0 (64+80+40 insns), decompile
-// CARDGAME_F0x8009a1a0 (hypothesis only, confirmed vs disasm), x-ref to
-// (single caller CARDGAME_F0x8009b890+0xa0 UNCONDITIONAL_CALL, jal 0c026868
-// with a0=s0 a1=s1, v0=flags|1 stored to 0x54(s0) in the delay slot),
-// x-ref from (jalr via pointer at 0x8004df9c x2, jalr via pointer at
-// 0x80055c48 x1, jal EXE 0x8002abcc x1, intra-function branches only).
-// Incoming a0 is never read (first a0 use is lui overwrite at 0x8009a21c);
-// s1=a1 is the context pointer; s0 is the constant 0x1c00 (li in the first
-// jalr delay slot); s2 is the 0/1 return flag. Upstream ddw3 guide not
-// checked out in this worktree (submodule uninitialized); PAL bytes are
-// authoritative per source hierarchy.
-// Semantic: two-counter timed interpolation updater over context fields
-// +0x00..+0x30 (lerp of int pairs with divisor +0x2c, short pairs with
-// signed lh quotient but lhu store base), byte state +0x42/+0x48.
-// Returns 1 only on the swap/reset path (counter +0x28 decremented to <=0),
-// else 0.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base,
-// --strip-div-guard): exact_byte_match 692/692 via normal codegen
-// (no __asm__, no .word).
+/*
+ * CARDGAME:0x8009a1a0 CARDGAME_F0x8009a1a0
+ * 692 bytes at CARDGAME.PRO offset 0x174f0 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8009a1a0
+ *  Symbols     DAT_8004df9c=0x8004df9c DAT_80055c48=0x80055c48
+ *              EXE_F0x8002abcc=0x8002abcc
+ *  Compare     692 bytes from 0x8009a1a0 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8009a1a0
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Framed function: prologue addiu sp,-0x20 ; sw s1,0x14(sp) ; move s1,a1 ; sw
+ * ra,0x1c(sp) ; sw s2,0x18(sp) ; sw s0,0x10(sp). Epilogue lw ra,0x1c(sp) ; lw
+ * s2,0x18(sp) ; lw s1,0x14(sp) ; lw s0,0x10(sp) ; jr ra ; addiu sp,+0x20.
+ *
+ * PAL words checked against Ghidra disasm word-for-word (first16 27bdffe0
+ * afb10014 00a08821 afbf001c afb20018 afb00010 8e220030 00000000 18400028
+ * 00009021 3c028005 8c42df9c 00000000 0040f809 24101c00 8e230030, tail a6250022
+ * 02401021 8fbf001c 8fb20018 8fb10014 8fb00010 03e00008 27bd0020).
+ *
+ * Incoming a0 is never read (first a0 use is lui overwrite at 0x8009a21c);
+ * s1=a1 is the context pointer; s0 is the constant 0x1c00 (li in the first jalr
+ * delay slot); s2 is the 0/1 return flag. PAL bytes are authoritative per
+ * source hierarchy.
+ *
+ * Semantic: two-counter timed interpolation updater over context fields
+ * +0x00..+0x30 (lerp of int pairs with divisor +0x2c, short pairs with signed
+ * lh quotient but lhu store base), byte state +0x42/+0x48.
+ *
+ * Returns 1 only on the swap/reset path (counter +0x28 decremented to <=0),
+ * else 0.
+ */
+
 #include <stdint.h>
 
 extern int32_t (*DAT_8004df9c)(void);

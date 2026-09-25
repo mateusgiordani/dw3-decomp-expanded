@@ -1,27 +1,41 @@
-// CARDGAME:0x8008cfdc (size 664, 0x298) -- EXACT_BYTE_MATCH (r6).
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0xa32c (RAW, no header).
-// Boundary: prologue 27bdffc8 addiu sp,-0x38, saves s2/s4/s5/ra/s3/s1/s0;
-// s2=a0(p1), s4=a1(p2); epilogue lw ra/s5/s4/s3/s2/s1/s0 + jr ra +
-// addiu sp,+0x38 at 0x8008d250-0x8008d270. Next framed CARDGAME:0x8008d274
-// at +0x298 (27bdffb8 prologue), contiguous, no overlap.
-// Ghidra program CARDGAME (project ddw3-pal-sles-03936) read-only: disasm 166
-// words word-equal vs PAL; 1 caller CARDGAME_F0x80084320 via 0x800858f8;
-// callees: EXE sys tablets (s1=0x8004b7d0 slots 0x3f4/0x408), absolute EXE
-// vector *0x80055c48, card-method slots p2+0xf24/0xf18/0xec4/0xeb4.
-// Shape (all portable C, no register/asm/volatile): 4-way dispatch on byte
-// p1+0x422 (2 -> sysbit dispatch; 1/3 -> require-gated cases; else fail);
-// value paths converge on one Lfun funnel (move v0,s5 + fallthrough
-// restores at 0x8008d24c); all 7 fail paths share one Lheadfail block
-// (return ret) so branch-delay fills are move v0,s5 (copy of s5 home)
-// instead of rematerialized li v0,-1 (r6 R-a/R-b). Sysbit tests use unnamed
-// call temps (sys0(0)>>sys1(0,imm))&1 so the save lands in the next jalr
-// delay slot (r10 S); ret = 0 sits between the m2 and m1 calls (r10 C3).
-// EXE sys base is an extern array (DAT_8004B7D0): plain constant would emit
-// li+ori, extern yields lui+addiu. idx*76 stride is base-first addu (p2+off).
-// Lineage: A2 funnel (r9) + S/C3 (r10) + shared-fail-return R-a/R-b (r6).
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base).
-// Status: C_MATCHING candidate (fn_exact_pipeline exact_byte_match 664/664,
-// candidate sha256 == PAL dbac5542cf90654ccb99a5bf9d8df8421b5b8ce66887299b6c8ce66307ab4162).
+/*
+ * CARDGAME:0x8008cfdc CARDGAME_F0x8008cfdc
+ * 664 bytes at CARDGAME.PRO offset 0xa32c (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008cfdc
+ *  Symbols     CARDGAME_F0x80084320=0x80084320 DAT_8004B7D0=0x8004b7d0
+ *              D_80055C48=0x80055c48
+ *  Compare     664 bytes from 0x8008cfdc against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8008cfdc
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Sysbit tests use unnamed call temps (sys0(0)>>sys1(0,imm))&1 so the save
+ * lands in the next jalr delay slot (r10 S); ret = 0 sits between the m2 and m1
+ * calls (r10 C3).
+ *
+ * EXE sys base is an extern array (DAT_8004B7D0): plain constant would emit
+ * li+ori, extern yields lui+addiu. idx*76 stride is base-first addu (p2+off).
+ *
+ * Lineage: A2 funnel (r9) + S/C3 (r10) + shared-fail-return R-a/R-b (r6).
+ */
 
 #include <stdint.h>
 

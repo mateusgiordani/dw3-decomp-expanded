@@ -1,40 +1,63 @@
-// CARDGAME:0x800942dc (size 1356, 0x54c)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x1162c
-// Boundary: prologue 27bdffc8 addiu sp,sp,-0x38 at 0x800942dc; epilogue jr ra +
-// 27bd0038 addiu sp,+0x38 at 0x80094820/0x80094824. Prev CARDGAME:0x8009403c
-// size 672 ends exactly at 0x800942dc; next FUN_80094828 at +0x54c (contiguous).
-// Ghidra program CARDGAME (project ddw3-pal-sles-03936, read-only, base
-// 0x80082cb0 verified via min_address): disasm 339 insns word-equal vs PAL @
-// 0x1162c (339/339); decompile CARDGAME_F0x800942dc; x-ref to from
-// CARDGAME_F0x80084320 at 0x8008523c/0x8008525c (jal 0c0250b7, args ctx/disp/0
-// and ctx/disp/1); callees FUN_80093bc4 (jal x2 in state 8).
-// Switch on byte ctx+0x422 states 1..10 via table at 0x8008365c (10 entries
-// 0x80094344..0x800947f8 verified in PAL); out-of-range returns 0, state 10
-// returns 1. Indirect dispatches via p2+0xf1c/0xf24/0xeac/0xeb0/0xea0; EXE tick
-// *0x8004df9c (= DAT_8004B7D0[0x9f3]); EXE polls via DAT_8004B7D0[0xfd]/[0x102]
-// (= *0x8004bbc4/*0x8004bbd8, shared lui/addiu base pattern per 878b4);
-// short-pair table DAT_800A5928 indexed by p3*4 + DAT_8005CCB0*8.
-// cardgame.s is GUIDE only, never copied as source. No Ghidra state change.
-// Live-range notes: case-1 loop counter reuses p3 (idx dead after row setup),
-// forcing a fresh saved reg for the row base; case-8 FUN results flow nested
-// into the ea0 calls (delay-slot a3); case-8 timer is reloaded from ctx+0x424
-// for the second FUN call (ea0 call kills memory between).
-// The EXE tick uses an absolute address (f2ec precedent) so it does not CSE
-// with the DAT_8004B7D0 base shared by the case-5 polls (ref: direct lui/lw).
-// Both loops use an explicit temp address plus a saved row copy (ref computes
-// the row into a temp, guards on its count, then moves it to the saved reg).
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base),
-// --rodata 0x8008365c; exact_byte_match over the full 1356-byte range.
-// Matching-critical shapes (evidence: submissions/cardgame-800942dc/strategy-r7-o55.md):
-// - case 5: each poll is one expression (f0(0) >> f1(0,k)) & 1, so the first
-//   result copy sinks into the second jalr delay and the 2-arg pointer loads
-//   into v1 (separate bits/shift statements copy early and reuse v0).
-// - cases 1/8: sum = *(p1+0x424) += tick() keeps the sum in the loaded reg.
-// - case 2: addresses built as integer values in locals (p2 + idx*0x4c), not
-//   inside the address, give PAL's base-first addu; the head uses its own
-//   block-local e0 so it does not share the loop pseudo.
-// - case 3: table base in its own local before the state store, then
-//   addr = base + (p3*4 + DAT_8005CCB0*8) as a separate pseudo.
+/*
+ * CARDGAME:0x800942dc CARDGAME_F0x800942dc
+ * 1356 bytes at CARDGAME.PRO offset 0x1162c (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x800942dc, jump table (.rodata) at 0x8008365c
+ *  Symbols     DAT_8004B7D0=0x8004b7d0 DAT_8005CCB0=0x8005ccb0
+ *              DAT_800A5928=0x800a5928 FUN_80093bc4=0x80093bc4
+ *  Compare     1356 bytes from 0x800942dc and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x800942dc
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Switch on byte ctx+0x422 states 1..10 via table at 0x8008365c (10 entries
+ * 0x80094344..0x800947f8 verified in PAL); out-of-range returns 0, state 10
+ * returns 1. Indirect dispatches via p2+0xf1c/0xf24/0xeac/0xeb0/0xea0; EXE tick
+ * *0x8004df9c (= DAT_8004B7D0[0x9f3]); EXE polls via DAT_8004B7D0[0xfd]/[0x102]
+ * (= *0x8004bbc4/*0x8004bbd8, shared lui/addiu base pattern per 878b4);
+ * short-pair table DAT_800A5928 indexed by p3*4 + DAT_8005CCB0*8.
+ *
+ * No Ghidra state change.
+ *
+ * Live-range notes: case-1 loop counter reuses p3 (idx dead after row setup),
+ * forcing a fresh saved reg for the row base; case-8 FUN results flow nested
+ * into the ea0 calls (delay-slot a3); case-8 timer is reloaded from ctx+0x424
+ * for the second FUN call (ea0 call kills memory between).
+ *
+ * The EXE tick uses an absolute address (f2ec precedent) so it does not CSE
+ * with the DAT_8004B7D0 base shared by the case-5 polls (ref: direct lui/lw).
+ *
+ * Both loops use an explicit temp address plus a saved row copy (ref computes
+ * the row into a temp, guards on its count, then moves it to the saved reg).
+ *
+ * - cases 1/8: sum = *(p1+0x424) += tick() keeps the sum in the loaded reg.
+ *
+ * - case 2: addresses built as integer values in locals (p2 + idx*0x4c), not
+ * inside the address, give PAL's base-first addu; the head uses its own
+ * block-local e0 so it does not share the loop pseudo.
+ *
+ * - case 3: table base in its own local before the state store, then addr =
+ * base + (p3*4 + DAT_8005CCB0*8) as a separate pseudo.
+ */
+
 #include <stdint.h>
 
 typedef int32_t (*cardgame_tick_t)(void);

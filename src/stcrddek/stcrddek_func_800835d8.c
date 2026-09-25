@@ -1,32 +1,63 @@
-/* STCRDDEK:0x800835d8 -- deck-menu candidate (476 B, file off 2344 = vaddr - 0x80082cb0).
- * PAL bytes (authority): reference/extracted/pro/stcrddek.bin base 0x80082cb0,
- * file off 2344, 476 B; word-for-word match vs inventory body-800835d8 verified.
+/*
+ * STCRDDEK:0x800835d8 STCRDDEK_func_800835d8
+ * 476 bytes at STCRDDEK.PRO offset 0x928 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x800835d8
+ *  Symbols     D_80044B38=0x80044b38 D_80048D34=0x80048d34
+ *              F0x8001ebf8=0x8001ebf8 F0x8001f648=0x8001f648
+ *              STCRDDEK_func_800835d8=0x800835d8
+ *  Compare     476 bytes from 0x800835d8 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x800835d8
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * deck-menu candidate (476 B, file off 2344 = vaddr - 0x80082cb0).
+ *
  * Prologue addiu sp,sp,-0x130, saves ra/s0-s7; epilogue restores + jr ra /
  * addiu sp,+0x130. Prev STCRDDEK:0x80083594 (68 B) ends at entry; next
  * STCRDDEK:0x800837b4 starts at +476: contiguous, no overlap.
- * Ghidra ddw3-pal-sles-03936/STCRDDEK read-only (function list only, no cache
- * mutation): STCRDDEK_func_800835d8 size 476, agrees with inventory.
+ *
  * Disassembly (capstone on PAL bytes, MIPS32 LE, base 0x800835d8, 119 insns):
  * two direct EXE calls F0x8001f648(sp+0x10) and F0x8001ebf8(sp+0xb0) fill a
  * stack callback table; then indirect calls fn84(0x280,0), fn8c(arg+0x54,
  * arg+0x58), fnEC(0x140,0x100), fnF0(0x300,0x100), fnE8(arg+0x54,arg+0x58);
  * then per-index loop over count *(arg+0x5c): halfword lookup from a
- * D_80048D34-indexed address (lh +0x63e), fnDC(that halfword), divide index
- * by 9 (magic 0x38E38E39: q = i/9, r = i%9), v0 = D_80044B38.fn424(0x63E0000),
- * x = (r<<5)+0x10, y = (q<<5)+0x3a, fn94(v0, **(sp+0xb0)+0x52, x, y),
- * fnF4(r,q), fnE4(x,y); i++. Grid suggests deck/card layout; name is a
- * deck-menu CANDIDATE only -- semantics unconfirmed, types/names conservative.
+ *
+ * D_80048D34-indexed address (lh +0x63e), fnDC(that halfword), divide index by
+ * 9 (magic 0x38E38E39: q = i/9, r = i%9), v0 = D_80044B38.fn424(0x63E0000), x =
+ * (r<<5)+0x10, y = (q<<5)+0x3a, fn94(v0, **(sp+0xb0)+0x52, x, y), fnF4(r,q),
+ * fnE4(x,y); i++. Grid suggests deck/card layout; name is a deck-menu CANDIDATE
+ * only -- semantics unconfirmed, types/names conservative.
+ *
  * Direct caller (binary jal search): STCRDDEK 0x8008391c (inside 0x8008397c).
+ *
  * Portable C only, no explicit register variables.
- * EXACT_BYTE_MATCH 2026-09-08 (retry rev 2): fn_exact_pipeline base O2/G0
- * psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79, sha256
- * bbedd216df0e72b8c1e2a9439dbb5c64eace96f247f01cce21a77f074eff0927,
- * difference_count 0. Decisive idioms: (1) r = i % 9 before q = i / 9
- * (divmod combine emits move s2,s3 + delay-slot subu for r); (2) inline
- * cast-and-call for the two (arg+0x54,arg+0x58) sites (PAL load order
- * a0,a1,v0 + load-delay nop; hoisted fn local schedules v0 first);
- * (3) multi-statement addr formation for the lh base (addu v0,v0,s7
- * operand order; single expression canonicalizes to addu v0,s7,v0). */
+ *
+ * Decisive idioms: (1) r = i % 9 before q = i / 9 (divmod combine emits move
+ * s2,s3 + delay-slot subu for r); (2) inline cast-and-call for the two
+ * (arg+0x54,arg+0x58) sites (PAL load order a0,a1,v0 + load-delay nop; hoisted
+ * fn local schedules v0 first); (3) multi-statement addr formation for the lh
+ * base (addu v0,v0,s7 operand order; single expression canonicalizes to addu
+ * v0,s7,v0).
+ */
+
 #include "common/types.h"
 
 extern void F0x8001f648(void *buf);

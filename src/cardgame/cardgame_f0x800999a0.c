@@ -1,27 +1,64 @@
-// CARDGAME:0x800999a0 (size 580, 0x244)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x16cf0
-// Prologue 27bdff28 addiu sp,-0xd8; saves fp/s7/s1/s4/ra/s6/s5/s3/s2/s0 at 0xd0/0xcc/0xb4/0xc0/0xd4/0xc8/0xc4/0xbc/0xb8/0xb0(sp);
-//   fp=a0 (byte base for stride-84 table), s7=a1 (slot-pointer table), s1=a2 (index), s4=a3 (status).
-// Body: s2/s3/s5/s6 = signed table pair from (DAT_800a5aa8 + DAT_8005ccb0*16), half selected by (s1!=0)
-//   (+0/+2/+8/+0xa when s1==0, +4/+6/+0xc/+0xe when s1!=0); stride-84 row = fp+s1*84 with int16 pair at +0x6c/+0x6e.
-// If s4[8]!=0: jal EXE 0x8001f648(buf sp+0x10) then callbacks (sp+0x8c)(0x100,1); (sp+0x84)(0x280,0);
-//   (sp+0xa4)(row6c+s2,row6e+s3); (sp+0x9c)(s4[0],0x1000,0x1000); v=(*0x80044f5c)(0x25d0002);
-//   (sp+0x94)(v, s1?0x43:0x44, row6c+s2, row6e+s3).
-// If s4[8]==2: obj=*(s7+s1*4+0x10); (*(obj+0x134))(obj,(int16)(row6c+s5),(int16)(row6e+s6));
-//   v=(*0x80044f4c)(DAT_8005cca8+15); obj=*(s7+s1*4+0x10); (*(obj+0x114))(obj,v,0x3f);
-// else: obj=*(s7+s1*4+0x10); (*(obj+0x144))(obj,0). Epilogue restores, jr ra, sp+0xd8; next fn 0x80099be4.
-// Ghidra program CARDGAME (project ddw3-pal-sles-03936) read-only disasm/decompile/xref: name CARDGAME_F0x800999a0
-//   already present; decompile hypothesis cross-checked field-by-field against independent PAL LE capstone decode
-//   (145 words); Ghidra DB never mutated. Upstream asm/dw2003/pro/cardgame.s is a raw .word dump used as GUIDE only.
-// Caller: CARDGAME 0x80099cf4 (in fn at 0x80099be4) jal 0x800999a0, PAL file-off 0x17044 (word 0x0c026668),
-//   confirmed independently in PAL bytes and in upstream guide label .L0x00017044.
-// Callee: direct EXE 0x8001f648; indirect cb slots sp+0x84/0x8c/0x94/0x9c/0xa4, *0x80044f5c, *0x80044f4c,
-//   *(obj+0x114/0x134/0x144). Data: 0x8005ccb0, 0x800a5aa8, 0x8005cca8.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (variant base).
-// Status: exact_byte_match, 580 bytes, sha256 7f525113a119b05289560493dc0e2685c9f4dcb97f973f3402fe50867006b449.
-// O delay do bne (f8==2) e sllv v0,s1,v0: o shift idx<<2 fica dentro do braco
-// tomado, com v0 ainda vivo contendo 2. O else recomputa idx<<2 como ponteiro+off
-// (addu com a base primeiro). No 2.7.2-cygnus o mesmo texto dobra o count para sll imediato.
+/*
+ * CARDGAME:0x800999a0 CARDGAME_F0x800999a0
+ * 580 bytes at CARDGAME.PRO offset 0x16cf0 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x800999a0
+ *  Symbols     DAT_80044f4c=0x80044f4c DAT_80044f5c=0x80044f5c
+ *              DAT_8005cca8=0x8005cca8 DAT_8005ccb0=0x8005ccb0
+ *              DAT_800a5aa8=0x800a5aa8 func_0x8001f648=0x8001f648
+ *  Compare     580 bytes from 0x800999a0 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x800999a0
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Prologue 27bdff28 addiu sp,-0xd8; saves fp/s7/s1/s4/ra/s6/s5/s3/s2/s0 at
+ * 0xd0/0xcc/0xb4/0xc0/0xd4/0xc8/0xc4/0xbc/0xb8/0xb0(sp); fp=a0 (byte base for
+ * stride-84 table), s7=a1 (slot-pointer table), s1=a2 (index), s4=a3 (status).
+ *
+ * Body: s2/s3/s5/s6 = signed table pair from (DAT_800a5aa8 + DAT_8005ccb0*16),
+ * half selected by (s1!=0) (+0/+2/+8/+0xa when s1==0, +4/+6/+0xc/+0xe when
+ * s1!=0); stride-84 row = fp+s1*84 with int16 pair at +0x6c/+0x6e.
+ *
+ * If s4[8]!=0: jal EXE 0x8001f648(buf sp+0x10) then callbacks
+ * (sp+0x8c)(0x100,1); (sp+0x84)(0x280,0); (sp+0xa4)(row6c+s2,row6e+s3);
+ * (sp+0x9c)(s4[0],0x1000,0x1000); v=(*0x80044f5c)(0x25d0002); (sp+0x94)(v,
+ * s1?0x43:0x44, row6c+s2, row6e+s3).
+ *
+ * If s4[8]==2: obj=*(s7+s1*4+0x10);
+ * (*(obj+0x134))(obj,(int16)(row6c+s5),(int16)(row6e+s6));
+ * v=(*0x80044f4c)(DAT_8005cca8+15); obj=*(s7+s1*4+0x10);
+ * (*(obj+0x114))(obj,v,0x3f); else: obj=*(s7+s1*4+0x10); (*(obj+0x144))(obj,0).
+ * Epilogue restores, jr ra, sp+0xd8; next fn 0x80099be4.
+ *
+ * Ghidra DB never mutated.
+ *
+ * Callee: direct EXE 0x8001f648; indirect cb slots sp+0x84/0x8c/0x94/0x9c/0xa4,
+ * *0x80044f5c, *0x80044f4c, *(obj+0x114/0x134/0x144). Data: 0x8005ccb0,
+ * 0x800a5aa8, 0x8005cca8.
+ *
+ * O delay do bne (f8==2) e sllv v0,s1,v0: o shift idx<<2 fica dentro do braco
+ * tomado, com v0 ainda vivo contendo 2. O else recomputa idx<<2 como
+ * ponteiro+off (addu com a base primeiro). No 2.7.2-cygnus o mesmo texto dobra
+ * o count para sll imediato.
+ */
+
 #include "common/types.h"
 
 extern void func_0x8001f648(void *buf);

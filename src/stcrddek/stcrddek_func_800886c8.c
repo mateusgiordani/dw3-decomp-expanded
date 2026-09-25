@@ -1,42 +1,64 @@
-// STCRDDEK:0x800886c8 (size 256, 0x100)
-// PAL: reference/extracted/pro/stcrddek.bin base 0x80082cb0 file-off 0x5a18 (RAW, no header)
-// Boundary: prologue 27bdffd0 addiu sp,sp,-0x30; saves s1/s2/ra/s0 at 0x24/0x28/0x2c/0x20(sp);
-// s1=a0, s2=a1; epilogue lw ra/s2/s1/s0 + jr ra + addiu sp,sp,+0x30 (0x800887b0-0x800887c4).
-// 64/64 Ghidra disasm words equal PAL words at file-off 0x5a18; body ends jr ra, no padding.
-// Ghidra project ddw3-pal-sles-03936, program STCRDDEK, read-only: disasm 64 instr before
-// decompile; decompile STCRDDEK_func_800886c8; x-ref to empty; graph callers/callees empty.
-// No Ghidra state change. Upstream ddw3 stcrddek.s not checked out in this worktree: guide
-// unavailable, not used. EXE helper 0x8001fcc0 (read-only EXE decompile) inits the 12-byte
-// stack object: param_1[0..2] = {F0x8001f744, FUN_8001f770, F0x8001fa20}; slot[2] (sp+0x18)
-// is the indirect target below. Callers inside STCRDDEK: none found (empty xrefs; table or
-// overlay-entry dispatch not excluded). No loader/relocation semantics in this body.
-// Behavior (conservative, disasm + decompiler hypothesis): *(int *)(p1+0x94) is an entry
-// count for the halfword array at p1+0x78; 0x4081 is an empty-slot sentinel. Zero count*2
-// bytes at p2; clear trailing 0x4081 entries scanning down; count leading 0x4081 entries
-// scanning up (n); init stack callback via EXE 0x8001fcc0; call slot2(p2, &arr[n], 1).
-// No semantic names promoted: p1/p2 plus offsets only.
-// Domain pack: none generated. The body touches no battle/camera, skill, record, dialogue,
-// field/map, sprite/rendering, disc-I/O, or overlay-load domain: only a local byte buffer,
-// one struct halfword array with a sentinel, and an EXE callback init. Rendering-pack
-// evidence from the campaign inspection covers menu context, not this body's accesses.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 -mips1 -msoft-float (base),
-// no alternates needed.
-// Pipeline: python tools/fn_exact_pipeline.py --name STCRDDEK_F0x800886c8
-//   --ref upstream/ddw3/asm/dw2003/pro/stcrddek.s
-//   --c decomp/src/overlays/stcrddek/stcrddek_func_800886c8.c
-//   --reference-bin reference/extracted/pro/stcrddek.bin --base 0x80082cb0
-//   --address 0x800886c8 --size 256 --opt-level O2 --symbol F0x8001fcc0=0x8001fcc0
-// Result: exact_byte_match, difference_count 0, relocation_count 1 (jal F0x8001fcc0).
-// sha256 aab1ef076509c5fe2707b4106d47958c64b2fe8fa0006a3aac18605194660747 (256B).
-// Key idioms: both scan loops are single-head goto loops (no rotation/peel); the strip
-// pointer is precomputed once and decremented on the back edge (kept live, so sh stays
-// put and the decrement fills the bgez delay slot); sentinels are pre-set so their li
-// fills the branch delay slots; the lead count is hoisted once; lead pointer/flag inits
-// sit past the guard so the scheduler cannot hoist them into the strip branch delay.
-// The strip pointer init is integer-domain (i * 2 + (int32_t)p1): pointer-typed addition
-// is canonicalized base-first by the frontend, which emits addu v1,s1,v0 and misses by
-// one word; integer-domain preserves the scaled-first order (addu v1,v0,s1).
-// Status: C_MATCHING (portable C, no asm, no explicit register variables).
+/*
+ * STCRDDEK:0x800886c8 STCRDDEK_F0x800886c8
+ * 256 bytes at STCRDDEK.PRO offset 0x5a18 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x800886c8
+ *  Symbols     F0x8001f744=0x8001f744 F0x8001fa20=0x8001fa20
+ *              F0x8001fcc0=0x8001fcc0 FUN_8001f770=0x8001f770
+ *              stcrddek_func_800886c8=0x800886c8
+ *  Compare     256 bytes from 0x800886c8 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x800886c8
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * 64/64 Ghidra disasm words equal PAL words at file-off 0x5a18; body ends jr
+ * ra, no padding.
+ *
+ * No Ghidra state change. Callers inside STCRDDEK: none found (empty xrefs;
+ * table or overlay-entry dispatch not excluded). No loader/relocation semantics
+ * in this body.
+ *
+ * Behavior (conservative, disasm + decompiler hypothesis): *(int *)(p1+0x94) is
+ * an entry count for the halfword array at p1+0x78; 0x4081 is an empty-slot
+ * sentinel. Zero count*2 bytes at p2; clear trailing 0x4081 entries scanning
+ * down; count leading 0x4081 entries scanning up (n); init stack callback via
+ * EXE 0x8001fcc0; call slot2(p2, &arr[n], 1).
+ *
+ * No semantic names promoted: p1/p2 plus offsets only.
+ *
+ * sha256 aab1ef076509c5fe2707b4106d47958c64b2fe8fa0006a3aac18605194660747
+ * (256B).
+ *
+ * Key idioms: both scan loops are single-head goto loops (no rotation/peel);
+ * the strip pointer is precomputed once and decremented on the back edge (kept
+ * live, so sh stays put and the decrement fills the bgez delay slot); sentinels
+ * are pre-set so their li fills the branch delay slots; the lead count is
+ * hoisted once; lead pointer/flag inits sit past the guard so the scheduler
+ * cannot hoist them into the strip branch delay.
+ *
+ * The strip pointer init is integer-domain (i * 2 + (int32_t)p1): pointer-typed
+ * addition is canonicalized base-first by the frontend, which emits addu
+ * v1,s1,v0 and misses by one word; integer-domain preserves the scaled-first
+ * order (addu v1,v0,s1).
+ */
+
 #include <stdint.h>
 
 typedef void (*stcrddek_886c8_fn_t)(void *dst, void *src, int32_t arg);

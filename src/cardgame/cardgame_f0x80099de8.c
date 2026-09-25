@@ -1,28 +1,45 @@
-/* CARDGAME:0x80099de8 (size 236, 0xec) -- portable C recovery, status C_MATCHING. */
-/* Pipeline (fn_exact_pipeline): exact_byte_match, base variant -O2 -G0 with */
-/* psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79; candidate SHA-256 equals PAL */
-/* reference SHA-256 bb9d6c887432db17f15c052fe43eda0aaf8dee1ee644b9753844e46d50f5b742, */
-/* difference_count 0 over 236 body bytes (no padding). Symbols: */
-/* EXE_F0x8001f648=0x8001f648 EXE_D_80044f5c=0x80044f5c. */
-/* PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x17138. */
-/* Boundary (sweep #132, HIGH): prologue 27bdff48 addiu sp,-0xb8, epilogue */
-/* 03e00008 jr ra + 27bd00b8 addiu sp,+0xb8; prev CARDGAME:0x80099d20 ends */
-/* exactly at 0x80099de8 (0x80099d20+0xc8), next CARDGAME:0x80099ed4 starts */
-/* exactly at 0x80099de8+0xec. Frame -0xb8/+0xb8 verified. */
-/* Ghidra (project ddw3-pal-sles-03936, program CARDGAME, read-only, no import */
-/* or mutation): disasm 59 words byte-exact vs PAL, halfword counter at */
-/* param[6] (+0xc), scaled quotient q = (next<<16)>>18, slti+beq+j branch */
-/* funnel with delay-slot sh/clear, then indirect calls. x-ref to: 1 caller */
-/* (jal at 0x80099f24 in CARDGAME_F0x80099ed4). x-refs from: 1 direct jal to */
-/* EXE 0x8001f648, 5 indirect jalr (stack slots sp+0x84/0x8c/0x94/0x98 plus */
-/* EXE word at 0x80044f5c). */
-/* Recovery notes: the 0xa0-byte stack block (blk at sp+0x10) reproduces the */
-/* PAL 184-byte frame with callback slots at sp+0x84/0x8c/0x94/0x98. The */
-/* select logic is spelled with gotos (set3/mid/set1/funnel) to reproduce */
-/* PAL's block layout: q==1 -> sel 3; q==2 -> sel 1; else sel 0 with */
-/* param[6] = 0 unless q == 0. Semantics identical to the if-chain form; the */
-/* goto spelling exists only to match the original's branch lowering. */
-/* Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0, base variant. */
+/*
+ * CARDGAME:0x80099de8 CARDGAME_F0x80099de8
+ * 236 bytes at CARDGAME.PRO offset 0x17138 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80099de8
+ *  Symbols     EXE_D_80044f5c=0x80044f5c EXE_F0x8001f648=0x8001f648
+ *  Compare     236 bytes from 0x80099de8 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80099de8
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * EXE_F0x8001f648=0x8001f648 EXE_D_80044f5c=0x80044f5c.
+ *
+ * Boundary (sweep #132, HIGH): prologue 27bdff48 addiu sp,-0xb8, epilogue
+ * 03e00008 jr ra + 27bd00b8 addiu sp,+0xb8; prev CARDGAME:0x80099d20 ends
+ * exactly at 0x80099de8 (0x80099d20+0xc8), next CARDGAME:0x80099ed4 starts
+ * exactly at 0x80099de8+0xec. Frame -0xb8/+0xb8 verified.
+ *
+ * Recovery notes: the 0xa0-byte stack block (blk at sp+0x10) reproduces the PAL
+ * 184-byte frame with callback slots at sp+0x84/0x8c/0x94/0x98. The select
+ * logic is spelled with gotos (set3/mid/set1/funnel) to reproduce PAL's block
+ * layout: q==1 -> sel 3; q==2 -> sel 1; else sel 0 with param[6] = 0 unless q
+ * == 0. Semantics identical to the if-chain form; the goto spelling exists only
+ * to match the original's branch lowering.
+ */
 
 #include <stdint.h>
 
@@ -36,7 +53,7 @@ typedef int32_t (*exe_svc_t)(int32_t a0);
 
 /* Stack block hypothesis: 0x74-byte work area filled by EXE_F0x8001f648, */
 /* followed by callback slots. Exact inter-slot gaps (0x84/0x8c/0x94/0x98) */
-/* are PAL-observed; this struct is a readable proxy, not a layout claim. */
+
 typedef struct {
     uint8_t work[0x74];
     cardgame_cb2_t cb340;

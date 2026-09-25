@@ -1,26 +1,55 @@
-// CARDGAME:0x80098558 (size 780, 0x30C)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x158A8
-// Frame addiu sp,-0x28; saves s0/a0(work) s1/a1(list) s2(short arg) ra.
-// State = lh(work+0xe0a): 0 -> return; 2 -> o0.f84 path; 4 -> div20 path;
-// 5 -> shop path; else generic ratio path. Tail jal CARDGAME_F0x8009848c
-// (work, list, (short)s, 0, 0x60) with sll/sra sign-extend and sw 0x60,0x10(sp).
-// Ghidra program CARDGAME read-only (disasm 195/decompile/x-ref to/from); upstream guide only.
-// Caller: CARDGAME_F0x8009bba8+0x238 jal 0x80098558 (a0=work,a1=list).
-// Callees: EXE 0x8002abcc; indirect *list+0x80/0x84/0x8c, list[12]+0x114/0x134/0x144,
-// work+0xef8; EXE vectors *0x8004df9c, *0x80044f4c; data 0x8005cca8.
-// Toolchain base: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base),
-// --strip-div-guard (overlay divides carry no ASPSX zero-divisor guard);
-// exact_byte_match over the full 780-byte range.
-// Matching-critical shapes (evidence: submissions/cardgame-80098558/strategy-r8-o55.md):
-// - Dispatch: `if (state == 0) return;` then a switch whose case 1 shares the
-//   default (generic) body; gcc's case tree (root 2, left {1}) collapses to
-//   PAL's beq 2 / bne <3 / beq 4 / beq 5 chain.
-// - Generic ratio as a conditional expression: its label/barrier ends the CSE
-//   path from the dispatch, so the case constant 2 is not reused (and kept in
-//   a saved register) by the later `= 2` store; it also gives PAL's div homes.
-// - Timer update as `nv = *(e00) -= tick()` (subtract in the loaded register).
-// - Case 4: `q = 10 - f(...) / 512` (signed divide in v0: bgez/addiu 511/sra 9).
+/*
+ * CARDGAME:0x80098558 CARDGAME_F0x80098558
+ * 780 bytes at CARDGAME.PRO offset 0x158a8 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80098558
+ *  Symbols     CARDGAME_F0x8009848c=0x8009848c DAT_80044f4c=0x80044f4c
+ *              DAT_8004df9c=0x8004df9c DAT_8005cca8=0x8005cca8
+ *              func_0x8002abcc=0x8002abcc
+ *  Compare     780 bytes from 0x80098558 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80098558
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Frame addiu sp,-0x28; saves s0/a0(work) s1/a1(list) s2(short arg) ra.
+ *
+ * State = lh(work+0xe0a): 0 -> return; 2 -> o0.f84 path; 4 -> div20 path; 5 ->
+ * shop path; else generic ratio path. Tail jal CARDGAME_F0x8009848c (work,
+ * list, (short)s, 0, 0x60) with sll/sra sign-extend and sw 0x60,0x10(sp).
+ *
+ * Caller: CARDGAME_F0x8009bba8+0x238 jal 0x80098558 (a0=work,a1=list).
+ *
+ * Callees: EXE 0x8002abcc; indirect *list+0x80/0x84/0x8c,
+ * list[12]+0x114/0x134/0x144, work+0xef8; EXE vectors *0x8004df9c, *0x80044f4c;
+ * data 0x8005cca8.
+ *
+ * - Generic ratio as a conditional expression: its label/barrier ends the CSE
+ * path from the dispatch, so the case constant 2 is not reused (and kept in a
+ * saved register) by the later `= 2` store; it also gives PAL's div homes.
+ *
+ * - Timer update as `nv = *(e00) -= tick()` (subtract in the loaded register).
+ *
+ * - Case 4: `q = 10 - f(...) / 512` (signed divide in v0: bgez/addiu 511/sra
+ * 9).
+ */
+
 #include "common/types.h"
 
 extern int32_t func_0x8002abcc(int32_t arg);

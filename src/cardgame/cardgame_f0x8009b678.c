@@ -1,17 +1,40 @@
-// CARDGAME:0x8009b678 (size 244, 0xF4)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x189c8
-// Framed function: prologue 27bdffb8 addiu sp,-0xb8 ; sw s0,0xb0(sp) ;
-// move s0,a1 ; sw ra,0xb4(sp) ; epilogue lw ra,0xb4(sp) ; lw s0,0xb0(sp) ;
-// jr ra ; addiu sp,+0xb8. Next function CARDGAME:0x8009b76c at +0xF4
-// confirms size 0xF4 contiguous (prologue/prologue pair).
-// Ghidra program CARDGAME read-only (project ddw3-pal-sles-03936, base 0x80082cb0):
-// disasm 61 words match PAL word-for-word; decompile is a guarded 5-callback
-// sequence through a stack work area filled by EXE helper 0x8001f648;
-// x-ref to 0x8009b678: caller 0x8009baa0 (CARDGAME_F0x8009ba3c) UNCONDITIONAL_CALL.
-// Upstream cardgame.s GUIDE only (.L0x00018df0 jal 0x8009b678 corroborates caller).
-// Sibling CARDGAME:0x8009b76c shares the prologue/frame idiom with an extra
-// slot call and last-arg 9 vs 10 here; guards differ (0x49 vs 0x42==11).
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base).
+/*
+ * CARDGAME:0x8009b678 CARDGAME_F0x8009b678
+ * 244 bytes at CARDGAME.PRO offset 0x189c8 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8009b678
+ *  Symbols     CARDGAME_F0x8009ba3c=0x8009ba3c DAT_80044f5c=0x80044f5c
+ *              F0x8001f648=0x8001f648
+ *  Compare     244 bytes from 0x8009b678 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8009b678
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Framed function: prologue 27bdffb8 addiu sp,-0xb8 ; sw s0,0xb0(sp) ; move
+ * s0,a1 ; sw ra,0xb4(sp) ; epilogue lw ra,0xb4(sp) ; lw s0,0xb0(sp) ; jr ra ;
+ * addiu sp,+0xb8. Next function CARDGAME:0x8009b76c at +0xF4 confirms size 0xF4
+ * contiguous (prologue/prologue pair).
+ *
+ * Sibling CARDGAME:0x8009b76c shares the prologue/frame idiom with an extra
+ * slot call and last-arg 9 vs 10 here; guards differ (0x49 vs 0x42==11).
+ */
 
 typedef struct {
     void (*fn)();

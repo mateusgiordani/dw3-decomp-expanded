@@ -1,42 +1,46 @@
-/* STCRDDEK:0x800834e0 (size 180, 45 words, file-off 0x830 = vaddr - 0x80082cb0).
- * PAL bytes (authority): reference/extracted/pro/stcrddek.bin base 0x80082cb0.
- * Boundary: frame addiu sp,sp,-0x18 with sw ra,0x10(sp); terminal jr ra with
- * addiu sp,sp,+0x18; next function STCRDDEK:0x80083594 (addiu sp,sp,-0x18)
- * starts immediately after, so the 45-word range is contiguous with no overlap
- * or gap. symbols/function_labels.csv already records STCRDDEK,0x800834e0,
- * function, 180. Ghidra project ddw3-pal-sles-03936, program STCRDDEK,
- * read-only: disasm 45 insns matches PAL word-for-word (Ghidra byte strings
- * are the same words byte-swapped, e.g. e8ffbd27 == 27bdffe8); decompile
- * STCRDDEK_func_800834e0 agrees on the state-dispatch + accumulate/clamp
- * shape (hypothesis only, confirmed against disasm, not copied); x-ref to:
- * none (reached via overlay dispatch/table, no direct jal in this program);
- * x-ref from: intra-function conditional jumps plus one UNCONDITIONAL_CALL to
- * STCRDDEK:0x8008339c. No Ghidra state change.
- * Behavior (conservative): dispatch on word at +0xc. State 1: if word at
- * +0x10 is zero return; else add word at +0x60 into word at +0x5c, store the
- * sum unconditionally, then clamp by direction word at +0x58: direction zero
- * with sum > 0xff00 sets state 2 and stores 0xff00; nonzero direction with
- * sum < 0 sets state 2 and stores 0; the state word is written once at the
- * join through the state local (PAL duplicates li v0,2 into both branch
- * delay slots with a single shared sw at the join); then call
- * STCRDDEK_func_8008339c. State
- * 2: call STCRDDEK_func_8008339c. State 3: return without calling. Any other
+/*
+ * STCRDDEK:0x800834e0 STCRDDEK_func_800834e0
+ * 180 bytes at STCRDDEK.PRO offset 0x830 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x800834e0
+ *  Symbols     STCRDDEK_func_8008339c=0x8008339c
+ *  Compare     180 bytes from 0x800834e0 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x800834e0
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Behavior (conservative): dispatch on word at +0xc. State 1: if word at +0x10
+ * is zero return; else add word at +0x60 into word at +0x5c, store the sum
+ * unconditionally, then clamp by direction word at +0x58: direction zero with
+ * sum > 0xff00 sets state 2 and stores 0xff00; nonzero direction with sum < 0
+ * sets state 2 and stores 0; the state word is written once at the join through
+ * the state local (PAL duplicates li v0,2 into both branch delay slots with a
+ * single shared sw at the join); then call STCRDDEK_func_8008339c. State 2:
+ * call STCRDDEK_func_8008339c. State 3: return without calling. Any other
  * state: indirect call *(arg0+0x38)(arg0), then return. Struct layout beyond
  * these six words is unrecovered, so the object stays int32_t *. Source uses
  * forward gotos so the generator keeps the PAL block order (dispatch inline,
  * indirect block, state-1 block, shared tail call) including the slti <2 test
- * (PAL 28620002 in the first beq delay slot). No domain pack: the body is a
- * generic state/accumulator update with one indirect callback and one local
- * direct call; it touches no battle/camera, skill, Digimon-record, dialogue,
- * field/map, sprite/rendering, disc-I/O or overlay-loader state, so no
- * read-only domain applies.
- * Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (variant base,
- * first hypothesis, no alternates needed). The next-state word uses its own
- * local ("next"): sharing the dispatch "state" local miscolors the join
- * store into v1/a0 and inserts a nop, while a fresh short-range local takes
- * v0 and duplicates li v0,2 into both branch delay slots exactly as in PAL.
- * Status: C_MATCHING (portable C, no asm; fn_exact_pipeline exact_byte_match,
- * base O2, difference_count 0, sha 4236b8ec...d8511194). */
+ * (PAL 28620002 in the first beq delay slot).
+ */
+
 #include "common/types.h"
 
 extern void STCRDDEK_func_8008339c(int32_t *arg0);

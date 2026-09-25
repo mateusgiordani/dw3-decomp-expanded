@@ -1,6 +1,36 @@
-/* CARDGAME:0x80089580, 368 PAL bytes. The shared switch exit preserves
- * the return-state merge across case 4; branch-local returns fold zero
- * differently under the matching PsyQ GCC 2.8.1 O2 build. */
+/*
+ * CARDGAME:0x80089580 CARDGAME_F0x80089580
+ * 368 bytes at CARDGAME.PRO offset 0x68d0 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80089580
+ *  Symbols     DAT_8004B7D0=0x8004b7d0
+ *  Compare     368 bytes from 0x80089580 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80089580
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * The shared switch exit preserves the return-state merge across case 4;
+ * branch-local returns fold zero differently under the matching PsyQ GCC 2.8.1
+ * O2 build.
+ */
+
 #include <stdint.h>
 
 typedef int32_t (*cardgame_sys0_t)(int32_t);

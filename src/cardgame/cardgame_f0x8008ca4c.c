@@ -1,20 +1,48 @@
-// CARDGAME:0x8008ca4c (size 272, 0x110)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x9d9c (RAW, no header)
-// Boundary: prologue 27bdffd8 addiu sp,-0x28, saves s2/s0/s1/ra at 0x20/0x18/0x1c/0x24(sp);
-// s2=a0, s0=a1, s1=a2; epilogue lw ra/s2/s1/s0 + jr ra + addiu sp,+0x28 at 0x8008cb44-0x8008cb58.
-// Next framed CARDGAME:0x8008cb5c at +0x110 (27bdffc8 prologue), size 0x110 contiguous, no overlap.
-// Ghidra program CARDGAME (project ddw3-pal-sles-03936) read-only: disasm 68 words matches PAL;
-// decompile: 6 indirect jalr via table in p2 (offsets 0xecc, 0xeb8, 0xf14, 0xf3c, 0xf24, 0xec8),
-// field stores at p1+0x440/0x422/0x438, halfword select via p1[0x575]*8+0x580, halfword clear at
-// p2+0x594, 5-arg call (5th arg 0x1000 spilled at sp+0x10), 15-byte descending clear at p1+0x46f..0x47d.
-// cardgame.s is GUIDE only; never copied as source. No Ghidra state change.
-// Callers: 19 direct jal from CARDGAME_F0x80084320 (0x80084bc4..0x80084d74 step 0x18, a2 varies:
-// 0, 0x4000, ...); 0 direct callees, 6 indirect (table offsets above, loaded from s0=p2).
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base), exact_byte_match, no alternates needed.
-// Status: C_MATCHING (portable C, no asm, no explicit register variables).
-// sha256 532f82e22ce7e7b11e1f47935b8501cc12cf659071149c9d2c19868ff7af0d1d (272B).
-// Loop note: indexed for-loop recomputes the address each iteration (1 word short); the explicit
-// index+pointer do-while (p = p1 + i) reproduces the hoisted addu v1,s2,a0 and top-store shape.
+/*
+ * CARDGAME:0x8008ca4c CARDGAME_F0x8008ca4c
+ * 272 bytes at CARDGAME.PRO offset 0x9d9c (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008ca4c
+ *  Symbols     CARDGAME_F0x80084320=0x80084320
+ *  Compare     272 bytes from 0x8008ca4c against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8008ca4c
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Next framed CARDGAME:0x8008cb5c at +0x110 (27bdffc8 prologue), size 0x110
+ * contiguous, no overlap.
+ *
+ * No Ghidra state change.
+ *
+ * Callers: 19 direct jal from CARDGAME_F0x80084320 (0x80084bc4..0x80084d74 step
+ * 0x18, a2 varies: 0, 0x4000, ...); 0 direct callees, 6 indirect (table offsets
+ * above, loaded from s0=p2).
+ *
+ * sha256 532f82e22ce7e7b11e1f47935b8501cc12cf659071149c9d2c19868ff7af0d1d
+ * (272B).
+ *
+ * Loop note: indexed for-loop recomputes the address each iteration (1 word
+ * short); the explicit index+pointer do-while (p = p1 + i) reproduces the
+ * hoisted addu v1,s2,a0 and top-store shape.
+ */
+
 #include <stdint.h>
 
 typedef void (*cardgame_8ca4c_cb1_t)(int32_t);

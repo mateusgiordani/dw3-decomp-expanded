@@ -1,25 +1,47 @@
-// CARDGAME:0x8009403c (size 672, 0x2a0)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x1138c
-// Boundary: prologue 27bdffe0 addiu sp,-0x20, saves s0/s1/s2/ra at 0x10/0x14/0x18/0x1c(sp);
-// s0=a0, s2=a1, s1=a2; epilogue lw ra/s2/s1/s0 + jr ra + addiu sp,+0x20 at 0x800942c4-0x800942d8.
-// Next CARDGAME:0x800942dc at +0x2a0 (27bdffc8 prologue), size 0x2a0 contiguous, no overlap.
-// Ghidra program CARDGAME (project ddw3-pal-sles-03936) read-only, no mutation:
-//   disasm 0x8009403c (168 words) matches PAL LE words byte-for-byte (prologue/epilogue pair);
-//   decompile 0x8009403c -> void (int,int,int): first loop over count at p1+p3*0x72+0x72c
-//   with 0xe stride accumulating shorts at +0x734/+0x736 into p1+0x42c/0x430 (clamp 99),
-//   bonus +0x14 when 3 < n, two indirect jalr via *(p2+0xf14)/(p2+0xf3c), u8 search of
-//   *(p1+0x244) against halfwords at p1+0xb2+0x50, byte/halfword stores at p2+0x64c/0x657/0x658/0x62c
-//   and second flag loop setting bit 2 at slot stride 0x4c offset 0x150 (hypothesis only;
-//   C below written from disassembly).
-//   x-ref to 0x8009403c: 2 UNCONDITIONAL_CALL from CARDGAME_F0x80084320 @ 0x8008446c (a2=0)
-//   and 0x80084484 (a2=1); graph callers depth1 FUN_800a2df8; direct callees none (2 indirect jalr).
-// Upstream cardgame.s is GUIDE only; never copied as source. No Ghidra state change.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base).
-// r8 (o55/s0923m): exact_byte_match 672/672 on psyq-gcc-2.8.1 base (receipt argv). Clamped sums
-// are compound "+=" with the stored value compared; the per-record offset is i * 0xe so strength
-// reduction creates the j cursor (PAL copies after the entry test); the count limit reads through a
-// value local t = p3 * 0x72 (PAL addu p1,t) in both loops; the search walks its own pointer w and
-// the last loop has its own counter m. Details: strategy-r8-o55/attempts-r8.
+/*
+ * CARDGAME:0x8009403c CARDGAME_F0x8009403c
+ * 672 bytes at CARDGAME.PRO offset 0x1138c (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8009403c
+ *  Symbols     (none)
+ *  Compare     672 bytes from 0x8009403c against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8009403c
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Next CARDGAME:0x800942dc at +0x2a0 (27bdffc8 prologue), size 0x2a0
+ * contiguous, no overlap.
+ *
+ * C below written from disassembly). x-ref to 0x8009403c: 2 UNCONDITIONAL_CALL
+ * from CARDGAME_F0x80084320 @ 0x8008446c (a2=0) and 0x80084484 (a2=1); graph
+ * callers depth1 FUN_800a2df8; direct callees none (2 indirect jalr).
+ *
+ * No Ghidra state change.
+ *
+ * Clamped sums are compound "+=" with the stored value compared; the per-record
+ * offset is i * 0xe so strength reduction creates the j cursor (PAL copies
+ * after the entry test); the count limit reads through a value local t = p3 *
+ * 0x72 (PAL addu p1,t) in both loops; the search walks its own pointer w and
+ * the last loop has its own counter m. Details: strategy-r8-o55/attempts-r8.
+ */
+
 #include <stdint.h>
 
 typedef void (*cardgame_9403c_cb4_t)(int32_t, int32_t, int32_t, int32_t);

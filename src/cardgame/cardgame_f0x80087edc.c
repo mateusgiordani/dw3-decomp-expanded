@@ -1,6 +1,44 @@
-/* CARDGAME:0x80087edc, PAL base 0x80082cb0, size 0x1030.
- * Recovered from CARDGAME disassembly before decompiler review.  The state
- * byte is p1+0x422; pending transitions are p1+0x423. */
+/*
+ * CARDGAME:0x80087edc CARDGAME_F0x80087edc
+ * 4144 bytes at CARDGAME.PRO offset 0x522c (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80087edc, jump table (.rodata) at 0x800832ac
+ *  Symbols     CARDGAME_F0x80085fd0=0x80085fd0 CARDGAME_F0x800860d4=0x800860d4
+ *              CARDGAME_F0x80086a30=0x80086a30 CARDGAME_F0x8008722c=0x8008722c
+ *              CARDGAME_F0x800875ac=0x800875ac CARDGAME_F0x800878b4=0x800878b4
+ *              CARDGAME_F0x80087b80=0x80087b80 CARDGAME_F0x80087dc8=0x80087dc8
+ *              CARDGAME_F0x80087edc=0x80087edc DAT_8004B7D0=0x8004b7d0
+ *              DAT_8004df9c=0x8004df9c DAT_80055c48=0x80055c48
+ *              DAT_800a5d9c=0x800a5d9c FUN_80087308=0x80087308
+ *  Compare     4144 bytes from 0x80087edc and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80087edc
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * PAL base 0x80082cb0, size 0x1030.
+ *
+ * Recovered from CARDGAME disassembly before decompiler review. The state byte
+ * is p1+0x422; pending transitions are p1+0x423.
+ */
+
 #include <stdint.h>
 
 typedef int32_t (*cg0_t)(int32_t);
@@ -25,8 +63,9 @@ extern void CARDGAME_F0x800878b4(int32_t, int32_t, int32_t);
 extern void CARDGAME_F0x80087b80(int32_t, int32_t, int32_t);
 extern int32_t CARDGAME_F0x80087dc8(int32_t, int32_t);
 
-/* Partial layout views: observed fields repeat every 0x4c bytes.
- * unknown[] describes offsets; fields[1] does not claim the array capacity. */
+/*
+ * Partial layout views: observed fields repeat every 0x4c bytes.
+ */
 typedef struct { uint8_t unknown[0x150]; uint8_t fields[1][0x4c]; } cg_flags_view_t;
 typedef struct { uint8_t unknown[0x12e]; int16_t fields[1][0x26]; } cg_selected_view_t;
 typedef struct { uint8_t unknown[0x14a]; uint8_t fields[1][0x4c]; } cg_state_view_t;

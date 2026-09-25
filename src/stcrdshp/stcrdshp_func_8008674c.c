@@ -1,34 +1,47 @@
+/*
+ * STCRDSHP:0x8008674c STCRDSHP_func_8008674c
+ * 1656 bytes at STCRDSHP.PRO offset 0x3a9c (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008674c
+ *  Symbols     D_80044B38=0x80044b38 D_8004DE10=0x8004de10
+ *              D_8008CB10=0x8008cb10 EXE_F0x8001ebf8=0x8001ebf8
+ *              EXE_F0x8001f648=0x8001f648 STCRDSHP_func_80087a2c=0x80087a2c
+ *  Compare     1656 bytes from 0x8008674c against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDSHP:0x8008674c
+ */
+
 #include "common/types.h"
 
 /*
- * STCRDSHP:0x8008674c (1656 bytes, 0x8008674c-0x80086dc0).
- *
- * PAL evidence (read-only, project ddw3-pal-sles-03936, program STCRDSHP):
- * - disasm 0x8008674c/0x800867ec/0x8008688c/0x8008692c/0x800869cc/0x80086a6c/
- *   0x80086b0c/0x80086bac/0x80086c4c/0x80086cec/0x80086d8c, 40 instr max each;
- *   full 414-instruction body, jr ra + addiu sp,sp,0x120 end at 0x80086dbc.
  * - decompile 0x8008674c; x-ref to 0x8008674c (sole caller
- *   STCRDSHP_func_80087a2c, site 0x80087b4c, jal with a0 = object).
- * - 9 spot words match reference/extracted/pro/stcrdshp.bin
- *   (offset 0x3a9c = 0x8008674c-0x80082cb0); body SHA-256
- *   14daee2b51a50c031b7a2b8619de279faa666dad9e1b63147092e0cc596ccdc1.
- * - Upstream stcrdshp.s holds only a jal call site (.L0x00004e9c); no body
- *   guide. Nothing copied from upstream/recomp.
+ * STCRDSHP_func_80087a2c, site 0x80087b4c, jal with a0 = object).
  *
- * Frame/model notes (uncertain, preserved as uncertainty):
- * - EXE_F0x8001f648 fills 0xa0 bytes at sp+0x10 (see decomp EXE C_MATCHING
- *   source: function pointers at +0x70..+0x9c). Observed call slots match
- *   +0x74/+0x7c/+0x84/+0x88/+0x8c/+0x94 with consistent arity per slot;
- *   generated stack offsets (132/140/148/156/164/176) agree with PAL.
- * - EXE_F0x8001ebf8 fills the buffer at sp+0xb0 (exact size unverified;
- *   max observed slot is +0x50). Slot +0x00 holds a byte-pointer,
- *   slot +0x2c takes one int arg, slot +0x50 takes no args.
- * - PAL materializes the 0x80044b38 holder (offset 0x424) three times and
- *   the 0x8004de10 holder (offset 0x188) twice; the C keeps one live range
- *   per materialization point (dh_a/dh_b/dh_c, tm_a/tm_b) with no claimed
- *   semantics for the pointed-to tables.
- * - Absolute RAM helpers (0x8008cb10 indexed table) are encoded as
- *   immediates in PAL; the C models them as externs without semantics.
+ * Observed call slots match +0x74/+0x7c/+0x84/+0x88/+0x8c/+0x94 with consistent
+ * arity per slot; generated stack offsets (132/140/148/156/164/176) agree with
+ * PAL.
+ *
+ * - EXE_F0x8001ebf8 fills the buffer at sp+0xb0 (exact size unverified; max
+ * observed slot is +0x50). Slot +0x00 holds a byte-pointer, slot +0x2c takes
+ * one int arg, slot +0x50 takes no args.
+ *
+ * - Absolute RAM helpers (0x8008cb10 indexed table) are encoded as immediates
+ * in PAL; the C models them as externs without semantics.
  */
 
 extern void EXE_F0x8001f648(void *buf);

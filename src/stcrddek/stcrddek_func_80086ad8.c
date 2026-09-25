@@ -1,27 +1,55 @@
-/* STCRDDEK:0x80086ad8 (size 812, 0x32C) */
-/* PAL: reference/extracted/pro/stcrddek.bin base 0x80082cb0 file-off 0x3e28 */
-/* Boundary: prologue addiu sp,-0x30 at 0x80086ad8, epilogue jr ra / addiu sp,+0x30 */
-/* at 0x80086dfc; next prologue at 0x80086e04. 203/203 words match PAL. */
-/* Ghidra ddw3-pal-sles-03936 program STCRDDEK (read-only, no mutation): 203-insn */
-/* disasm + decompile + x-ref. In-program direct callers: 0x8008780c, 0x80087a0c, */
-/* 0x8008838c (UNCONDITIONAL_CALL). Upstream stcrddek.s jal 0x80086ad8 is guide only. */
-/* Semantics unconfirmed (deck-menu candidate): flag != 0 drives the +0x114/+0x110/ */
-/* +0x138 vectors with EXE probe results; flag == 0 drives the +0x144 vector with */
-/* arg 0. Object layouts beyond the used slots are unknown (conservative pads). */
-/* Layout note: the nonzero path is the fall-through after the prologue (PAL beq to */
-/* the zero path at the end), so it comes first here. */
-/* Status: C_MATCHING (portable C, no asm): exact_byte_match 812/812, 0 diffs.  */
-/* Build: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79, -O2 -G0, pinned variant     */
-/* o2-g0-no-strength-reduce. The loop keeps q and reads q[2]: with strength       */
-/* reduction cc1 shifts the induction variable to objs+8 and loads at offset 0,   */
-/* while PAL keeps s0 = objs and loads at offset 8.                               */
-/* Three source shapes carry the rest, each measured (see strategy-r6.md):        */
-/* the row address gets its own pointer (cell), the datum address is materialised */
-/* before the loop (datum), and both branches spell their own tail call so        */
-/* cross_jump merges only the jalr. The datum base is an int because the C front  */
-/* end rewrites int + pointer into pointer + int, which ties the sum to the base  */
-/* register; with an integer base the scaled index stays first and the sum keeps  */
-/* the chain register, as PAL does.                                               */
+/*
+ * STCRDDEK:0x80086ad8 STCRDDEK_func_80086ad8
+ * 812 bytes at STCRDDEK.PRO offset 0x3e28 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float -fno-strength-reduce
+ *  Variant     o2-g0-no-strength-reduce
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80086ad8
+ *  Symbols     STCRDDEK_func_80086ad8=0x80086ad8
+ *              stcrddek_datum_8008B848=0x8008b848
+ *              stcrddek_tbl_80044B38=0x80044b38
+ *              stcrddek_word_8005CCA8=0x8005cca8
+ *  Compare     812 bytes from 0x80086ad8 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x80086ad8
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * In-program direct callers: 0x8008780c, 0x80087a0c, 0x8008838c
+ * (UNCONDITIONAL_CALL).
+ *
+ * Semantics unconfirmed (deck-menu candidate): flag != 0 drives the
+ * +0x114/+0x110/ +0x138 vectors with EXE probe results; flag == 0 drives the
+ * +0x144 vector with arg 0. Object layouts beyond the used slots are unknown
+ * (conservative pads).
+ *
+ * Layout note: the nonzero path is the fall-through after the prologue (PAL beq
+ * to the zero path at the end), so it comes first here.
+ *
+ * Build: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79, -O2 -G0, pinned variant
+ * o2-g0-no-strength-reduce. The loop keeps q and reads q[2]: with strength
+ * reduction cc1 shifts the induction variable to objs+8 and loads at offset 0,
+ * while PAL keeps s0 = objs and loads at offset 8.
+ *
+ * The datum base is an int because the C front end rewrites int + pointer into
+ * pointer + int, which ties the sum to the base register; with an integer base
+ * the scaled index stays first and the sum keeps the chain register, as PAL
+ * does.
+ */
 
 typedef struct stcrddek_obj {
     unsigned char pad[0x110];

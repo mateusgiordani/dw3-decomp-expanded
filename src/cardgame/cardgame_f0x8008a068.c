@@ -1,9 +1,49 @@
-/* CARDGAME:0x8008a068..0x8008ad48, PAL-SLES-03936.
+/*
+ * CARDGAME:0x8008a068 CARDGAME_F0x8008a068
+ * 3296 bytes at CARDGAME.PRO offset 0x73b8 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008a068, jump table (.rodata) at 0x8008337c
+ *  Symbols     CARDGAME_F0x800860d4=0x800860d4 CARDGAME_F0x80086a18=0x80086a18
+ *              CARDGAME_F0x80086a30=0x80086a30 CARDGAME_F0x80086d28=0x80086d28
+ *              CARDGAME_F0x80089ed4=0x80089ed4 CARDGAME_F0x80089f18=0x80089f18
+ *              D0x800a58a4=0x800a58a4 D0x800a58e4=0x800a58e4
+ *              D0x800a5da0=0x800a5da0 DAT_8004B7D0=0x8004b7d0
+ *  Compare     3296 bytes from 0x8008a068 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8008a068
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * 0x8008ad48, PAL-SLES-03936.
+ *
  * Two 15-entry dispatch tables occupy 124 bytes at 0x8008337c.
+ *
  * Expansion-local poll results preserve four-call ordering and real lifetimes.
+ *
  * Clamp temporaries belong to each mutually exclusive path; GCC merges the
- * resulting suffixes after allocation. See the r9 Astra submission for controls.
- * Callback names retain offsets; broader semantics remain uncertain. */
+ * resulting suffixes after allocation. See the r9 Astra submission for
+ * controls.
+ *
+ * Callback names retain offsets; broader semantics remain uncertain.
+ */
+
 #include <stdint.h>
 
 typedef int32_t (*cardgame_sys0_t)(int32_t);

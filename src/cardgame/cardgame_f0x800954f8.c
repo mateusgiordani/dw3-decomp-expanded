@@ -1,23 +1,62 @@
-/* CARDGAME:0x800954f8, complete body/range 1796 bytes (0x704).
+/*
+ * CARDGAME:0x800954f8 CARDGAME_F0x800954f8
+ * 1796 bytes at CARDGAME.PRO offset 0x12848 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x800954f8, jump table (.rodata) at 0x800836a0
+ *  Symbols     F0x8001ebf8=0x8001ebf8
+ *  Compare     1796 bytes from 0x800954f8 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x800954f8
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * complete body/range 1796 bytes (0x704).
+ *
  * PAL-SLES-03936: PRO/CARDGAME.BIN, base 0x80082cb0, file offset 0x12848.
+ *
  * Entry 27bdfe68; return at 0x80095bf4 with 27bd0198 at 0x80095bf8.
+ *
  * Next function starts at 0x80095bfc. Frame 0x198; saves s0-s7 and ra.
- * Code SHA-256: f3a736132b5767f3136823d299d79aa97042b9f937828aa09263233647fac9f7.
+ *
+ * Code SHA-256:
+ * f3a736132b5767f3136823d299d79aa97042b9f937828aa09263233647fac9f7.
+ *
  * Both native jump tables and their alignment word: 80 bytes at 0x800836a0.
- * Native recipe: PsyQ GCC 2.8.1 SN32 4.0.0010 / ASPSX 2.79,
- * -O2 -G0 -mips1 -msoft-float, variant base; no code normalization/padding.
- * E29 reproduces every code and rodata byte. See the revision-7 manifest,
- * source review and final-source replay under the target submission directory.
+ *
+ * Native recipe: PsyQ GCC 2.8.1 SN32 4.0.0010 / ASPSX 2.79, -O2 -G0 -mips1
+ * -msoft-float, variant base; no code normalization/padding.
+ *
+ * E29 reproduces every code and rodata byte.
+ *
  * The worker's matching evidence does not itself promote the shared catalog.
  *
- * Ghidra ddw3-pal-sles-03936/CARDGAME was used read-only; boundary and caller
- * instruction bytes were cross-checked against PAL. Caller 0x800a22e0 uses
- * a0=context, a1=card and a2=mode; the integer result is consumed.
+ * Caller 0x800a22e0 uses a0=context, a1=card and a2=mode; the integer result is
+ * consumed.
+ *
  * Four 88-byte stack work areas retain their +0x2c callback slots. The card
  * callback remains indirect through card+0xf40; its full target set is unknown.
+ *
  * Offset views below describe only this function's observed accesses and
  * strides, not globally recovered object capacities or semantic type names.
  */
+
 #include <stdint.h>
 
 /* Local access view: PAL records have stride 8 and fields at +4,+5,+6.
@@ -45,7 +84,7 @@ typedef struct {
 } SideView954f8;
 typedef struct {
     unsigned char prefix[0x50];
-    short values[1]; /* C89 trailing-table access view; not a capacity claim. */
+    short values[1]; 
 } ValuesView954f8;
 typedef char SideStride954f8[(sizeof(SideRecord954f8) == 200) ? 1 : -1];
 

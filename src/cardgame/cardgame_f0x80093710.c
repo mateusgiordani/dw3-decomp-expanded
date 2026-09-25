@@ -1,26 +1,50 @@
-// CARDGAME:0x80093710 (size 972, 0x3CC) - exact_byte_match 972/972 (r7 o55).
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x10A60
-// Framed function: prologue addiu sp,-0x38 with saves s0-s5/ra (cc1 emits
-// subu, folded to addiu by aspsx); epilogue jr ra / addiu sp,+0x38 at
-// 0x80093ad4/0x80093ad8; body ends 0x80093adc.
-// Boundary: symbols/functions.csv CARDGAME 0x80093710-0x80093adc (972,
-// DISASSEMBLED, from cardgame-boundary-sweep); next bytes at 0x80093adc are
-// the following function. No CSV edits here.
-// Callers (PAL x-ref to, read-only): CARDGAME_F0x80084320 @0x800851bc
-// (a0=s1,a1=s0,a2=0) and @0x800851dc (a0=s1,a1=s0,a2=1); v0 tested.
-// Flag dispatch on byte p+0x422 (lbu; 1 = main body, 2 = return 1).
-// Indirect callees via second context qb (loaded overlay slots, preserved as
-// indirect): +0xf10 (5 args), +0xea0 x2 (4 args), +0xf2c (2 args, loop).
-// Data: EXE word D_8005ccb0 (lui 0x8006/lw -0x3350); CARDGAME 16-byte-entry
-// table D0x800a5958 indexed by D_8005ccb0 (sll 4 + addu, lw 0).
-// Row strides from shift/add sequences: p-rows 0x72 (byte at +0x72c),
-// q-rows 0x4c (short at +0x12e), p-rows 200 (short at +0x59e); /27 via
-// mult-magic 0x4bda12f7 with multiply-back compare; the runtime div is the bare
-// div+mflo shape of card-cage overlays (ASPSX guard stripped: --strip-div-guard).
-// Ghidra CARDGAME disasm (chunked 40/insns) + decompile + xrefs read-only,
-// project ddw3-pal-sles-03936, no state change; cardgame.s guide only.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base),
-// --strip-div-guard. The receipt's gcc 2.95.2 pin is not the card-cage compiler.
+/*
+ * CARDGAME:0x80093710 CARDGAME_F0x80093710
+ * 972 bytes at CARDGAME.PRO offset 0x10a60 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80093710
+ *  Symbols     CARDGAME_F0x80093710=0x80093710 D0x800a5958=0x800a5958
+ *              D_8005ccb0=0x8005ccb0
+ *  Compare     972 bytes from 0x80093710 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x80093710
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Framed function: prologue addiu sp,-0x38 with saves s0-s5/ra (cc1 emits subu,
+ * folded to addiu by aspsx); epilogue jr ra / addiu sp,+0x38 at
+ * 0x80093ad4/0x80093ad8; body ends 0x80093adc.
+ *
+ * Flag dispatch on byte p+0x422 (lbu; 1 = main body, 2 = return 1).
+ *
+ * Indirect callees via second context qb (loaded overlay slots, preserved as
+ * indirect): +0xf10 (5 args), +0xea0 x2 (4 args), +0xf2c (2 args, loop).
+ *
+ * Data: EXE word D_8005ccb0 (lui 0x8006/lw -0x3350); CARDGAME 16-byte-entry
+ * table D0x800a5958 indexed by D_8005ccb0 (sll 4 + addu, lw 0).
+ *
+ * Row strides from shift/add sequences: p-rows 0x72 (byte at +0x72c), q-rows
+ * 0x4c (short at +0x12e), p-rows 200 (short at +0x59e); /27 via mult-magic
+ * 0x4bda12f7 with multiply-back compare; the runtime div is the bare div+mflo
+ * shape of card-cage overlays (ASPSX guard stripped: --strip-div-guard).
+ */
+
 #include <stdint.h>
 
 extern int D_8005ccb0;

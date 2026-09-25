@@ -1,15 +1,41 @@
-/* CARDGAME:0x8009a62c (304 B, 0x130). PAL-SLES-03936, base 0x80082cb0,
- * file-off 0x1797c. Prologo addiu sp,-0x20; s1=ctx, s0=tabela depois flag,
- * s2=0x1000. Epilogo lw ra/s2/s1/s0; jr ra; addiu sp,+0x20.
- * Contigua: prev 0x8009a5b0 termina aqui; next 0x8009a75c.
- * Um caller: 0x8009b95c em CARDGAME_F0x8009b890 (caso 6 de *(a1+0x42)).
+/*
+ * CARDGAME:0x8009a62c CARDGAME_F0x8009a62c
+ * 304 bytes at CARDGAME.PRO offset 0x1797c (overlay loaded at 0x80082cb0).
  *
- * r12: exact_byte_match com ctx unsigned char* (alias C89 com o global do
- * callback impede o hoist do lui/lw para dentro da soma) e local q so para
- * o retorno de F0x8002abcc (r atravessa CB1 e o .greg poe em v1, o que
- * copiava v0->v1 no delay do bgez do /8). Ver strategy-r12.md.
- * Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 base.
- * Status: C_MATCHING candidato (pai confirma). */
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8009a62c
+ *  Symbols     CARDGAME_F0x8009b890=0x8009b890 CARDGAME_TBL_800A5AD0=0x800a5ad0
+ *              EXE_CB_8004DC0C=0x8004dc0c EXE_CB_8004DF9C=0x8004df9c
+ *              F0x8002abcc=0x8002abcc
+ *  Compare     304 bytes from 0x8009a62c against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8009a62c
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * PAL-SLES-03936, base 0x80082cb0, file-off 0x1797c. Prologo addiu sp,-0x20;
+ * s1=ctx, s0=tabela depois flag, s2=0x1000. Epilogo lw ra/s2/s1/s0; jr ra;
+ * addiu sp,+0x20.
+ *
+ * Contigua: prev 0x8009a5b0 termina aqui; next 0x8009a75c.
+ *
+ * Um caller: 0x8009b95c em CARDGAME_F0x8009b890 (caso 6 de *(a1+0x42)).
+ */
 
 typedef int (*CardTick9a62c)(void);
 extern short CARDGAME_TBL_800A5AD0[8];

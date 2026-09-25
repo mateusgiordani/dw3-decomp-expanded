@@ -1,36 +1,58 @@
-/* STCRDDEK:0x800868e8 (496 B, file off 0x3c38 = vaddr - 0x80082cb0).
- * PAL bytes (authority): reference/extracted/pro/stcrddek.bin off 0x3c38, 496 B,
- * seg sha256 318dba2511b9bb20afff95a802c04c033ee1b24586423c824deb209a164e4192;
- * prologue addiu sp,sp,-0x30 + sw s0-s5/ra, epilogue lw + jr ra + addiu sp,sp,0x30
- * at 0x80086ab4-0x80086ad4; next function STCRDDEK:0x80086ad8 contiguous, no overlap.
- * Ghidra STCRDDEK (project ddw3-pal-sles-03936) read-only: 124 insns disassembled
- * in 3 chunks, bytes match PAL head (d0ffbd27 1c00b3af ...) and tail (... 0800e003
- * 3000bd27); decompiler agrees (name STCRDDEK_func_800868e8, used as C symbol);
- * one direct caller: jal from STCRDDEK_func_800884e8 @ 0x800885ec (a0=s0, a1=s2).
- * Callee: EXE F0x8001ae38 (9 jal calls, constant (a1,a2,a3) triples) plus indirect
- * slot calls +0x138(obj,4), +0x140(obj,0x13,0 / obj,0xe,0x12), +0x15c(obj,mem58-1),
- * +0x160(obj,7). Loop runs 3x (slti/bne on counter, s1 0x2f0000+=0x4e0000, a2=s1>>16
- * = 0x2f/0x7d/0xcb); counter increment and +0x50 store sit in jal/bne delay slots,
- * folded into the loop body here (semantically identical).
- * Word 0x8008B6E4 stored to +0x50 of widget objects is overlay DATA (Ghidra:
- * no instruction there); no canonical data symbol exists, so it is kept as an
- * absolute address constant with uncertainty preserved -- coordinator follow-up
- * may promote a STCRDDEK data symbol. Deck-menu semantics UNCONFIRMED (campaign
- * deck-menu candidate; load contract verified only). Portable C, no register vars.
- * Upstream stcrddek.s used ONLY as --ref label locator (GUIDE only, never copied).
+/*
+ * STCRDDEK:0x800868e8 STCRDDEK_func_800868e8
+ * 496 bytes at STCRDDEK.PRO offset 0x3c38 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float -fno-strength-reduce
+ *  Variant     o2-g0-no-strength-reduce
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x800868e8
+ *  Symbols     D_8008B6E4=0x8008b6e4 F0x8001ae38=0x8001ae38
+ *  Compare     496 bytes from 0x800868e8 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDDEK:0x800868e8
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Callee: EXE F0x8001ae38 (9 jal calls, constant (a1,a2,a3) triples) plus
+ * indirect slot calls +0x138(obj,4), +0x140(obj,0x13,0 / obj,0xe,0x12),
+ * +0x15c(obj,mem58-1), +0x160(obj,7). Loop runs 3x (slti/bne on counter, s1
+ * 0x2f0000+=0x4e0000, a2=s1>>16 = 0x2f/0x7d/0xcb); counter increment and +0x50
+ * store sit in jal/bne delay slots, folded into the loop body here
+ * (semantically identical).
+ *
+ * Deck-menu semantics UNCONFIRMED (campaign deck-menu candidate; load contract
+ * verified only). Portable C, no register vars.
+ *
  * No Ghidra state change.
- * Rev B: locals declared in PAL saved-reg order (s0,s1,s2,s3,s4,s5); s0 is a byte
- * pointer bumped by 4 so stores/loads use PAL's 8(s0) shape instead of a folded
- * &s4[2] base; loop temporaries reloaded through s0 after each indirect call to
- * mirror PAL's post-call lw a0,8(s0).
+ *
+ * Rev B: locals declared in PAL saved-reg order (s0,s1,s2,s3,s4,s5); s0 is a
+ * byte pointer bumped by 4 so stores/loads use PAL's 8(s0) shape instead of a
+ * folded &s4[2] base; loop temporaries reloaded through s0 after each indirect
+ * call to mirror PAL's post-call lw a0,8(s0).
+ *
  * Rev C (r6): s1 = 0x2f0000 moved to just before the loop (late init); sched1
  * emits its save/init after the arg triple and dbr can use jal delay slots,
  * matching PAL's lui s1,0x2f in the first jal delay (150 -> 137 diffs base).
- * r7 o55: exact_byte_match 496/496 (psyq-gcc-2.8.1 + aspsx-2.79, receipt variant
- * o2-g0-no-strength-reduce). The parameters are used directly (no s3/s4 copies:
- * the copies outranked s1/s2 in global allocation), s4[1] is stored through
- * directly, and s2 = 0 follows the first call (sched1 hoists it above the jal,
- * after the argument setup, as in PAL). */
+ *
+ * The parameters are used directly (no s3/s4 copies: the copies outranked s1/s2
+ * in global allocation), s4[1] is stored through directly, and s2 = 0 follows
+ * the first call (sched1 hoists it above the jal, after the argument setup, as
+ * in PAL).
+ */
+
 #include "common/types.h"
 
 extern void *F0x8001ae38(int32_t a0, int32_t a1, int32_t a2, int32_t a3);

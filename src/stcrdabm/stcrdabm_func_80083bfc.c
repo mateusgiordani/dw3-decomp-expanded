@@ -1,18 +1,42 @@
+/*
+ * STCRDABM:0x80083bfc STCRDABM_func_80083bfc
+ * 536 bytes at STCRDABM.PRO offset 0xf4c (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x80083bfc
+ *  Symbols     F0x8001ae38=0x8001ae38
+ *  Compare     536 bytes from 0x80083bfc against the PAL overlay
+ *  Verify      python tools/card_verify.py --only STCRDABM:0x80083bfc
+ */
+
 #include "common/types.h"
 
 extern void *F0x8001ae38(int32_t a0, int32_t a1, int32_t a2, int32_t a3);
 
-/* STCRDABM:0x80083bfc (536 bytes, 134 instructions)
- * PAL-SLES-03936; recovered from the STCRDABM program at base 0x80082cb0
- * (reference/extracted/pro/stcrdabm.bin @ file offset 0xF4C; first word
- * 0x27bdffe0 matches the addiu sp,sp,-0x20 prologue).
+/*
  * Builds 17 EXE object handles via F0x8001ae38 into out[0..16], keyed by the
  * sign-extended halfword at arg0+0x50, then re-arms (count-2) entries of the
- * table at *(arg0+0x24) through each entry's slot 0x15c with
- * *(arg0+0x54)-3. Sole PAL caller: STCRDABM_func_80085540 (jal at 0x800855dc).
- * NOTE: `i = 0` after the 17 calls (not before) is required for the
- * prologue scheduling match (li a1/a2/a3 before saves, s2 cleared in the
- * first jal delay slot).
+ * table at *(arg0+0x24) through each entry's slot 0x15c with *(arg0+0x54)-3.
+ * Sole PAL caller: STCRDABM_func_80085540 (jal at 0x800855dc).
+ *
+ * NOTE: `i = 0` after the 17 calls (not before) is required for the prologue
+ * scheduling match (li a1/a2/a3 before saves, s2 cleared in the first jal delay
+ * slot).
  */
 void STCRDABM_func_80083bfc(int32_t arg0, int32_t *arg1) {
     int32_t *ptr;

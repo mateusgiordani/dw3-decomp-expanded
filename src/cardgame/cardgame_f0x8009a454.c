@@ -1,14 +1,36 @@
-// CARDGAME:0x8009a454 (size 236, 0xEC)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x177A4
-// Ghidra CARDGAME read-only (project ddw3-pal-sles-03936):
-//   disasm 59 words match PAL LE 1:1; decompile computes
-//   *ctx = ctx[4] + table[(ctx[10] & 7)], helper((ctx[10] << 12) / 0x18),
-//   half(ctx+0x1a) = (helper >> 4) + 0x1000, ctx[10] += (*D_8004DF9C)(),
-//   threshold 12 sets flag/zeroes fields, returns flag.
-// Xrefs: 1 caller CARDGAME_F0x8009b890 via 0x8009b97c (case 7, return ignored);
-//   callees: EXE F0x8002abcc (direct jal) + indirect via D_8004DF9C.
-// Upstream cardgame.s GUIDE only (submodule absent in worktree).
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base).
+/*
+ * CARDGAME:0x8009a454 CARDGAME_F0x8009a454
+ * 236 bytes at CARDGAME.PRO offset 0x177a4 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8009a454
+ *  Symbols     CARDGAME_F0x8009a454=0x8009a454 D_8004DF9C=0x8004df9c
+ *              D_800A5AC8=0x800a5ac8 EXE_F0x8002abcc=0x8002abcc
+ *  Compare     236 bytes from 0x8009a454 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8009a454
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Xrefs: 1 caller CARDGAME_F0x8009b890 via 0x8009b97c (case 7, return ignored);
+ * callees: EXE F0x8002abcc (direct jal) + indirect via D_8004DF9C.
+ */
+
 #include "common/types.h"
 
 extern int32_t EXE_F0x8002abcc(int32_t x);

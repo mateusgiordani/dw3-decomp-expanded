@@ -1,30 +1,53 @@
-// CARDGAME:0x8008c6e0 (size 504, 0x1f8)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x9a30
-// Boundary: prologue 27bdff70 addiu sp,-0x90, saves s5/s8/ra/s7/s6/s4/s3/s2/s1/s0
-// (s5=a0 struct, s8=a2 mode); epilogue lw ra/s8/s7/s6/s5/s4/s3/s2/s1/s0 + jr ra +
-// addiu sp,+0x90 at 0x8008c8a8-0x8008c8d4. Next CARDGAME:0x8008c8d8 at +0x1f8,
-// size 0x1f8 contiguous, no overlap. sha256 of range:
-// 550785ef3386a8714c15e0c87d19219949913730d60971e7c213f234fcfe97cb.
-// Ghidra program CARDGAME (project ddw3-pal-sles-03936) read-only: first 16 words
-// match PAL; two range-checked switches (kind-5 in 0..10) via jump tables at
-// 0x8008349c (outer, count select) and 0x800834cc (inner, card select); each table
-// is 11 words followed by a zero word (.align 3 pad); cardgame.s is GUIDE only
-// (no 0x8008c6e0 label there).
-// Callers: 3 direct jal from CARDGAME_F0x80084320 (0x80085c3c/0x80085c74/0x80085cac;
-// a1=s0 pointer, a2=0/1 mode in delay slot). Callees: jal EXE:0x8001ebf8
-// (stack-buffer fill, same helper as CARDGAME:0x80085fd0; writes record pointer at
-// buf+0x0 and callback EXE:0x8001e7ec at buf+0x2c) + 1 indirect jalr via buf[11]
-// with arg (record halfword at p1+off+0x50)+1. a1 is passed but never read in
-// 0x8008c6e0-0x8008c8d4.
-// Semantics: loop over count entries; skip entries with flag byte 0 at
-// p1[i+0x446] (signed char, lb); per entry pick card id from the kind-selected
-// halfword table (cursor p1+2*i), resolve its record, keep the index with max
-// (mode 0, last-greatest wins ties) or min (mode != 0, first-smallest wins)
-// record halfword at +8; first valid entry seeds best (best == -1 path).
-// Result stored at *(p1+0x440).
-// Case arms are ordered 5,7,11/13,9,15 in both switches (11/13 before 9),
-// matching PAL arm code positions 0x8008c74c/58/64/70/7c and 0x8008c7e8/f4/00/0c/18.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base).
+/*
+ * CARDGAME:0x8008c6e0 CARDGAME_F0x8008c6e0
+ * 504 bytes at CARDGAME.PRO offset 0x9a30 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008c6e0, jump table (.rodata) at 0x8008349c
+ *  Symbols     CARDGAME_F0x8008c6e0=0x8008c6e0 F0x8001ebf8=0x8001ebf8
+ *  Compare     504 bytes from 0x8008c6e0 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8008c6e0
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Callers: 3 direct jal from CARDGAME_F0x80084320
+ * (0x80085c3c/0x80085c74/0x80085cac; a1=s0 pointer, a2=0/1 mode in delay slot).
+ * Callees: jal EXE:0x8001ebf8 (stack-buffer fill, same helper as
+ * CARDGAME:0x80085fd0; writes record pointer at buf+0x0 and callback
+ * EXE:0x8001e7ec at buf+0x2c) + 1 indirect jalr via buf[11] with arg (record
+ * halfword at p1+off+0x50)+1. a1 is passed but never read in
+ * 0x8008c6e0-0x8008c8d4.
+ *
+ * Semantics: loop over count entries; skip entries with flag byte 0 at
+ * p1[i+0x446] (signed char, lb); per entry pick card id from the kind-selected
+ * halfword table (cursor p1+2*i), resolve its record, keep the index with max
+ * (mode 0, last-greatest wins ties) or min (mode != 0, first-smallest wins)
+ * record halfword at +8; first valid entry seeds best (best == -1 path).
+ *
+ * Result stored at *(p1+0x440).
+ *
+ * Case arms are ordered 5,7,11/13,9,15 in both switches (11/13 before 9),
+ * matching PAL arm code positions 0x8008c74c/58/64/70/7c and
+ * 0x8008c7e8/f4/00/0c/18.
+ */
+
 #include <stdint.h>
 
 typedef void (*cardgame_8c6e0_cb_t)(int32_t);

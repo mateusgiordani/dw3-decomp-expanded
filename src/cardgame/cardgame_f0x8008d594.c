@@ -1,35 +1,60 @@
-/* CARDGAME:0x8008d594 (size 704, 0x2c0) */
-/* PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0xa8e4. */
-/* Boundary: sweep reports/handoffs/cardgame-boundary-sweep.md #50 (HIGH): */
-/* prologue 27bdffc8 addiu sp,-0x38, epilogue jr ra / addiu sp,+0x38 (frame */
-/* -0x38/+0x38); next framed CARDGAME:0x8008d854 at +0x2c0 (contiguous). */
-/* Ghidra program CARDGAME (project ddw3-pal-sles-03936, min_address 0x80082cb0 */
-/* = verified base, MIPS LE), read-only disasm/decompile/xref/caller+callee */
-/* graphs; PAL chunk sha256 b8d3650491365236afdbad1ca4d1c82b64d8b09754c6d6b55a4490107a371271; */
-/* cardgame.s is GUIDE only (no 0x8008d594 label), never copied. No state change. */
-/* Caller: 1 direct jal at 0x80085cf4 (CARDGAME_F0x80084320, word 0x0c023565): */
-/* move a0,s1 / jal / move a1,s0 (delay); return beq-tested vs -1 else stored */
-/* as byte. Signature int f(void *, void *), returns -1/0/1. Callees: 9 indirect */
-/* jalr (no direct jal): 2x *(EXE 0x8004BBC4) as f(0)->int, 2x *(EXE 0x8004BBD8) */
-/* as f(0,0xd)/(0,0xe)->int, 2x *(0x80055C48) as f(0x4001c)/f(0x800450bd), plus */
-/* q-table calls +0xec4(q), +0xf24(q,0xf,4,0,0x1000: 4 regs + 1 stack word at */
-/* 0x10(sp)), +0xf18(q,0xf), +0xeb4(q). Load-delay nops before each jalr. */
-/* Semantics: state machine on p[0x422]. st==0 or >3: return -1. st==1: if */
-/* *(short *)(q+0x64)==2 and p[0x498]==0, set p[0x422]=2 and set bit0 of */
-/* q[i*0x4c+0x150] for i in 0..11 with (signed)p[i+0x46f]!=0; return -1. st==2: */
-/* t=f0(0), u=f1(0,0xd); if ((t>>u)&1) and *(int *)(p+0x438)!=0: f2(0x4001c), */
-/* clear bit0 of the 12 bytes, return 1. Else t=f0(0), u=f1(0,0xe); if */
-/* ((t>>u)&1): f2(0x800450bd), cb_ec4(q), *(p+0x440)=1, p[0x422]=3, */
-/* cb_f24(q,0xf,4,0,0x1000), p[0x499]=2; return -1. st==3: if *(short *)(q+0x64) */
-/* ==0 and p[0x498]==0: cb_f18(q,0xf), r=0, cb_eb4(q), clear bit0 of the 12 */
-/* bytes; return 0. Else return -1. r lives in s5, st in s3, p in s4, q in s2. */
-/* Control flow mirrors the ASM layout with gotos (still plain ISO C): */
-/* beq-forward st2 dispatch, slti <3 chain, st3-test between dispatch and the */
-/* st1 body, twin joins done2/done, r=1/0 set before their loops so the -O2 */
-/* scheduler can hoist them into jalr delay slots, int st (no andi), int x */
-/* (single lh reused for the sb). b[0xfd]/b[0x102] address the two EXE words */
-/* via the same CSE'd base the ASM uses (0x8004B7D0+0x3f4==0x8004BBC4, */
-/* +0x408==0x8004BBD8); (t>>u)&1 keeps the srav shape (srav masks in hw). */
+/*
+ * CARDGAME:0x8008d594 CARDGAME_F0x8008d594
+ * 704 bytes at CARDGAME.PRO offset 0xa8e4 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float -fno-strength-reduce
+ *  Variant     o2-g0-no-strength-reduce
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8008d594
+ *  Symbols     CARDGAME_F0x8008d594=0x8008d594 D_8004B7D0=0x8004b7d0
+ *              D_80055C48=0x80055c48
+ *  Compare     704 bytes from 0x8008d594 against the PAL overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8008d594
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * No state change.
+ *
+ * Caller: 1 direct jal at 0x80085cf4 (CARDGAME_F0x80084320, word 0x0c023565):
+ * move a0,s1 / jal / move a1,s0 (delay); return beq-tested vs -1 else stored as
+ * byte. Signature int f(void *, void *), returns -1/0/1. Callees: 9 indirect
+ * jalr (no direct jal): 2x *(EXE 0x8004BBC4) as f(0)->int, 2x *(EXE 0x8004BBD8)
+ * as f(0,0xd)/(0,0xe)->int, 2x *(0x80055C48) as f(0x4001c)/f(0x800450bd), plus
+ * q-table calls +0xec4(q), +0xf24(q,0xf,4,0,0x1000: 4 regs + 1 stack word at
+ * 0x10(sp)), +0xf18(q,0xf), +0xeb4(q). Load-delay nops before each jalr.
+ *
+ * Semantics: state machine on p[0x422]. st==0 or >3: return -1. st==1: if
+ * (short *)(q+0x64)==2 and p[0x498]==0, set p[0x422]=2 and set bit0 of
+ * q[i*0x4c+0x150] for i in 0..11 with (signed)p[i+0x46f]!=0; return -1. st==2:
+ * t=f0(0), u=f1(0,0xd); if ((t>>u)&1) and *(int *)(p+0x438)!=0: f2(0x4001c),
+ * clear bit0 of the 12 bytes, return 1. Else t=f0(0), u=f1(0,0xe); if
+ * ((t>>u)&1): f2(0x800450bd), cb_ec4(q), *(p+0x440)=1, p[0x422]=3,
+ * cb_f24(q,0xf,4,0,0x1000), p[0x499]=2; return -1. st==3: if *(short *)(q+0x64)
+ * ==0 and p[0x498]==0: cb_f18(q,0xf), r=0, cb_eb4(q), clear bit0 of the 12
+ * bytes; return 0. Else return -1. r lives in s5, st in s3, p in s4, q in s2.
+ *
+ * Control flow mirrors the ASM layout with gotos (still plain ISO C):
+ * beq-forward st2 dispatch, slti <3 chain, st3-test between dispatch and the
+ * st1 body, twin joins done2/done, r=1/0 set before their loops so the -O2
+ * scheduler can hoist them into jalr delay slots, int st (no andi), int x
+ * (single lh reused for the sb). b[0xfd]/b[0x102] address the two EXE words via
+ * the same CSE'd base the ASM uses (0x8004B7D0+0x3f4==0x8004BBC4,
+ * +0x408==0x8004BBD8); (t>>u)&1 keeps the srav shape (srav masks in hw).
+ */
 
 typedef int (*cardgame_d594_f0_t)(void *a);
 typedef int (*cardgame_d594_f1_t)(void *a, int b);

@@ -1,21 +1,66 @@
-// CARDGAME:0x8009f110, PAL-SLES-03936; complete body 1968 bytes (0x7b0).
-// Reference: pro/cardgame.bin, base 0x80082cb0, file offset 0x1c460.
-// Text SHA-256: 237fe4739c286fe8e939838637d7e51771ceaa099fae15c170732ce129a6335b.
-// Jump table: 22 entries / 88 bytes at 0x80083890, included in exact validation.
-// Native recipe: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79, O2/G0, base.
-// Full-range C exact proof and controlled experiments: submissions/cardgame-8009f110,
-// under docs/c-matching-guide; see strategy-r9.md and manifest-r9.json.
-//
-// Phase byte st+0x2f9 controls object setup, timed transitions, controller input,
-// and the final 40-card copy / index-array initialization. The caller at
-// 0x800a1c80 consumes the 0/1 return. Frame: 0x40; 6 direct and 37 indirect calls.
-// The EXE sound vector at 0x80055c48 points to 0x8002006c, whose PAL paths
-// return an integer. Ignoring that real return must not become a void prototype.
-// The selected deck uses 51 halfwords per row (0x66 bytes); its index at
-// st+0x2ea is reloaded after each destination store, as in the PAL loop.
-// Views below describe only the accessed offsets, not complete runtime objects.
-// Keep per-case phase stores, sequential counter lifetimes, and the local
-// method load before selecting the shared receiver: factoring them changes codegen.
+/*
+ * CARDGAME:0x8009f110 CARDGAME_F0x8009f110
+ * 1968 bytes at CARDGAME.PRO offset 0x1c460 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8009f110, jump table (.rodata) at 0x80083890
+ *  Symbols     CARDGAME_F0x80096180=0x80096180 CARDGAME_F0x80096828=0x80096828
+ *              CARDGAME_F0x8009d9e4=0x8009d9e4 CARDGAME_F0x8009edcc=0x8009edcc
+ *              CARDGAME_F0x8009f110=0x8009f110 DAT_80048D34=0x80048d34
+ *              DAT_8004B7D0=0x8004b7d0 DAT_8004df9c=0x8004df9c
+ *              DAT_800A5C74=0x800a5c74 DAT_800A5D48=0x800a5d48
+ *              D_80055c48=0x80055c48
+ *  Compare     1968 bytes from 0x8009f110 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8009f110
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * PAL-SLES-03936; complete body 1968 bytes (0x7b0).
+ *
+ * Text SHA-256:
+ * 237fe4739c286fe8e939838637d7e51771ceaa099fae15c170732ce129a6335b.
+ *
+ * Jump table: 22 entries / 88 bytes at 0x80083890, included in exact
+ * validation.
+ *
+ * Native recipe: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79, O2/G0, base.
+ *
+ * Phase byte st+0x2f9 controls object setup, timed transitions, controller
+ * input, and the final 40-card copy / index-array initialization. The caller at
+ * 0x800a1c80 consumes the 0/1 return. Frame: 0x40; 6 direct and 37 indirect
+ * calls.
+ *
+ * The EXE sound vector at 0x80055c48 points to 0x8002006c, whose PAL paths
+ * return an integer. Ignoring that real return must not become a void
+ * prototype.
+ *
+ * The selected deck uses 51 halfwords per row (0x66 bytes); its index at
+ * st+0x2ea is reloaded after each destination store, as in the PAL loop.
+ *
+ * Views below describe only the accessed offsets, not complete runtime objects.
+ *
+ * Keep per-case phase stores, sequential counter lifetimes, and the local
+ * method load before selecting the shared receiver: factoring them changes
+ * codegen.
+ */
+
 #include <stdint.h>
 
 typedef struct {

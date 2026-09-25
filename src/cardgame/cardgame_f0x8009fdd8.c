@@ -1,26 +1,49 @@
-// CARDGAME:0x8009fdd8 (size 1904, 0x770)
-// PAL: reference/extracted/pro/cardgame.bin base 0x80082cb0 file-off 0x1d128
-// Boundary: prologue 27bdffd0 addiu sp,-0x30, saves s0/s1/s2/s3/s4/ra;
-// s1=a0 (ctx), s3=a1 (par); s4=ret (0, set 1 in state 0xf only);
-// epilogue jr ra + 27bd0030 addiu sp,+0x30 at 0x800a0540/0x800a0544.
-// Next framed CARDGAME:0x800a0548 at +0x770 (contiguous, no overlap).
-// Ghidra program CARDGAME (project ddw3-pal-sles-03936) read-only: disasm
-// 476 insns word-equal vs PAL @ 0x1d128
-// (first8 27bdffd0 afb1001c 00808821 afb30024 00a09821 afbf002c afb40028 afb20020;
-// last8 8fbf002c 8fb40028 8fb30024 8fb20020 8fb10014 8fb00010 03e00008 27bd0030);
-// decompile CARDGAME_F0x8009fdd8; x-ref to from FUN_800a1b48 at 0x800a1d18
-// (unconditional call); x-ref from: direct jal 0x8009d8fc/0x800a4978/
-// 0x8009f998/0x8009fb18/0x8009dec4 + indirect jalr on card slots
-// 0xec8/0xea0/0xeac/0xeb0/0xed0/0xed4 and ctx slot 0x814 + EXE vectors
-// *0x80055c48/*0x8004bbc4/*0x8004bbd8. cardgame.s is GUIDE only, never
-// copied as source. No Ghidra state change.
-// Dispatcher: 19-arm switch on ctx+0x574 (cases 1..0x12, default init);
-// jump table at 0x80083910 (20 words, index 0 = default 0x8009fe30).
-// Next-state nibbles live at 0x800a5d54..0x800a5d5b (bytes
-// 02 03 04 05 06 07 08 09), referenced with four base offsets.
-// The two EXE bit-test vectors share one lui (0x8005) base in s2:
-// 0x8004b7d0 + 0x3f4 = 0x8004bbc4, + 0x408 = 0x8004bbd8.
-// Toolchain: psyq-gcc-2.8.1-sn32-4.0.0010 + aspsx-2.79 -O2 -G0 (base).
+/*
+ * CARDGAME:0x8009fdd8 CARDGAME_F0x8009fdd8
+ * 1904 bytes at CARDGAME.PRO offset 0x1d128 (overlay loaded at 0x80082cb0).
+ *
+ * Byte-match recipe (generated from recipes/card_cage.json by
+ * tools/recipe_headers.py). Compiling this file as below reproduces the PAL
+ * bytes of the function.
+ *
+ *  Preprocess  clang -E -nostdinc -include include/ps1_types.h -I include
+ *  Compile     cc1 -quiet -O2 -G0 -mips1 -msoft-float
+ *  Variant     base
+ *  Toolchain A (public, default)
+ *    cc1       gcc-2.8.1-psx (decompals/old-gcc)
+ *    assemble  maspsx 874855c --aspsx-version=2.79, then mipsel-linux-gnu-as
+ *              -EL -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+ *  Toolchain B (original PsyQ, optional)
+ *    cc1       CC1PSX 2.8.1 SN32 BUILD 4.0.0010
+ *    assemble  ASPSX 2.79, after removing the zero-divisor guard
+ *              (tools/div_guard.py); the overlays have none and ASPSX would
+ *              insert one after every division.
+ *  Link        .text at 0x8009fdd8, jump table (.rodata) at 0x80083910
+ *  Symbols     CARDGAME_F0x8009dec4=0x8009dec4 CARDGAME_F0x8009f998=0x8009f998
+ *              CARDGAME_F0x8009fb18=0x8009fb18
+ *              CARDGAME_RODATA_800A5D54=0x800a5d54
+ *              CARDGAME_RODATA_800A5D56=0x800a5d56
+ *              CARDGAME_RODATA_800A5D58=0x800a5d58
+ *              CARDGAME_RODATA_800A5D5A=0x800a5d5a DAT_8004B7D0=0x8004b7d0
+ *              FUN_8009d8fc=0x8009d8fc FUN_800a4978=0x800a4978
+ *  Compare     1904 bytes from 0x8009fdd8 and the jump table against the PAL
+ *              overlay
+ *  Verify      python tools/card_verify.py --only CARDGAME:0x8009fdd8
+ */
+/*
+ * Recovery notes (kept from the recovery work; historical, not re-verified).
+ *
+ * Next framed CARDGAME:0x800a0548 at +0x770 (contiguous, no overlap).
+ *
+ * No Ghidra state change.
+ *
+ * Next-state nibbles live at 0x800a5d54..0x800a5d5b (bytes 02 03 04 05 06 07 08
+ * 09), referenced with four base offsets.
+ *
+ * The two EXE bit-test vectors share one lui (0x8005) base in s2: 0x8004b7d0 +
+ * 0x3f4 = 0x8004bbc4, + 0x408 = 0x8004bbd8.
+ */
+
 #include <stdint.h>
 
 typedef void (*cardgame_dd8_ec8_t)(void *card);
