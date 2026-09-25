@@ -73,11 +73,14 @@ def main() -> int:
     psyq_tools = {t["id"]: t for kind in toolchain["tools"].values() for t in kind}
 
     lines = [
-        f"# Milestone 1 ({args.version}): card game overlays, 100% C matching",
+        f"# Milestone 1 ({args.version}, in progress): card game overlays, {len(recipes)} catalogued functions",
         "",
-        "All 318 functions identified in the four overlays of the card game (\"Card",
-        "Cage\": CARDGAME, STCRDABM, STCRDDEK, STCRDSHP) of *Digimon World 2003*",
-        "(PAL `SLES-03936`) are reconstructed in C. Each one was rebuilt and compared,",
+        f"All {len(recipes)} functions catalogued so far in the four overlays of the card game",
+        "(\"Card Cage\": CARDGAME, STCRDABM, STCRDDEK, STCRDSHP) of *Digimon World 2003*",
+        "(PAL `SLES-03936`) are reconstructed in C. This certificate covers those functions",
+        "only: a boundary review found further candidate functions that are not catalogued",
+        "yet (see the README), so the milestone is not complete. Each catalogued function",
+        "was rebuilt and compared,",
         "over its full address range and any jump table, with the bytes of the PAL",
         "overlay. This proves exact code generation per function; it is not a",
         "byte-identical rebuild of the `.PRO` files (headers, data and layout are not",
