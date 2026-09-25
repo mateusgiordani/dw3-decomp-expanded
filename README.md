@@ -93,7 +93,7 @@ milestone is called complete.
 
 | Overlay | Catalogued, at C matching | Candidates not yet catalogued |
 | --- | ---: | ---: |
-| `CARDGAME` | 199 | 80 (36 with a stack frame, 44 leaf) |
+| `CARDGAME` | 199 | 80 (26 with a stack frame, 54 leaf) |
 | `STCRDABM` | 27 | 0 |
 | `STCRDDEK` | 48 | 5 (4 with a stack frame, 1 leaf) |
 | `STCRDSHP` | 44 | 0 |
