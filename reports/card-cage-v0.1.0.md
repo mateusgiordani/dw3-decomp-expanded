@@ -9,7 +9,7 @@ reconstructed).
 
 ## Audited snapshot
 
-- Repository commit: `24beb19a1011af45c04a94129ba44e89ed5f414c` (clean tree)
+- Repository commit: `f6c771d7670ea348023a0c032dc4ee9828430255` (clean tree)
 - Exported from private working repository commit `51b751f6d796338019510280273f45b6c70eda4d`
 - Reference: `PAL-SLES-03936`, disc SHA-256 `fb70dc9a995aed628cf515cabc87c7b14e5142559076ec394dfe793ec3e26a04`
 
@@ -27,7 +27,7 @@ reconstructed).
 
 ## Default toolchain (public)
 
-Verification run 2026-09-25T02:17:31+00:00 to 2026-09-25T02:19:18+00:00 (UTC).
+Verification run 2026-09-25T06:00:27+00:00 to 2026-09-25T06:01:48+00:00 (UTC).
 
 - GCC: `gcc-2.8.1-psx` (decompals/old-gcc (GNU GCC 2.8.1 built for PlayStation)), archive SHA-256 `e5a4fad3b93a16683fb16d1920074be5a81446563348ba759c37aced85c4bdbf`, `cc1` SHA-256 `60d886cd75bbd7855fc7909224a15401de76bff21af8a629c2060290a073f5fd`
 - maspsx: revision `874855c53f65f8fa57447e1da6bde6236dbef9d5`, arguments `--aspsx-version=2.79`
@@ -36,7 +36,7 @@ Verification run 2026-09-25T02:17:31+00:00 to 2026-09-25T02:19:18+00:00 (UTC).
 
 ## Cross-check (original PsyQ toolchain)
 
-Verification run 2026-09-25T02:19:18+00:00 to 2026-09-25T02:19:23+00:00 (UTC).
+Verification run 2026-09-25T06:01:48+00:00 to 2026-09-25T06:01:52+00:00 (UTC).
 
 - cc1psx: `psyq-gcc-2.8.1-sn32-4.0.0010` (2.8.1 SN32 BUILD 4.0.0010, PsyQ Runtime Library 4.3 or 4.4), SHA-256 `26eb8259fa3e077d1980eb1e0c942006752135953dd03173200bf99ef6f5b6c9`
 - aspsx: `aspsx-2.79` (2.79, PsyQ Runtime Library 4.4), SHA-256 `fcb987495ba18f9d8b5dc29696f7e6650091d3d86471c60b2a8aa00396888992`
@@ -54,7 +54,12 @@ Verification run 2026-09-25T02:19:18+00:00 to 2026-09-25T02:19:23+00:00 (UTC).
 ```
 python tools/fetch_toolchain.py
 python tools/card_verify.py --pal-dir PATH/TO/PRO --out build/verify-open.json
+# optional, both toolchains in one run (writes verify-open.json and verify-psyq.json)
+python tools/card_verify.py --toolchain both --pal-dir PATH/TO/PRO \
+    --cc1psx PATH/TO/CC1PSX.EXE --aspsx PATH/TO/ASPSX.EXE --out build/verify.json
 ```
+
+Every C file states its own recipe in its header comment (`tools/recipe_headers.py`).
 
 Per-function results are in `reports/card-cage-v0.1.0.json`. This certificate
 and that file contain hashes and counts only; no byte of the game and no PsyQ

@@ -5,9 +5,9 @@
  "primary": {
   "toolchain": "open",
   "reference_version": "PAL-SLES-03936",
-  "repository_commit": "24beb19a1011af45c04a94129ba44e89ed5f414c",
-  "started_at": "2026-09-25T02:17:31+00:00",
-  "finished_at": "2026-09-25T02:19:18+00:00",
+  "repository_commit": "f6c771d7670ea348023a0c032dc4ee9828430255",
+  "started_at": "2026-09-25T06:00:27+00:00",
+  "finished_at": "2026-09-25T06:01:48+00:00",
   "tools": {
    "gcc": {
     "id": "gcc-2.8.1-psx",
@@ -2910,9 +2910,9 @@
  "cross_check": {
   "toolchain": "psyq",
   "reference_version": "PAL-SLES-03936",
-  "repository_commit": "24beb19a1011af45c04a94129ba44e89ed5f414c",
-  "started_at": "2026-09-25T02:19:18+00:00",
-  "finished_at": "2026-09-25T02:19:23+00:00",
+  "repository_commit": "f6c771d7670ea348023a0c032dc4ee9828430255",
+  "started_at": "2026-09-25T06:01:48+00:00",
+  "finished_at": "2026-09-25T06:01:52+00:00",
   "tools": {
    "cc1psx": {
     "id": "psyq-gcc-2.8.1-sn32-4.0.0010",
