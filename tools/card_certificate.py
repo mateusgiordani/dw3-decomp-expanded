@@ -97,7 +97,8 @@ def main() -> int:
     lines.append(f"- Base CC1 flags: `{' '.join(toolchain['cc1_flags'])}`")
     for variant, count in sorted(variants.items()):
         extra = " ".join(toolchain["variants"][variant]) or "(none)"
-        lines.append(f"- Variant `{variant}` (extra flags: `{extra}`): {count} functions")
+        noun = "function" if count == 1 else "functions"
+        lines.append(f"- Variant `{variant}` (extra flags: `{extra}`): {count} {noun}")
     lines += [
         "",
         "## Reproduce",
