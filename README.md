@@ -147,8 +147,9 @@ This repository contains no game data and no proprietary tools.
 | GNU `mipsel-linux-gnu-as` | binutils (e.g. `apt install binutils-mipsel-linux-gnu`) | GPL |
 
 `python tools/fetch_toolchain.py` downloads GCC and maspsx into `toolchains/` and
-checks every hash. With this toolchain all 407 functions match. Compiler-stage equivalence for the initial 318-function snapshot is documented
-in [the toolchain study](docs/public-toolchain.md).
+checks every hash. With this toolchain all 407 functions match. Compiler-stage
+equivalence for the initial 318-function snapshot is documented in
+[the toolchain study](docs/public-toolchain.md).
 
 **Optional cross-check with the original PsyQ tools.** These are not
 distributed; supply your own. `config/toolchain.json` identifies them by SHA-256.
