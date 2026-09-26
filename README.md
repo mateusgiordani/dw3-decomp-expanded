@@ -1,9 +1,9 @@
 # dw3-decomp-expanded
 
 A matching decompilation of *Digimon World 2003* / *Digimon World 3*
-(PAL, `SLES-03936`). **Milestone 1, the card game overlays, is in progress:
-318 of the 407 card game functions are at C matching; the other 89 are being
-recovered** (see [Milestone 1](#milestone-1-card-game-overlays-in-progress-v011)).
+(PAL, `SLES-03936`). **Milestone 1, the card game overlays, is complete:
+all 407 functions in the reviewed catalog are at C matching**
+(see [Milestone 1](#milestone-1-card-game-overlays-complete-v020)).
 
 "Card Cage" is this project's name for the game's card game. It covers all the
 overlays related to it: `CARDGAME`, `STCRDABM`, `STCRDDEK` and `STCRDSHP`. File
@@ -61,10 +61,10 @@ from the CD.
    signedness, the order of memory accesses and calls.
 3. **Compile with the period toolchain.** This is GCC 2.8.1 as shipped in the
    PsyQ SDK (`CC1PSX` 2.8.1 SN32 BUILD 4.0.0010), at `-O2 -G0 -mips1
-   -msoft-float`. 25 functions also need `-fno-strength-reduce`, and one of
+   -msoft-float`. 26 functions also need `-fno-strength-reduce`, and one of
    those also needs `-mno-split-addresses`.
 4. **Link at the real address.** The object is placed at the function's PAL
-   address, and its jump table (40 functions have one) at the table's PAL
+   address, and any jump table at the table's PAL
    address. External calls and data resolve to their PAL addresses.
 5. **Compare every byte.** The whole function range and jump table are compared
    with the PAL overlay. Any difference means the C form is changed and step 3
@@ -75,47 +75,44 @@ from the CD.
 One detail does not come from the compiler. The PsyQ assembler (ASPSX) inserts a
 zero-divisor check after every division, but the game's overlays contain none.
 The original build must have assembled divisions without it. On the PsyQ path
-the check is therefore removed before assembling (`tools/div_guard.py`). Of the
-318 functions, 21 divide. The public toolchain does not insert the check in the
-first place.
+the check is therefore removed before assembling (`tools/div_guard.py`). This
+is a no-op for functions without division. The public toolchain does not insert
+the check in the first place.
 
-## Milestone 1: card game overlays (in progress, v0.1.1)
+## Milestone 1: card game overlays (complete, v0.2.0)
 
-The goal of milestone 1 is every function of the four card game overlays at C
-matching. It is **not complete yet**.
+All 407 functions in the reviewed catalog of the four card game overlays are
+recovered in C and match the PAL bytes with both the public and PsyQ toolchains.
 
-The first release covered 318 functions, all recovered in C and matching byte
-for byte on both the public and the PsyQ toolchain. A later boundary review of
-the PAL bytes showed that the function catalog was incomplete. A sweep found
-85 candidate functions (prologue/epilogue pairs and leaf functions reached by a
-direct call). A review of each one against the PAL bytes then confirmed **89
-functions**: every candidate was real (one had its start moved back to its true
-callback entry), and four more leaf functions reached only through pointers were
-found next to them. The catalog now matches the binary for all four overlays, with no
-candidate left unresolved.
+The first release covered 318 functions. A later boundary review of the PAL
+bytes found that the catalog was incomplete: 85 candidates were confirmed
+(one start moved back to its true callback entry), and four additional leaf
+functions reached through pointers were identified. All 89 additional functions
+are now included, adding 22,728 bytes of matching code.
 
 | Overlay | Functions | At C matching | Still to recover |
 | --- | ---: | ---: | ---: |
-| `CARDGAME` | 283 | 199 | 84 |
+| `CARDGAME` | 283 | 283 | 0 |
 | `STCRDABM` | 27 | 27 | 0 |
-| `STCRDDEK` | 53 | 48 | 5 |
+| `STCRDDEK` | 53 | 53 | 0 |
 | `STCRDSHP` | 44 | 44 | 0 |
-| **Total** | **407** | **318** | **89** |
-
-Most of the 89 are small: the median is 104 bytes, 48 are under 128 bytes, and 5
-are over 1 KB. They are published here as they reach C matching.
+| **Total** | **407** | **407** | **0** |
 
 The reproducible certificate is
-[`reports/milestone-1-v0.1.1.md`](reports/milestone-1-v0.1.1.md). It covers the
-318 functions at C matching only. It proves exact code
-generation for each function. It is not a byte-identical rebuild of the `.PRO`
-files: their headers, data and layout are not reconstructed here.
+[`reports/milestone-1-v0.2.0.md`](reports/milestone-1-v0.2.0.md). It covers all
+407 functions, including the 89 absent from the previous release. The
+[v0.1.1 certificate](reports/milestone-1-v0.1.1.md) remains as a historical
+record of the original 318-function snapshot.
+
+The certificate proves exact code generation for each function and its jump
+table. It is not a byte-identical rebuild of the `.PRO` files: their headers,
+data and layout are not reconstructed here.
 
 ## Layout
 
 | Path | Contents |
 | --- | --- |
-| `src/<overlay>/` | the 318 recovered C functions, each with its byte-match recipe |
+| `src/<overlay>/` | the 407 recovered C functions, each with its byte-match recipe |
 | `include/` | the headers they use |
 | `recipes/card_cage.json` | the recipes in machine-readable form (base, size, flags, variant, symbols, jump table) |
 | `symbols/card_cage_functions.csv` | inventory: address, size, name, source hash |
@@ -150,8 +147,8 @@ This repository contains no game data and no proprietary tools.
 | GNU `mipsel-linux-gnu-as` | binutils (e.g. `apt install binutils-mipsel-linux-gnu`) | GPL |
 
 `python tools/fetch_toolchain.py` downloads GCC and maspsx into `toolchains/` and
-checks every hash. With this toolchain all 318 functions match. Its compiler also
-produces the same assembly as the PsyQ one for every function.
+checks every hash. With this toolchain all 407 functions match. Compiler-stage equivalence for the initial 318-function snapshot is documented
+in [the toolchain study](docs/public-toolchain.md).
 
 **Optional cross-check with the original PsyQ tools.** These are not
 distributed; supply your own. `config/toolchain.json` identifies them by SHA-256.
@@ -177,7 +174,7 @@ python tools/card_verify.py --toolchain both --pal-dir PATH/TO/PRO \
 
 Paths can also be given through `DW3_PAL_DIR`, `DW3_CLANG`, `DW3_GNU_AS`,
 `DW3_PSYQ_CC1PSX` and `DW3_PSYQ_ASPSX`. A run checks every hash before building,
-and exits non-zero unless all 318 functions match.
+and exits non-zero unless all 407 functions match.
 
 The checks that need neither the game nor a compiler run in CI:
 

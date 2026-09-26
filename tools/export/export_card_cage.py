@@ -4,7 +4,7 @@ This is the maintainer script that produced this repository's snapshot. It
 reads a checkout of the private working repository (``--source``) and writes
 only material that can be published:
 
-* the 318 recovered C sources of CARDGAME, STCRDABM, STCRDDEK and STCRDSHP,
+* the recovered C sources of CARDGAME, STCRDABM, STCRDDEK and STCRDSHP,
   byte for byte, plus the four headers they include;
 * one verification recipe per function (base, address, size, symbols,
   rodata, compiler variant), with toolchains identified only by SHA-256;

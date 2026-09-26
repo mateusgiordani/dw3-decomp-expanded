@@ -3,6 +3,14 @@
 Question: can the matches of the card game overlays ("Card Cage") be reproduced
 without the proprietary PsyQ SDK?
 
+## Current verification (407 functions)
+
+The [v0.2.0 certificate](../reports/milestone-1-v0.2.0.md) covers all 407
+functions in the reviewed catalog, including the 89 recovered after the first
+release. Every function matches PAL with both the public and PsyQ toolchains.
+This extends the byte-match result; the compiler-stage assembly comparison
+below remains the historical 318-function experiment.
+
 ## Result (2026-09-25)
 
 All 318 functions reproduce the PAL bytes with open-source tools only.

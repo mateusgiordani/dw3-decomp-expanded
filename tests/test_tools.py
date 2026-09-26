@@ -188,8 +188,8 @@ class RepositoryTests(unittest.TestCase):
     def test_inventory_and_recipes_agree(self):
         recipes = json.loads((ROOT / "recipes/card_cage.json").read_text(encoding="utf-8"))["functions"]
         inventory = (ROOT / "symbols/card_cage_functions.csv").read_text(encoding="utf-8").splitlines()[1:]
-        self.assertEqual(len(recipes), 318)
-        self.assertEqual(len(inventory), 318)
+        self.assertEqual(len(recipes), 407)
+        self.assertEqual(len(inventory), 407)
         hashes = {line.split(",")[5]: line.split(",")[6] for line in inventory}
         for recipe in recipes:
             self.assertEqual(hashes[recipe["source"]], recipe["source_sha256"])

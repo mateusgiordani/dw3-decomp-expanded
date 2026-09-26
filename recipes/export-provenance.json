@@ -1,8 +1,8 @@
 {
-  "source_commit": "51b751f6d796338019510280273f45b6c70eda4d",
-  "functions": 318,
+  "source_commit": "59b19af813a1b3e1eb948d669cad71ef06320a9d",
+  "functions": 407,
   "recipe_origin": {
-    "accepted_manifest": 318
+    "accepted_manifest": 407
   },
   "post_export": "tools/recipe_headers.py --write (recipe headers; source hashes refer to the result)"
 }
