@@ -1,9 +1,9 @@
 # dw3-decomp-expanded
 
 A matching decompilation of *Digimon World 2003* / *Digimon World 3*
-(PAL, `SLES-03936`). **Milestone 1, the card game overlays, is complete:
-all 407 functions in the reviewed catalog are at C matching**
-(see [Milestone 1](#milestone-1-card-game-overlays-complete-v020)).
+(PAL, `SLES-03936`). **407 card game functions are at C matching.
+A new PAL inventory review brings the catalog to 435 functions, with 28
+still pending** (see [Milestone 1](#milestone-1-card-game-overlays-reopened)).
 
 "Card Cage" is this project's name for the game's card game. It covers all the
 overlays related to it: `CARDGAME`, `STCRDABM`, `STCRDDEK` and `STCRDSHP`. File
@@ -79,10 +79,16 @@ the check is therefore removed before assembling (`tools/div_guard.py`). This
 is a no-op for functions without division. The public toolchain does not insert
 the check in the first place.
 
-## Milestone 1: card game overlays (complete, v0.2.0)
+## Milestone 1: card game overlays (reopened)
 
-All 407 functions in the reviewed catalog of the four card game overlays are
+All 407 functions published in v0.2.0 across the four card game overlays are
 recovered in C and match the PAL bytes with both the public and PsyQ toolchains.
+
+The September 26 PAL review confirmed **28 more functions (2,512 bytes)**,
+mostly callbacks invisible to the earlier direct-call scan. The earlier
+completion claim was premature. The revised catalog contains 435 functions;
+the published C sources and certificates still cover 407.
+See the [inventory correction](reports/card-cage-inventory-2026-09-26.md).
 
 The first release covered 318 functions. A later boundary review of the PAL
 bytes found that the catalog was incomplete: 85 candidates were confirmed
@@ -92,11 +98,11 @@ are now included, adding 22,728 bytes of matching code.
 
 | Overlay | Functions | At C matching | Still to recover |
 | --- | ---: | ---: | ---: |
-| `CARDGAME` | 283 | 283 | 0 |
-| `STCRDABM` | 27 | 27 | 0 |
-| `STCRDDEK` | 53 | 53 | 0 |
-| `STCRDSHP` | 44 | 44 | 0 |
-| **Total** | **407** | **407** | **0** |
+| `CARDGAME` | 306 | 283 | 23 |
+| `STCRDABM` | 29 | 27 | 2 |
+| `STCRDDEK` | 55 | 53 | 2 |
+| `STCRDSHP` | 45 | 44 | 1 |
+| **Total** | **435** | **407** | **28** |
 
 The reproducible certificate is
 [`reports/milestone-1-v0.2.0.md`](reports/milestone-1-v0.2.0.md). It covers all
